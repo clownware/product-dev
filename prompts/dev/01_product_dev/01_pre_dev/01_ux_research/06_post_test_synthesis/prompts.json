@@ -1,0 +1,43 @@
+{
+  "folder": "06_post_test_synthesis",
+  "category": "Post-Test Analysis & Next Steps",
+  "description": "Prompts for synthesizing test results, evaluating hypotheses, and planning iterations",
+  "prompts": [
+    {
+      "slug": "synthesize-test-patterns",
+      "title": "Synthesize Test Patterns & Insights",
+      "prompt": "I've completed prototype testing and have these observations:\n\n[User should paste test observations here]\n\nPlease help me organize these observations into patterns and insights by:\n1. Identifying recurring themes across different test participants\n2. Noting significant points of friction or confusion\n3. Highlighting areas where users succeeded easily\n4. Distinguishing between usability issues and concept limitations\n5. Summarizing both positive and negative feedback\n6. Separating observed behavior from user statements\n7. Connecting insights to our original hypothesis and success metrics\n8. Identifying surprising or unexpected user reactions\n\nFocus on what actually happened during testing rather than interpretations. Note both verbal feedback and non-verbal cues like hesitation, confusion, or delight.\n\nThis synthesis will help us understand what we've learned from our testing and provide a foundation for making evidence-based decisions about our next steps.",
+      "tags": ["mvp_feature"],
+      "filename": "01_test_patterns_insights.md",
+      "purpose": "Organize test observations into actionable insights",
+      "context": "Use immediately after completing user testing"
+    },
+    {
+      "slug": "evaluate-hypothesis",
+      "title": "Evaluate Hypothesis",
+      "prompt": "Based on our test results, let's evaluate our hypothesis: \"[insert hypothesis]\"\n\nPlease assess:\n1. Was our hypothesis validated, invalidated, or are the results inconclusive?\n2. What specific evidence supports this assessment?\n3. Were there any unexpected findings that challenge our assumptions?\n4. How did we perform against our success metrics?\n5. What level of confidence should we have in these conclusions?\n6. What variables or conditions might have influenced our results?\n7. What limitations should we acknowledge in our testing approach?\n8. How do these results connect back to our original problem statement?\n\nBe careful not to overinterpret limited data. Recognize the difference between statistical significance and practical significance in your assessment.\n\nThis evaluation will help us determine our next steps - whether to proceed with the current direction, pivot, or gather more data. It's important to be honest about what we've learned and what remains uncertain.",
+      "tags": ["mvp_feature"],
+      "filename": "02_check_hypothesis.md",
+      "purpose": "Assess whether testing validated or invalidated hypothesis",
+      "context": "Use after synthesizing test results"
+    },
+    {
+      "slug": "plan-next-iteration",
+      "title": "Plan Next Iteration",
+      "prompt": "Based on our test results and hypothesis evaluation, please help me plan the next iteration of our prototype.\n\nPlease suggest:\n1. What aspects of the concept should remain the same?\n2. What specific changes should we make to address issues identified?\n3. How should we prioritize these changes?\n4. Should we narrow or expand our prototype scope?\n5. What new questions might we want to explore in the next round of testing?\n\nThis plan will guide our next iteration and help us continue refining our solution based on user feedback.",
+      "tags": ["mvp_feature"],
+      "filename": "03_iteration_plan.md",
+      "purpose": "Define changes for next prototype iteration",
+      "context": "Use when hypothesis is partially validated, requiring refinement"
+    },
+    {
+      "slug": "explore-pivot-options",
+      "title": "Explore Pivot Options",
+      "prompt": "Based on our test results suggesting our hypothesis wasn't validated, please help me identify potential pivot directions.\n\nPlease suggest:\n1. 2-3 alternative approaches to addressing our original problem statement\n2. How each approach differs from our current solution\n3. The potential advantages of each alternative\n4. What new assumptions each alternative would be based on\n5. How we might quickly test these alternatives\n\nThese pivot options will help us explore new directions if our current approach isn't yielding the desired results.",
+      "tags": ["mvp_feature"],
+      "filename": "04_pivot_options.md",
+      "purpose": "Identify alternative directions if hypothesis is invalidated",
+      "context": "Use when test results suggest current approach isn't working"
+    }
+  ]
+}

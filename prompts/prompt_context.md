@@ -1,0 +1,1 @@
+This includes the project goal, relevant requirements, existing code snippets, tech stack, coding standards, target user, and the specific _task_ you want the AI to perform.

@@ -1,0 +1,43 @@
+{
+  "folder": "03_business_logic_rules",
+  "category": "Business Logic & Rules",
+  "description": "Prompts for defining business rules, decision logic, calculations, and authorization",
+  "prompts": [
+    {
+      "slug": "define-business-rules",
+      "title": "Define Business Rules",
+      "prompt": "Based on our Solution Hypothesis and Data Models, help me document the key business logic rules that should be implemented.\n\nFor each business rule:\n1. Provide a clear name and description\n2. Explain when this rule should be applied\n3. Detail the exact logic/algorithm to be implemented\n4. Identify dependencies on other rules or data\n5. Note any exceptions or special cases\n6. Specify how rule violations should be handled\n7. Explain how this rule supports our core business objectives\n\nThe goal is to create a medium-specificity guide that clarifies business logic without over-constraining implementation details.",
+      "tags": ["mvp_feature"],
+      "filename": "01_define_business_rules.md",
+      "purpose": "Document key business logic rules for implementation",
+      "context": "Use after solution design to specify business logic"
+    },
+    {
+      "slug": "map-decision-logic",
+      "title": "Map Decision Logic",
+      "prompt": "For our key user flows that involve complex decisions, help me map the decision logic:\n\n1. Identify decision points in our user flows\n2. Define the inputs needed for each decision\n3. Create decision trees or flowcharts for complex decision logic\n4. Document the expected outcomes for different input combinations\n5. Note edge cases and how they should be handled\n6. Explain how this decision logic aligns with user expectations\n\nThis mapping will help ensure consistent implementation of business rules across the application.",
+      "tags": ["mvp_feature"],
+      "filename": "02_map_decision_logic.md",
+      "purpose": "Create detailed decision flow documentation",
+      "context": "Use for complex decision-making processes"
+    },
+    {
+      "slug": "specify-calculations",
+      "title": "Specify Calculations",
+      "prompt": "For any complex calculations or algorithms required in our application, help me create detailed specifications:\n\n1. Define the purpose and expected output of each calculation\n2. Specify the exact formula or algorithm to be used\n3. Identify all input variables and their sources\n4. Document any rounding rules or precision requirements\n5. Note edge cases and how they should be handled\n6. Specify any performance considerations\n7. Suggest validation approaches to ensure accuracy\n\nThese specifications will ensure consistent implementation of critical business calculations.",
+      "tags": ["mvp_feature"],
+      "filename": "03_spec_calculations.md",
+      "purpose": "Define complex calculations and algorithms",
+      "context": "Use for financial or business calculations"
+    },
+    {
+      "slug": "define-authorization-rules",
+      "title": "Define Authorization Rules",
+      "prompt": "Help me define the authorization rules and access control policies for our application:\n\n1. Identify the different user roles and permission levels\n2. Specify what resources each role can access\n3. Define permissions for CRUD operations on each resource\n4. Document any special conditions or dynamic permissions\n5. Specify how permissions should be checked (at API level, in business logic, etc.)\n6. Note any audit or logging requirements for access control\n7. Define how unauthorized access attempts should be handled\n\nThese rules will ensure proper implementation of security and access control throughout the application.",
+      "tags": ["mvp_feature"],
+      "filename": "04_authorization_rules.md",
+      "purpose": "Establish access control and permission policies",
+      "context": "Use for security and access control planning"
+    }
+  ]
+}
