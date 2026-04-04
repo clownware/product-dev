@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed
+Accepted (Amended 2026-04-04)
+
+> **Amendment Note:** Updated schema to reflect file-based artifact storage (content in `.md` files, registry holds paths). Removed `mode` and `phases_visited` fields. Updated placeholder syntax from `[insert X]` to `{{variable_name}}` per ADR 0009.
 
 ## Context
 
@@ -27,19 +29,17 @@ Introduce a **Context Registry** -- a JSON-based state store that tracks project
   "project_name": "string",
   "created": "ISO 8601",
   "updated": "ISO 8601",
-  "mode": "simulation | synthesis",
   "tier": 1 | 2 | 3,
   "current_phase": "string (phase folder id)",
   "artifacts": {
     "<artifact_name>": {
       "created": "ISO 8601",
       "updated": "ISO 8601",
-      "content": "string (the artifact text)",
+      "path": "artifacts/<artifact_name>.md",
       "source_prompt": "string (prompt slug that produced it)",
       "version": 1
     }
   },
-  "phases_visited": ["string"],
   "prompts_executed": [
     {
       "slug": "string",
@@ -50,6 +50,8 @@ Introduce a **Context Registry** -- a JSON-based state store that tracks project
   ]
 }
 ```
+
+Artifact content is stored in separate `.md` files under `.product-dev/artifacts/`. The registry holds paths, not inline content — this keeps the JSON manageable for large artifacts and makes artifacts human-readable/editable.
 
 ### Storage Location
 
@@ -81,7 +83,7 @@ All operations are deterministic (no LLM):
 
 ### Integration Points
 
-1. **Template Injector**: Reads artifacts from registry, replaces `[insert X]` placeholders in prompt bodies before LLM execution
+1. **Template Injector**: Reads artifacts from registry, replaces `{{variable_name}}` placeholders in prompt bodies before LLM execution
 2. **Navigator**: Reads `requires` fields from prompt frontmatter, checks which requirements are satisfied, suggests unblocked prompts
 3. **Skills**: Read/write context to maintain state across conversational turns
 4. **MCP Tools**: Expose context operations as `get_project_status`, `validate_gate`

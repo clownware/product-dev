@@ -85,6 +85,6 @@ Shows exact output format. Brief but complete.
 | 9 | identify_screens_states | context_gated | Digital product with UI | screen_inventory | [user_flow] | 350 |
 | 10 | scope_prototype | **always** | — | prototype_scope | [user_flow, hypothesis_statement] | 250 |
 | 11 | test_questions | **always** | — | test_questions | [hypothesis_statement] | 200 |
-| 12 | test_patterns_insights | context_gated | User has completed testing | test_insights | [user-provided observations] | 350 |
+| 12 | test_patterns_insights | context_gated | User has completed testing | test_insights | [] | 350 |
 | 13 | evaluate_hypothesis | context_gated | test_insights exists | hypothesis_evaluation | [hypothesis_statement, test_insights] | 300 |
 | 14 | define_api_endpoints | context_gated | Software with client-server architecture | api_contracts | [data_models, user_flow] | 500 |

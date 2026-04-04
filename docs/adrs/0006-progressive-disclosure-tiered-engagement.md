@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed
+Accepted (2026-04-04)
+
+> Tier model, escalation signals, and run conditionality implemented in CLAUDE.md. All 14 Tier 1 prompts tagged with `run` and `tier` frontmatter.
 
 ## Context
 

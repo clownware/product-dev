@@ -5,7 +5,7 @@ description: >
   Entry point for users starting from a domain, not a specific idea.
 run: entry_point
 run_when: Starting from a domain interest, not a specific product idea
-produces: problem_space_map
+produces: initial_concept
 requires: []
 tier: 1
 ---

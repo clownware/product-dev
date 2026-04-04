@@ -48,7 +48,11 @@ export class MarkdownLoader {
       const content = await fs.readFile(filePath, 'utf-8');
       const parsed = matter(content);
       
-      // Check if this is a prompt file (has metadata.id) and not a rules file
+      // Check if this is a prompt file (has metadata.id) and not a rules file.
+      // NOTE: Tier 1 prompts (v2 frontmatter, ADR 0009) use flat `name:` fields
+      // instead of `metadata.id` and are intentionally excluded here. The MCP
+      // server currently only serves v1 (Tier 2/3) prompts. V2 loader support
+      // is deferred to Phase 5 — see ADR 0008 and the implementation roadmap.
       if (!parsed.data.metadata?.id || parsed.data.type === 'rules') {
         return null;
       }

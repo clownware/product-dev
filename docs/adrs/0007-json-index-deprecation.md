@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed
+Accepted (2026-04-04)
+
+> Migration complete. All prompts use YAML frontmatter. Stream Deck doc archived to `docs/archive/`. No `prompts.json` files remain.
 
 ## Context
 

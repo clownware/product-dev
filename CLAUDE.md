@@ -1,14 +1,24 @@
-# Product Development Framework — Orchestration Guide
+# Product Development Framework
 
-This repo contains a structured prompt library for AI-assisted product development. When a user starts a product conversation — sharing an idea, describing a problem, or asking to build something — follow this guide to run the appropriate prompt chain conversationally.
+AI-assisted product development from vague idea to technical spec. Guides users through structured UX research, hypothesis formation, and prototype planning.
 
 ## Repo Structure
 
-**Prompt library root:** `prompts/dev/01_product_dev/01_pre_dev/`
-- `01_ux_research/` — Phases 00-06 (ideation through post-test synthesis)
-- `02_tech_requirements/` — Data models, API contracts, business rules, NFRs
-
-**Naming convention:** `NN_phase/NN_prompt_name.md`
+```
+prompts/dev/01_product_dev/01_pre_dev/
+├── 01_ux_research/
+│   ├── 00_fuzzy_front_end/    # Phase 00: Idea capture + exploration
+│   ├── 01_define_problem/     # Phase 01: Problem statement + persona
+│   ├── 02_objectives/         # Phase 02: Core objective + metrics
+│   ├── 03_solution_hypothesis/# Phase 03: Solution concept + hypothesis
+│   ├── 04_user_flow/          # Phase 04: User flow + screens
+│   ├── 05_prototype/          # Phase 05: Prototype scoping + test design
+│   └── 06_post_test_synthesis/# Phase 06: Test analysis + evaluation
+├── 02_tech_requirements/      # Tech spec: data models, APIs, business rules, NFRs
+├── 03_tool_selection_setup/   # Environment and tooling (Tier 3, not in active workflow)
+├── 04_bridge_to_architecture/ # Architecture transition prompts (Tier 3)
+└── 05_implementation_docs/    # Implementation planning (Tier 3)
+```
 
 **Frontmatter schema** (each prompt file):
 ```yaml
@@ -20,141 +30,234 @@ requires: [dependency_artifact_1, dependency_artifact_2]
 tier: 1 | 2
 ```
 
-**Prompt body structure:** `<system_context>` sets your role, instructions define the output, `<constraints>` set boundaries, `<example>` shows quality. Template variables use `{{artifact_name}}` syntax.
-
-**Architectural decisions:** See `docs/adrs/` — referenced by number below where relevant.
-
----
-
-## Artifact Chaining Protocol
-
-Every prompt interaction follows this 4-step loop:
-
-### Step 1: Read the prompt file
-Use the Read tool to load the prompt by its file path. Parse the YAML frontmatter for `requires`, `produces`, `run`, and `run_when`.
-
-### Step 2: Check prerequisites
-For each artifact in `requires`:
-- Verify it exists in the conversation history (produced by a prior prompt)
-- If missing, tell the user what's needed and which prompt produces it
-
-For `context_gated` prompts:
-- Evaluate the `run_when` condition against the current project context
-- If the condition isn't met, explain why and skip to the next prompt
-- If unclear, ask the user
-
-### Step 3: Resolve template variables and run
-- Find all `{{artifact_name}}` placeholders in the prompt body
-- Replace each with the full text of the corresponding artifact from conversation history
-- **Special case:** Entry point prompts use `{{user_input}}` — bind this to the user's most recent message, not a stored artifact
-- Adopt the role from `<system_context>`, respect `<constraints>`, use `<example>` as quality reference
-- Present output conversationally — do not dump a wall of text
-- Interact with the user: ask clarifying questions, validate understanding
-
-### Step 4: Store the produced artifact
-- After generating output, label it with the `produces` value from frontmatter
-- Confirm to the user: "Captured the [artifact_name]. This feeds into [next prompt]."
-- This artifact is now available for `{{artifact_name}}` resolution in subsequent prompts
-
-**Note:** Artifacts live in conversation memory, not files. Long sessions may approach context limits — summarize earlier artifacts if needed. File-based persistence is planned for Phase 3 (ADR 0003).
-
----
+**Prompt body structure:** `<system_context>` sets your role, instructions define the output, `<constraints>` set boundaries, `<example>` shows quality. Template variables use `{{artifact_name}}` syntax. See ADR 0001 for full schema.
 
 ## Workflow Paths
 
-Three paths cover the full product development lifecycle. Each lists the Tier 1 prompt sequence with file paths. All paths are under `prompts/dev/01_product_dev/01_pre_dev/`.
+Three skills (ADR 0004), each covering a contiguous set of phases:
 
-### Path A: Product Ideation (Phases 00-03)
+### product-ideation (Phases 00-03)
 
-Triggered by: user shares an idea, concept, problem domain, or asks to start product development.
+Entry points: `/idea`, `/problem`
 
-**Entry points** (run one based on context):
+| Prompt | Run | Produces | Requires |
+|--------|-----|----------|----------|
+| `00_fuzzy_front_end/01_capture_idea` | entry_point | `initial_concept` | — |
+| `00_fuzzy_front_end/05_explore_problem` | entry_point | `initial_concept` | — |
+| `01_define_problem/01_create_problem_statement` | always | `problem_statement` | `initial_concept` |
+| `01_define_problem/02_create_proto_persona` | always | `proto_persona` | `problem_statement` |
+| `02_objectives/01_identify_core_objective` | always | `core_objective` | `problem_statement` |
+| `03_solution_hypothesis/01_generate_solution_concept` | always | `solution_concept` | `problem_statement`, `core_objective` |
+| `03_solution_hypothesis/02_format_hypothesis_statement` | always | `hypothesis_statement` | `solution_concept` |
 
-| # | Prompt | Path | Run | Produces |
-|---|--------|------|-----|----------|
-| 1a | capture-initial-idea | `01_ux_research/00_fuzzy_front_end/01_capture_idea.md` | entry_point | `initial_concept` |
-| 1b | explore-problem-space | `01_ux_research/00_fuzzy_front_end/05_explore_problem.md` | entry_point | `problem_space_map` |
+### product-flow (Phases 04-06)
 
-Choose 1a if the user brings a specific idea. Choose 1b if they describe a domain or problem space without a concrete concept.
+| Prompt | Run | Produces | Requires |
+|--------|-----|----------|----------|
+| `04_user_flow/01_primary_user_flow` | always | `user_flow` | `solution_concept` |
+| `04_user_flow/02_identify_screens_states` | context_gated (digital product with UI) | `screen_inventory` | `user_flow` |
+| `05_prototype/01_scope_prototype` | always | `prototype_scope` | `user_flow`, `hypothesis_statement` |
+| `05_prototype/04_test_questions` | always | `test_questions` | `hypothesis_statement` |
+| `06_post_test_synthesis/01_test_patterns_insights` | context_gated (after user testing) | `test_insights` | — |
+| `06_post_test_synthesis/02_check_hypothesis` | context_gated (test_insights exists) | `hypothesis_evaluation` | `hypothesis_statement`, `test_insights` |
 
-**Entry point aliasing:** Downstream prompts require `initial_concept`, but entry point 1b produces `problem_space_map`. Treat `problem_space_map` as satisfying the `initial_concept` requirement — substitute it wherever `{{initial_concept}}` appears.
+### tech-spec (Tech Requirements)
 
-**Core chain** (always run, in order):
+Entry point: `/spec`. Spawns the Tech Spec Writer subagent (`.claude/agents/tech-spec-writer.md`). Requires design artifacts: `solution_concept`, `user_flow`.
 
-| # | Prompt | Path | Requires | Produces |
-|---|--------|------|----------|----------|
-| 2 | create-problem-statement | `01_ux_research/01_define_problem/01_create_problem_statement.md` | `initial_concept` or `problem_space_map` | `problem_statement` |
-| 3 | create-proto-persona | `01_ux_research/01_define_problem/02_create_proto_persona.md` | `problem_statement` | `proto_persona` |
-| 4 | identify-core-objective | `01_ux_research/02_objectives/01_identify_core_objective.md` | `problem_statement` | `core_objective` |
-| 5 | generate-solution-concept | `01_ux_research/03_solution_hypothesis/01_generate_solution_concept.md` | `problem_statement`, `core_objective` | `solution_concept` |
-| 6 | format-hypothesis-statement | `01_ux_research/03_solution_hypothesis/02_format_hypothesis_statement.md` | `solution_concept` | `hypothesis_statement` |
+## Run Conditionality (ADR 0006)
 
-After prompt 6, checkpoint: "We have a testable hypothesis. Ready to map the user flow, or want to go deeper on the solution concept?"
+- **`always`**: Run unconditionally in sequence when reached.
+- **`entry_point`**: Pick one based on user's starting context. `capture_idea` for a specific product idea, `explore_problem` for domain-level exploration. Both produce `initial_concept`. Never run both.
+- **`context_gated`**: Check `run_when` condition before including. Skip with a note about why it was skipped and when to revisit.
 
-### Path B: Product Flow (Phases 04-06)
+Context gates:
+- `identify-screens-states`: "Digital product with UI" — skip for services, processes, physical products
+- `synthesize-test-patterns`: "User has completed testing" — skip until real observations exist
+- `evaluate-hypothesis`: "`test_insights` exists in context" — skip until post-test synthesis complete
+- `define-api-endpoints`: "Software product with client-server architecture" — skip for hardware, processes
 
-Continues from Path A. Triggered by: user wants to design the user experience, map flows, or plan a prototype.
+When a gate is unclear, ask the user.
 
-| # | Prompt | Path | Run | Requires | Produces |
-|---|--------|------|-----|----------|----------|
-| 7 | map-primary-user-flow | `01_ux_research/04_user_flow/01_primary_user_flow.md` | always | `solution_concept` | `user_flow` |
-| 8 | identify-screens-states | `01_ux_research/04_user_flow/02_identify_screens_states.md` | context_gated | `user_flow` | `screen_inventory` |
-| 9 | scope-prototype | `01_ux_research/05_prototype/01_scope_prototype.md` | always | `user_flow`, `hypothesis_statement` | `prototype_scope` |
-| 10 | define-test-questions | `01_ux_research/05_prototype/04_test_questions.md` | always | `hypothesis_statement` | `test_questions` |
+## Tier Model (ADR 0006)
 
-**Context gates:**
-- Prompt 8 (`identify-screens-states`): runs when "Digital product with UI". Skip for service design, physical products, or process improvements.
+Default to **Tier 1** (quick exploration, 5-10 min). Only the prompts listed above run at Tier 1.
 
-After prompt 10, checkpoint: "The prototype is scoped with test questions. When you've run tests and have observations, we can synthesize findings. Or if you're ready for technical specs, we can start there."
+**Escalation signals** (switch to Tier 2):
+- User provides detailed, multi-paragraph responses
+- User asks to "go deeper", "analyze further", "be more thorough"
+- User explicitly requests comprehensive analysis
 
-**Post-test prompts** (context-gated — require real test data):
+**De-escalation signals** (stay at / return to Tier 1):
+- User says "that's enough", "move on", "keep it simple"
+- Short, confirmatory responses
 
-| # | Prompt | Path | Run | Gate Condition | Requires | Produces |
-|---|--------|------|-----|----------------|----------|----------|
-| 11 | synthesize-test-patterns | `01_ux_research/06_post_test_synthesis/01_test_patterns_insights.md` | context_gated | User has completed testing | — | `test_insights` |
-| 12 | evaluate-hypothesis | `01_ux_research/06_post_test_synthesis/02_check_hypothesis.md` | context_gated | `test_insights` exists | `hypothesis_statement`, `test_insights` | `hypothesis_evaluation` |
+When escalating, check the same phase directory for additional prompts. Read their frontmatter and offer the relevant ones. Example: after `create_problem_statement`, offer `analyze_problem` or `scope_problem` from `01_define_problem/`.
 
-### Path C: Tech Spec
-
-Triggered by: user asks for technical specs, API design, data models, or implementation requirements.
-
-**Prerequisite check:** `solution_concept` and `user_flow` must exist. If missing, explain what's needed and offer to run Paths A/B first.
-
-**Action:** Spawn the Tech Spec Writer subagent (`.claude/agents/tech-spec-writer.md`). Pass all available design artifacts:
-- Required: `solution_concept`, `user_flow`
-- Optional: `screen_inventory`, `hypothesis_statement`, `proto_persona`, `core_objective`
-
-The subagent runs the tech requirements prompt sequence and returns structured specifications. Note: `define-api-endpoints` requires `data_models` — the subagent generates this internally (from `01_data_models/01_data_model.md`) before running API contract prompts. See "Subagent Invocation" below.
+Never auto-escalate to Tier 3. Only run all prompts in a phase when explicitly requested.
 
 ---
 
-## Tier Model
+## Context Registry
 
-Default to Tier 1 (quick exploration). Follow ADR 0006 for escalation.
+All project state persists in `.product-dev/` in the working directory. This enables cross-session continuity and programmatic artifact resolution.
 
-### Tier 1 — Quick Exploration (default)
-Run only the prompts listed in the workflow paths above (14 Tier 1 prompts total). Each phase completes in 1-2 interactions.
+### Directory Layout
 
-### Escalation to Tier 2 — Structured Discovery
-**Signals:** User provides detailed responses (>3 sentences), asks "go deeper", "tell me more", or asks about a specific aspect (competition, metrics, validation).
+```
+.product-dev/
+├── context.json              # Registry: metadata, artifact index, execution log
+└── artifacts/                # One .md file per artifact
+    ├── initial_concept.md
+    ├── problem_statement.md
+    └── ...
+```
 
-**Action:** After the current Tier 1 prompt completes, check the same phase directory for additional prompts (Tier 2). Read their frontmatter and offer the relevant ones. Example: after `create_problem_statement`, offer `analyze_problem` or `scope_problem` from `01_define_problem/`.
+### context.json Schema
 
-### Escalation to Tier 3 — Full Framework
-**Signal:** User explicitly requests comprehensive analysis ("I need everything", "full framework").
+```json
+{
+  "$schema": "context-registry-v1",
+  "project_name": "string",
+  "created": "ISO 8601",
+  "updated": "ISO 8601",
+  "tier": 1,
+  "current_phase": "phase folder id",
+  "artifacts": {
+    "artifact_name": {
+      "created": "ISO 8601",
+      "updated": "ISO 8601",
+      "path": "artifacts/artifact_name.md",
+      "source_prompt": "prompt slug",
+      "version": 1
+    }
+  },
+  "prompts_executed": [
+    {
+      "slug": "prompt-name",
+      "phase": "phase folder id",
+      "timestamp": "ISO 8601",
+      "artifact_produced": "artifact_name or null"
+    }
+  ]
+}
+```
 
-**Action:** Run all prompts in the relevant phase directory. Never auto-escalate to Tier 3.
+### Registry Operations
 
-### De-escalation
-**Signals:** "Let's move on", "that's enough", brief responses (<1 sentence).
+Perform these operations using file read/write. No MCP tools needed.
 
-**Action:** Skip remaining prompts in current phase, advance to next phase or path.
+**createProject(name)**
+When the user starts a new product development conversation and no `.product-dev/context.json` exists:
+1. Create `.product-dev/` directory and `artifacts/` subdirectory
+2. Write `context.json` with `project_name`, `created`/`updated` timestamps, `tier: 1`, empty `artifacts` and `prompts_executed`
+
+**setArtifact(name, content, sourcePrompt)**
+After executing a prompt that has a `produces` field in its frontmatter:
+1. Write the artifact content to `.product-dev/artifacts/{name}.md`
+2. Add or update the entry in `context.json` `artifacts` with `path`, `source_prompt`, `created`/`updated`, `version` (increment if updating)
+3. Append to `prompts_executed` with slug, phase, timestamp, artifact name
+4. Update `context.json` `updated` timestamp and `current_phase`
+
+**getArtifact(name)**
+When resolving a `{{variable}}` placeholder or when the user asks about a previous artifact:
+1. Look up `name` in `context.json` `artifacts`
+2. Read the file at the registered `path`
+3. Return the content
+
+**getStatus()**
+When the user asks "status", "where are we", "what's next":
+1. Read `context.json`
+2. Format the display (see Status Display below)
+
+**checkGate(phase)**
+When transitioning between workflow paths:
+1. List all Tier 1 `always` prompts for the phase
+2. Check which have entries in `prompts_executed`
+3. Report pass/fail with list of missing artifacts
+
+### Template Variable Resolution
+
+Before running any prompt from the library:
+
+1. Read the prompt file from disk
+2. Scan the prompt body for `{{variable_name}}` placeholders
+3. For each placeholder:
+   - Call `getArtifact(variable_name)`
+   - If found: replace `{{variable_name}}` with the artifact content
+   - If not found: ask the user to provide the missing context, or suggest running the prerequisite prompt first
+4. **Special case:** Entry point prompts use `{{user_input}}` — bind this to the user's most recent message, not a stored artifact
+5. Execute the resolved prompt: adopt the role from `<system_context>`, respect `<constraints>`, use `<example>` as quality reference
+6. After the prompt produces output, call `setArtifact()` with the `produces` name from frontmatter
+
+### Status Display
+
+When the user asks for status, display in this format:
+
+```
+Project: {project_name}
+Tier: {tier}
+Phase: {current_phase}
+
+Phase Progress:
+  00 Fuzzy Front End       [{n}/{total}] {"#" * n}{"." * (total-n)}
+  01 Define Problem        [{n}/{total}] ...
+  02 Objectives            [{n}/{total}] ...
+  03 Solution Hypothesis   [{n}/{total}] ...
+  04 User Flow             [{n}/{total}] ...
+  05 Prototype             [{n}/{total}] ...
+  06 Post-Test Synthesis   [{n}/{total}] ...
+
+Artifacts:
+  {name}  (from {source_prompt}, {date})
+  ...
+
+Suggested Next:
+  {list unblocked prompts whose `requires` are all satisfied}
+```
+
+Count only Tier 1 prompts for progress at Tier 1. Include Tier 2 prompts in count when operating at Tier 2+.
+
+---
+
+## Prompt Execution Flow
+
+When the user starts a conversation or continues an existing project:
+
+1. **Check for existing project**: Read `.product-dev/context.json`. If it exists, greet with a brief status summary and suggest next steps. If not, offer to start a new project.
+
+2. **Determine entry point**: Based on user's input:
+   - Vague idea for a specific product → `capture_idea` (entry_point)
+   - Domain interest, no specific product idea → `explore_problem` (entry_point)
+   - Has a problem but no statement → `create_problem_statement` (skip Phase 00)
+   - Request for specs → check prerequisites for tech-spec path
+   - Continuing from previous session → resume at the next unblocked prompt
+
+3. **Execute prompt**:
+   - Read the prompt file from `prompts/dev/01_product_dev/01_pre_dev/...`
+   - Resolve `{{variables}}` from the context registry
+   - Present the prompt's output to the user conversationally — not as a formatted dump
+   - Write the artifact via `setArtifact()`
+
+4. **Advance**: After each prompt, check `run` type of the next prompt in sequence:
+   - `always` → proceed automatically with brief transition
+   - `context_gated` → check `run_when` condition, skip if not met
+   - If crossing a workflow path boundary (e.g., ideation → flow), confirm with the user
+
+5. **Tier check**: After each user response, evaluate escalation/de-escalation signals. Adjust tier if warranted.
 
 ### Checkpoints
+
 After every 2-3 prompts, offer navigation:
 - "Does this capture what you're thinking?" (validation)
 - "Should we go deeper on [X] or move forward?" (navigation)
 - "I see [N] threads here. Which feels most promising?" (prioritization)
+
+### Re-entry and Iteration
+
+- If the user wants to revise a previous artifact, update it in the registry and note downstream impacts
+- Downstream artifacts may need regeneration if their inputs changed
+- Ask before regenerating: "The problem statement changed — should I update the persona and objective too?"
 
 ---
 
@@ -162,124 +265,41 @@ After every 2-3 prompts, offer navigation:
 
 ### Tech Spec Writer
 
-**When:** User reaches Path C or explicitly asks for technical specifications.
+**When:** User reaches the tech-spec path or explicitly asks for technical specifications.
 
-**Prerequisites:** Verify `solution_concept` and `user_flow` exist in conversation.
+**Prerequisites:** Verify `solution_concept` and `user_flow` exist in the registry.
 
-**How to invoke:** Use the Agent tool to spawn `.claude/agents/tech-spec-writer.md`. Pass design artifacts as the prompt context:
+**How:** Spawn `.claude/agents/tech-spec-writer.md` with the Agent tool. The subagent reads artifacts from `.product-dev/artifacts/` directly and writes specs back to the registry.
+
+**After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs). Let the user review and iterate on each.
+
+---
+
+## Plugin
+
+The framework is packaged as a Claude Code plugin at `plugin/`. Structure follows ADR 0008.
 
 ```
-Generate technical specifications for this product concept.
-
-## Design Artifacts
-
-### Solution Concept
-{{solution_concept}}
-
-### User Flow
-{{user_flow}}
-
-### Core Objective (if available)
-{{core_objective}}
-
-### Proto Persona (if available)
-{{proto_persona}}
-
-### Screen Inventory (if available)
-{{screen_inventory}}
-
-### Hypothesis Statement (if available)
-{{hypothesis_statement}}
+plugin/
+├── .claude-plugin/plugin.json   # Manifest: name, description, version, author
+├── commands/                    # 4 slash commands (/product-dev:idea, :problem, :spec, :status)
+├── skills/                      # 3 conversational workflows (product-ideation, product-flow, tech-spec)
+└── agents/                      # 1 subagent (tech-spec-writer)
 ```
 
-**After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs). Let the user review and iterate on each before proceeding.
+**Commands** are entry points — lightweight files that set up context and invoke the appropriate skill.
+**Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints.
+**Agents** are isolated workers — the tech-spec-writer takes design artifacts and produces structured specs.
+
+The plugin references prompts by path from `prompts/dev/` — it does not embed prompt content. The context registry (`.product-dev/`) lives in the user's project directory, not in the plugin.
 
 ---
 
-## Conditionality Rules
+## Decisions & ADR References
 
-Three `run` types control whether a prompt executes. Follow ADR 0006.
-
-### `always` (8 prompts)
-No condition check. These form the minimum viable chain — skipping any breaks downstream dependencies. Run unconditionally in sequence.
-
-### `entry_point` (2 prompts)
-Only one fires per session. Selection logic:
-- User brings a specific idea or concept → `capture-initial-idea`
-- User describes a domain, industry, or problem space → `explore-problem-space`
-- Never run both
-
-### `context_gated` (4 prompts)
-Evaluate the `run_when` condition against project context:
-- `identify-screens-states`: "Digital product with UI" — skip for services, processes, physical products
-- `synthesize-test-patterns`: "User has completed testing" — skip until real observations exist
-- `evaluate-hypothesis`: "`test_insights` exists in context" — skip until post-test synthesis complete
-- `define-api-endpoints`: "Software product with client-server architecture" — skip for hardware, processes
-
-When a gate is unclear, ask the user. When skipping, explain why: "Skipping screen inventory — this isn't a screen-based product."
-
----
-
-## Conversation Patterns
-
-### Starting a session
-Detect the user's starting point:
-- Vague idea → start at Path A, entry point 1a
-- Domain interest → start at Path A, entry point 1b
-- Existing problem statement → accept it as the `problem_statement` artifact, start at prompt 3
-- Request for specs → check prerequisites for Path C
-- Mid-project return → ask where they left off, accept existing artifacts
-
-### Between prompts
-- Present output conversationally, not as a formatted dump
-- Validate before advancing: "Does this capture what you're thinking?"
-- Acknowledge each artifact by name after production
-- Offer tier escalation when signals appear
-
-### Phase transitions
-At each path boundary (A→B, B→C):
-- Summarize what's been produced
-- Offer the next path or deeper exploration of current path
-- Let the user choose direction
-
-### Re-entry and iteration
-- If the user wants to revise a previous artifact, update it and note downstream impacts
-- Downstream artifacts may need regeneration if their inputs changed
-- Ask before regenerating: "The problem statement changed — should I update the persona and objective too?"
-
----
-
-## Reference Index
-
-### Tier 1 Prompt Files (14 total)
-All under `prompts/dev/01_product_dev/01_pre_dev/`:
-
-| Artifact | File | Run |
-|----------|------|-----|
-| `initial_concept` | `01_ux_research/00_fuzzy_front_end/01_capture_idea.md` | entry_point |
-| `problem_space_map` | `01_ux_research/00_fuzzy_front_end/05_explore_problem.md` | entry_point |
-| `problem_statement` | `01_ux_research/01_define_problem/01_create_problem_statement.md` | always |
-| `proto_persona` | `01_ux_research/01_define_problem/02_create_proto_persona.md` | always |
-| `core_objective` | `01_ux_research/02_objectives/01_identify_core_objective.md` | always |
-| `solution_concept` | `01_ux_research/03_solution_hypothesis/01_generate_solution_concept.md` | always |
-| `hypothesis_statement` | `01_ux_research/03_solution_hypothesis/02_format_hypothesis_statement.md` | always |
-| `user_flow` | `01_ux_research/04_user_flow/01_primary_user_flow.md` | always |
-| `screen_inventory` | `01_ux_research/04_user_flow/02_identify_screens_states.md` | context_gated |
-| `prototype_scope` | `01_ux_research/05_prototype/01_scope_prototype.md` | always |
-| `test_questions` | `01_ux_research/05_prototype/04_test_questions.md` | always |
-| `test_insights` | `01_ux_research/06_post_test_synthesis/01_test_patterns_insights.md` | context_gated |
-| `hypothesis_evaluation` | `01_ux_research/06_post_test_synthesis/02_check_hypothesis.md` | context_gated |
-| `api_contracts` | `02_tech_requirements/02_api_contracts_interfaces/01_define_api_endpoints.md` | context_gated |
-
-### Other Resources
-- **Skill specs:** `docs/skills/` (idea, problem, hypothesis, flow, prototype, evaluate, spec, status)
-- **ADRs:** `docs/adrs/` (0001-0009)
-- **Subagent:** `.claude/agents/tech-spec-writer.md`
-- **Test plan:** `scripts/test-chain.md`
-
-### Key ADR References
-- **ADR 0003:** Context registry schema (Phase 3 — file-based artifact persistence)
-- **ADR 0004:** Skill/subagent decomposition (3 skills, 4 commands, 1 subagent)
-- **ADR 0006:** Progressive disclosure and tiered engagement (run types, tier model)
-- **ADR 0008:** Plugin architecture (Phase 4 — packaging as installable plugin)
-- **ADR 0009:** Enhancement Pattern v2 (prompt rewrite standard)
+- Prompt frontmatter schema: ADR 0001
+- Context registry and state management: ADR 0003
+- Skill/subagent decomposition (3 skills, 1 subagent): ADR 0004
+- Progressive disclosure and tiered engagement: ADR 0006
+- Plugin architecture: ADR 0008
+- Prompt enhancement pattern: ADR 0009
