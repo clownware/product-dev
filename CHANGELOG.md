@@ -13,13 +13,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ADR 0005: Prompt Enhancement Schema
 - ADR 0006: Progressive Disclosure and Tiered Engagement
 - ADR 0007: JSON Index Deprecation
+- ADR 0008: Plugin Architecture — plugin as delivery vehicle over standalone MCP
+- ADR 0009: Prompt Enhancement Pattern v2 — XML tags, minimal frontmatter, examples
 - CONTRIBUTING.md
 - CHANGELOG.md
 - Prompt consistency framework for library-wide validation
+- Enhancement Pattern Guide (`docs/updates/00_ENHANCEMENT_PATTERN.md`)
+- Context Handoff document (`docs/updates/CONTEXT_HANDOFF.md`)
 
 ### Changed
-- (Planned) Frontmatter migration for 78 prompt files
-- (Planned) Prompt body enhancement with system context, output format, validation criteria
+- All 14 Tier 1 prompts rewritten using Enhancement Pattern v2: minimal frontmatter, XML-tagged body (`<system_context>`, `<constraints>`, `<example>`), tea tracker examples, direct instructions, custom word limits
+- ADR 0002: Amended — MCP server deferred in favor of plugin-first delivery
+- ADR 0004: Amended — consolidated 8 skills → 3 skills + 4 commands, reduced 4 subagents → 1
+- ADR 0005: Amended — minimal frontmatter for plugin runtime, rich schema deferred for MCP
+- ADR 0006: Amended — added `run`/`run_when` conditionality model alongside tier system
+- Frontmatter migration complete for all prompt files
 
 ### Deprecated
 - `prompts.json` index files (ADR 0007) -- to be replaced by frontmatter-driven MCP queries

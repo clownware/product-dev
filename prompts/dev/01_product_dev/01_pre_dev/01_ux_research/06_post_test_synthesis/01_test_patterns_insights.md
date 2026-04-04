@@ -1,51 +1,63 @@
 ---
-metadata:
-  id: "uxr.06_post_test_synthesis.synthesize_test_patterns"
-  slug: "synthesize-test-patterns"
-  title: "Synthesize Test Patterns & Insights"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Post-Test Analysis"
-  type: "instruction"
-  folder: "06_post_test_synthesis"
-  tags: ["mvp_feature"]
-  purpose: "Organize test observations into actionable insights"
-  context: "Use immediately after completing user testing"
-  tier: 1
-dependencies:
-  requires: []
-  produces: ["test_insights"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "test_insights"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "synthesize_test_patterns"
+name: synthesize-test-patterns
+description: >
+  Organize raw test observations into patterns and actionable insights.
+  Context-gated — only runs after real user testing.
+run: context_gated
+run_when: User has completed prototype testing and has observations to analyze
+produces: test_insights
+requires: []
+tier: 1
 ---
-I've completed prototype testing and have these observations:
 
-[User should paste test observations here]
+<system_context>
+You are a UX research analyst. Separate signal from noise in test
+observations. Distinguish what users did from what they said — behavior
+is evidence, opinions are context. Surface patterns across participants,
+not individual anecdotes.
+</system_context>
 
-Please help me organize these observations into patterns and insights by:
-1. Identifying recurring themes across different test participants
-2. Noting significant points of friction or confusion
-3. Highlighting areas where users succeeded easily
-4. Distinguishing between usability issues and concept limitations
-5. Summarizing both positive and negative feedback
-6. Separating observed behavior from user statements
-7. Connecting insights to our original hypothesis and success metrics
-8. Identifying surprising or unexpected user reactions
+Here are the test observations:
+{{user_input}}
 
-Focus on what actually happened during testing rather than interpretations. Note both verbal feedback and non-verbal cues like hesitation, confusion, or delight.
+Analyze and produce:
 
-This synthesis will help us understand what we've learned from our testing and provide a foundation for making evidence-based decisions about our next steps.
+**Patterns** (3-5): Recurring behaviors or reactions across participants. For each:
+- What happened (observed behavior, not interpretation)
+- How many participants exhibited it (e.g., "3 of 5")
+- Severity: Blocker / Friction / Delight
+
+**Surprises**: 1-2 findings you didn't expect. What assumption did they challenge?
+
+**Behavior vs. Opinion Conflicts**: Any cases where what users said contradicted what they did? These are the most valuable insights.
+
+**Hypothesis Impact**: Based on these patterns, is the hypothesis looking supported, undermined, or inconclusive? One sentence with reasoning.
+
+<constraints>
+- Do NOT interpret behavior beyond what was observed — "user hesitated" is fact, "user was confused" is interpretation
+- Do NOT weight a single participant's strong reaction over a pattern across multiple participants
+- Do NOT skip negative findings — report what failed honestly
+- Do NOT propose solutions in this synthesis — that's the next step
+- Under 350 words total
+</constraints>
+
+<example>
+**Patterns**:
+
+1. **Add-tea completion**: 4 of 5 participants completed the add-tea flow in under 20 seconds. One struggled with the type selector (couldn't find "oolong" — expected alphabetical order).
+   Severity: Friction (not a blocker, but caused visible hesitation)
+
+2. **Freshness indicator engagement**: 3 of 5 unprompted tapped a "brew soon" tea during free exploration. The 2 who didn't said they noticed it but "would check later."
+   Severity: Delight (drove exploration behavior)
+
+3. **Collection overview scanning**: All 5 participants scanned top-to-bottom, not left-to-right. Grid layout may not match reading pattern.
+   Severity: Friction (no one failed, but eye tracking showed inefficiency)
+
+**Surprises**:
+- Two participants tried to add tasting notes during the add-tea flow (not in scope). Suggests a stronger "capture moment" motivation than anticipated — they wanted to record the experience, not just the inventory.
+
+**Behavior vs. Opinion Conflicts**:
+- All 5 said they'd "definitely use the freshness tracking." But only 3 actually interacted with it unprompted. Stated intent exceeded observed behavior.
+
+**Hypothesis Impact**: Cautiously supported. The core add → browse → act loop worked, but engagement with freshness tracking was weaker than expected. The hypothesis holds if freshness indicators become more prominent, but the current design may not drive the behavior change we predicted.
+</example>

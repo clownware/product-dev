@@ -79,7 +79,23 @@ Each skill starts at Tier 1 and:
 
 ### Prompt-Level Tier Assignment
 
-Each prompt gets a `metadata.tier` value (1, 2, or 3) in its frontmatter (see ADR 0005). Skills filter prompts by tier to determine which to include at each engagement level.
+Each prompt gets a `tier` value (1, 2, or 3) in its frontmatter (see ADR 0005, ADR 0009). Skills filter prompts by tier to determine which to include at each engagement level.
+
+### Conditionality Model (Added 2026-04-04)
+
+In addition to the tier system (which controls depth), prompts now have a **conditionality model** (which controls inclusion). The `run` and `run_when` frontmatter fields determine when each prompt executes:
+
+| Run Type | Behavior | Count (Tier 1) |
+|----------|----------|-----------------|
+| `always` | Core chain — runs for every project. Skipping breaks downstream. | 8 |
+| `context_gated` | Runs only when `run_when` condition is met. Orchestrator checks condition. | 4 |
+| `entry_point` | User's starting position. Only one entry point fires per session. | 2 |
+
+**How tier and conditionality interact:**
+- **Tier** answers: "How deep should we go?" (quick vs. comprehensive)
+- **Run type** answers: "Should this prompt run at all?" (applicable vs. not applicable)
+- A Tier 1 `context_gated` prompt (e.g., `identify_screens_states`) runs only for digital products with UI, but when it runs, it's in the quick exploration set.
+- The minimum viable path through the framework is 8 `always` prompts — not all 14 Tier 1 prompts.
 
 ## Consequences
 

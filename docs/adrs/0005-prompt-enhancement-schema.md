@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed
+Accepted (Amended 2026-04-04)
+
+> **Amendment Note:** The full rich schema defined below remains the target for MCP server consumption. However, for plugin runtime, prompts use a **minimal frontmatter** format (see ADR 0009) with only 7 fields: `name`, `description`, `run`, `run_when`, `produces`, `requires`, `tier`. The rich schema fields (`metadata`, `output`, `modes`, `validation`, `mcp`) are deferred until MCP server tools are implemented. Prompt bodies now use XML tags (`<system_context>`, `<constraints>`, `<example>`) instead of Markdown headings.
 
 ## Context
 

@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed
+Accepted (Amended 2026-04-04)
+
+> **Amendment Note:** Consolidated from 8 skills to 3 skills + 4 commands, and reduced from 4 subagents to 1. Reflects plugin delivery model (ADR 0008) and planning-in-chat principle.
 
 ## Context
 
@@ -14,82 +16,94 @@ The prompt library needs an interaction layer that guides users through the prod
 
 The question: which framework features map to which mechanism?
 
+### Planning-in-Chat Principle
+
+Planning, design thinking, and research benefit from iterative back-and-forth in conversation. A subagent runs a sequence and hands back a document you then agree/disagree with, losing the iteration value. Only structured implementation tasks (taking established design artifacts and producing technical documents) justify subagent isolation.
+
 ## Decision
 
 ### Assignment Principle
 
-- **Skills**: User-facing entry points that manage conversational flow and progressive disclosure. The user interacts with skills directly.
-- **Subagents**: Deep-dive analysis tasks spawned by skills when the user opts for comprehensive (Tier 2/3) exploration. The user doesn't invoke subagents directly.
-- **MCP tools**: Deterministic operations that skills and subagents call. No conversational behavior.
+- **Skills**: Conversational workflows that span multiple prompts and phases. The user interacts with skills through natural conversation.
+- **Commands**: Explicit entry points (slash commands) that invoke skills or display status. Lightweight, direct.
+- **Subagents**: Implementation tasks with structured output from established inputs. Only justified when the task doesn't benefit from conversational iteration.
+- **MCP tools**: Deterministic operations that skills and subagents call. No conversational behavior. Deferred until plugin validates workflow (see ADR 0008).
 
-### Skills (8 total)
+### Skills (3 total)
 
-| Skill | Phase | Behavior |
-|-------|-------|----------|
-| `/idea` | 00 Fuzzy Front End | Conversational ideation, Tier 1 default. Creates project context. Runs 3-4 Phase 00 prompts conversationally with checkpoints. |
-| `/problem` | 01 Define Problem | Problem definition workflow. Reads existing context or creates new. Produces problem_statement, proto_persona. |
-| `/hypothesis` | 02-03 Objectives + Solution | Guides objectives and hypothesis formation. Requires problem_statement. |
-| `/flow` | 04 User Flow | Maps user flows and screens. Requires solution_concept. |
-| `/prototype` | 05 Prototype | Plans prototype scope and testing. Requires user_flow + hypothesis. |
-| `/evaluate` | 06 Post-Test | Post-test synthesis. Requires user-provided test observations. |
-| `/spec` | Tech Requirements | Technical specification. Requires solution_concept + user_flow. |
-| `/status` | Any | Deterministic project state display. No LLM needed for core. |
+| Skill | Merges | Covers | Phases |
+|-------|--------|--------|--------|
+| `product-ideation` | /idea + /problem + /hypothesis | Early-stage exploration through hypothesis formation | 00–03 |
+| `product-flow` | /flow + /prototype + /evaluate | User flow design through post-test synthesis | 04–06 |
+| `tech-spec` | /spec (standalone) | Technical specification from design artifacts | Tech Requirements |
 
-### Subagents (4 total)
+**Rationale:** `/idea` + `/problem` + `/hypothesis` are a continuous conversation that shouldn't be fragmented by tool boundaries. `/flow` + `/prototype` + `/evaluate` are a tight design-test loop. `/spec` stays standalone — different audience, tone, and output format.
+
+### Commands (4 total)
+
+| Command | Purpose |
+|---------|---------|
+| `/idea` | Entry point into `product-ideation` skill |
+| `/problem` | Entry point into `product-ideation` skill, starting at problem definition |
+| `/spec` | Entry point into `tech-spec` skill |
+| `/status` | Deterministic project state display — no LLM needed |
+
+### Subagents (1 total)
 
 | Subagent | Spawned By | When | System Prompt Focus |
 |----------|-----------|------|-------------------|
-| Problem Analyst | `/problem` | User selects deep mode | UX research methodology, problem decomposition. Runs full Phase 01 sequence. |
-| Tech Spec Writer | `/spec` | Always (spec is inherently deep) | Technical writing, API design patterns. Runs data models -> APIs -> business rules -> NFRs. |
-| Competitive Intelligence | `/idea` | User asks about competition/market | Market analysis, competitive frameworks. Runs competitive + industry + user segment analysis. |
-| Test Planning Coordinator | `/prototype` | User selects deep mode | Usability testing methodology. Runs scope -> fidelity -> questions -> script -> criteria. |
+| Tech Spec Writer | `tech-spec` skill | Always (spec is inherently deep) | Technical writing, API design patterns. Takes established design artifacts and produces structured technical documents. |
 
-### MCP Tools (6 total)
+**Removed subagents:**
+
+| Subagent | Disposition | Reasoning |
+|----------|------------|-----------|
+| Problem Analyst | → Chat/Cowork | Design thinking needs iteration, not a document handoff |
+| Competitive Intelligence | → Chat/Cowork | Research requires human judgment in the loop |
+| Test Planning Coordinator | Deferred | Narrow implementation slice, not yet validated |
+
+### MCP Tools (6 total, deferred)
 
 | Tool | Type | Purpose |
 |------|------|---------|
 | `list_prompts` | Existing | Filter and list prompts by metadata |
 | `get_prompt` | Existing | Retrieve single prompt by id/slug |
-| `get_prompt_with_context` | New | Retrieve prompt with artifacts injected into placeholders |
-| `suggest_next_prompt` | New | Recommend next prompts based on dependency graph and current artifacts |
-| `get_project_status` | New | Return context registry state |
-| `validate_gate` | New | Check if validation gate criteria are met |
+| `get_prompt_with_context` | Planned | Retrieve prompt with artifacts injected into placeholders |
+| `suggest_next_prompt` | Planned | Recommend next prompts based on dependency graph and current artifacts |
+| `get_project_status` | Planned | Return context registry state |
+| `validate_gate` | Planned | Check if validation gate criteria are met |
+
+MCP tools are deferred until the plugin validates the workflow (see ADR 0002 amendment, ADR 0008).
 
 ### Interaction Pattern
 
 ```
-User invokes skill (e.g., /idea)
-  -> Skill reads context via MCP (get_project_status)
-  -> Skill runs prompts conversationally (non-deterministic)
-  -> For each prompt:
-       -> MCP: get_prompt_with_context (deterministic injection)
-       -> LLM execution (non-deterministic)
-       -> MCP: store artifact (deterministic)
-  -> At depth escalation:
-       -> Skill spawns subagent with focused system prompt
-       -> Subagent runs sequence, returns consolidated artifact
-       -> Skill stores artifact, continues conversation
-  -> At phase transition:
-       -> MCP: validate_gate (deterministic)
-       -> MCP: suggest_next_prompt (deterministic)
-       -> Skill presents options to user
+User invokes command (e.g., /idea)
+  -> Command triggers skill (product-ideation)
+  -> Skill runs prompts conversationally
+  -> After each prompt, stores artifact to context
+  -> At phase transitions, offers: "go deeper or move on?"
+  -> At tech-spec, spawns Tech Spec Writer subagent
+  -> Subagent runs structured sequence, returns documents
+  -> Skill stores artifacts, continues conversation
 ```
 
 ## Consequences
 
 **Positive:**
-- Clear separation of concerns: skills own UX, subagents own deep analysis, MCP owns state
-- Users have a simple interface (8 slash commands)
-- Subagents provide focused expertise without polluting main conversation context
-- MCP tools are reusable across skills and subagents
+- 4 commands are easy to remember and discover
+- 3 skills cover the full lifecycle without fragmentation
+- Planning stays conversational (chat/cowork) where iteration has value
+- Implementation (tech spec) gets subagent focus where structured output is the goal
+- Fewer moving parts to build, test, and maintain
 
 **Negative:**
-- 8 skills is a lot to document and maintain
-- Subagent spawning adds latency for deep-mode operations
-- Skills need to handle the case where subagents fail or return partial results
+- Skills span multiple phases — need clear internal checkpoints
+- Single subagent means less specialized deep analysis for non-spec tasks
+- Users who want competitive analysis or deep problem exploration use chat, not automation
 
 **Guidelines for Future Extensions:**
-- New user-facing workflows -> add a skill
-- New specialized analysis tasks -> add a subagent
-- New deterministic operations -> add an MCP tool
-- When in doubt: if it needs conversation, it's a skill; if it needs focus, it's a subagent; if it's pure data, it's an MCP tool
+- New conversational workflows → extend a skill or add a new one
+- New structured document generation → add a subagent
+- New deterministic operations → add an MCP tool
+- Default: if it benefits from conversation, it's a skill; if it's structured output from established inputs, it's a subagent

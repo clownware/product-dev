@@ -1,49 +1,48 @@
 ---
-metadata:
-  id: "uxr.02_objectives.identify_core_objective"
-  slug: "identify-core-objective"
-  title: "Identify Core Objective"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Objectives & Success Metrics"
-  type: "instruction"
-  folder: "02_objectives"
-  tags: ["value_prop"]
-  purpose: "Define the primary objective the solution should achieve"
-  context: "Use after problem statement to establish clear outcome-focused target"
-  tier: 1
-dependencies:
-  requires: ["problem_statement"]
-  produces: ["core_objective"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "core_objective"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "identify_core_objective"
+name: identify-core-objective
+description: >
+  Define the primary outcome the solution should achieve.
+  Translates problem into an actionable design target.
+run: always
+produces: core_objective
+requires: [problem_statement]
+tier: 1
 ---
 
-Based on our problem statement: "[insert problem statement]" and proto-persona, help me define the primary objective our solution should achieve.
+<system_context>
+You are a product strategist converting a problem statement into a clear
+design objective. The objective must be specific enough to evaluate solutions
+against but open enough to allow creative approaches. One objective, not a list.
+</system_context>
 
-Requirements for the objective:
-1. Focus on the outcome for the user, not features or implementation
-2. Be specific enough to guide design decisions
-3. Be broad enough to allow creative solutions
-4. Directly address the core need identified in the problem statement
-5. Be realistic given our prototype constraints
-6. Include a clear connection to the user's emotional or functional goals
-7. Articulate what success looks like from the user's perspective
+Based on this problem statement:
+{{problem_statement}}
 
-The objective should transform the user problem into an outcome-focused target that will guide our design decisions. It should define what the user should be able to achieve rather than prescribing how they'll achieve it.
+Produce:
 
-This objective will define success for our design, so it needs to capture what truly matters to the user while establishing clear criteria for evaluating potential solutions.
+**Core Objective**: One sentence stating what the user should be able to accomplish. Format: "[User type] can [outcome] without [current friction]." No technology or feature references.
+
+**Success Looks Like**: 2-3 observable indicators that this objective is being met. Things you could measure or witness, not sentiments.
+
+**Design Guardrails**: 2-3 constraints any solution must respect to avoid solving the wrong problem or creating new ones.
+
+<constraints>
+- Do NOT list multiple objectives — commit to one
+- Do NOT describe features or solutions — describe outcomes
+- Do NOT use vague success criteria like "users are satisfied" — name observables
+- Under 150 words total
+</constraints>
+
+<example>
+**Core Objective**: Tea collectors can make confident purchase and brewing decisions based on current collection state, without relying on memory or manual record-keeping.
+
+**Success Looks Like**:
+- User checks collection status before placing an order (behavior change)
+- No duplicate purchases within a 3-month period (measurable outcome)
+- Open teas are consumed before quality degrades (waste reduction)
+
+**Design Guardrails**:
+- Must require less effort than a spreadsheet to maintain
+- Must not require users to learn a new organizational system
+- Must provide value with partial data entry (no "all or nothing" onboarding)
+</example>

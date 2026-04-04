@@ -1,7 +1,9 @@
 # ADR 0002: MCP Packaging for Prompt Library
 
 ## Status
-Accepted
+Accepted (Amended 2026-04-04)
+
+> **Amendment Note:** MCP server development is deferred in favor of plugin-first delivery (see ADR 0008). The existing `list_prompts` and `get_prompt` tools remain functional. Context management tools (ADR 0003) and prompt enhancement tools are deferred until the plugin validates the workflow and multi-client consumption justifies MCP investment.
 
 ## Context
 We want the prompt library to be consumable by tools via the Model Context Protocol (MCP). Prompts currently live as Markdown + JSON. ADR 0001 defines frontmatter as the canonical metadata store.

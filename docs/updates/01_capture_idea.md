@@ -43,7 +43,7 @@ For input "app for tracking houseplant care":
 - *The scaling collector*: Someone with 20+ plants who can't remember which needs what. Mental load of care routines limits collection growth.
 
 **Open Questions**:
-- If most deaths happen in the first 2 weeks, onboarding guidance matters more than ongoing tracking. If not, monitoring over time is the core value.
+- If most deaths happen in the first 2 weeks, onboarding guidance matters more than ongoing tracking. If deaths are gradual, monitoring over time is the core value.
 - If users already photograph their plants, image-based diagnosis could be the hook. If not, we need a different entry point.
 - If this is social (sharing collections) or solitary (personal management) changes the product shape entirely.
 </example>

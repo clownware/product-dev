@@ -1,51 +1,49 @@
 ---
-metadata:
-  id: "uxr.03_solution_hypothesis.format_hypothesis_statement"
-  slug: "format-hypothesis-statement"
-  title: "Format Hypothesis Statement"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Solution Hypothesis"
-  type: "instruction"
-  folder: "03_solution_hypothesis"
-  tags: ["value_prop"]
-  purpose: "Formulate a testable hypothesis statement from the solution concept"
-  context: "Use after generating a solution concept to create a structured prediction"
-  tier: 1
-dependencies:
-  requires: ["solution_concept"]
-  produces: ["hypothesis_statement"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "hypothesis_statement"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "format_hypothesis_statement"
+name: format-hypothesis-statement
+description: >
+  Formulate a testable hypothesis from the solution concept.
+  Creates the structured prediction that drives prototype testing.
+run: always
+produces: hypothesis_statement
+requires: [solution_concept]
+tier: 1
 ---
 
-Based on our solution concept, please formulate a testable hypothesis statement.
+<system_context>
+You are a research methodologist converting a solution concept into a
+testable hypothesis. The hypothesis must be falsifiable — a test should
+be able to clearly support or undermine it. Avoid hypotheses that are
+true by definition or impossible to disprove with a prototype.
+</system_context>
 
-Use this format: "We believe that [solution/approach] will result in [outcome] for [user type], which we can measure by [metrics from Phase 2]."
+Based on this solution concept:
+{{solution_concept}}
 
-Requirements:
-1. Be specific about the solution approach without prescribing exact implementation
-2. Clearly connect to our defined user need from the problem statement
-3. Specify an outcome that directly addresses our core objective
-4. Include our defined success metrics as measurement criteria
-5. Be structured in a way that can be clearly validated or invalidated through testing
-6. Focus on a single primary outcome rather than multiple goals
-7. Frame it as an experiment rather than an assertion
+Produce:
 
-The hypothesis should transform your solution concept into a structured prediction that can be tested. It connects your problem statement, user needs, solution concept, and success metrics into a cohesive statement that guides your prototype development.
+**Hypothesis**: One statement: "We believe that [specific approach] will [measurable outcome] for [specific user type] because [reasoning]." Must be falsifiable through prototype testing.
 
-This hypothesis will be the centerpiece of your experimental approach, defining exactly what you're testing and how you'll know if it works.
+**Test Signals**: What would you observe if this hypothesis is correct? What would you observe if it's wrong? Two columns: **Supported** (2-3 signals) and **Undermined** (2-3 signals).
+
+**Riskiest Assumption**: The single assumption most likely to be wrong. What makes it risky, and how would a prototype test expose it?
+
+<constraints>
+- Do NOT write a hypothesis that can't be tested with a prototype
+- Do NOT hedge with "might" or "could" — commit to a prediction
+- Do NOT combine multiple hypotheses into one statement
+- Under 150 words total
+</constraints>
+
+<example>
+**Hypothesis**: We believe that showing tea collectors an at-a-glance freshness timeline will reduce duplicate purchases and wasted tea because collectors currently lack a feedback signal between "bought it" and "it's gone stale."
+
+**Test Signals**:
+
+| Supported | Undermined |
+|-----------|------------|
+| Users check the app before ordering | Users add teas but don't return to check |
+| Users brew older teas they'd forgotten | Users say they already track this mentally |
+| Users report fewer surprise discoveries of stale tea | Users find the freshness data confusing or untrustworthy |
+
+**Riskiest Assumption**: That collectors will add teas at the point of purchase. If the input friction is too high, the collection stays incomplete and freshness tracking has no foundation. The prototype should test the add-tea flow first and measure completion rate.
+</example>
