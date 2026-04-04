@@ -295,6 +295,26 @@ The plugin references prompts by path from `prompts/dev/` — it does not embed 
 
 ---
 
+## Plugin
+
+The framework is packaged as a Claude Code plugin at `plugin/`. Structure follows ADR 0008.
+
+```
+plugin/
+├── .claude-plugin/plugin.json   # Manifest: name, description, version, author
+├── commands/                    # 4 slash commands (/product-dev:idea, :problem, :spec, :status)
+├── skills/                      # 3 conversational workflows (product-ideation, product-flow, tech-spec)
+└── agents/                      # 1 subagent (tech-spec-writer)
+```
+
+**Commands** are entry points — lightweight files that set up context and invoke the appropriate skill.
+**Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints.
+**Agents** are isolated workers — the tech-spec-writer takes design artifacts and produces structured specs.
+
+The plugin references prompts by path from `prompts/dev/` — it does not embed prompt content. The context registry (`.product-dev/`) lives in the user's project directory, not in the plugin.
+
+---
+
 ## Decisions & ADR References
 
 - Prompt frontmatter schema: ADR 0001
