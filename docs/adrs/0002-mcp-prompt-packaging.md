@@ -45,7 +45,21 @@ We need a simple, tool-agnostic way for MCP clients to:
 - Initial search will be simple (file-based); may need improvement if the library grows large.
 
 ## Notes
-Future work may add:
-- A `search_prompts` tool (full-text across titles and prompt bodies)
-- A CLI to regenerate `prompts.json` from frontmatter
-- Per-project overlays so prompts can be extended/overridden without changing the shared library.
+
+### Planned Extensions (ADR 0003, ADR 0004)
+
+New MCP tools planned for the context management layer:
+- `get_prompt_with_context` -- retrieves prompt with prior artifacts injected into `[insert X]` placeholders
+- `suggest_next_prompt` -- recommends next prompts based on dependency graph and current project state
+- `get_project_status` -- returns context registry state (project artifacts, phase progress)
+- `validate_gate` -- checks if validation gate criteria are met
+
+Separate CLI tools (not MCP):
+- `validate-frontmatter` -- schema compliance check for CI/pre-commit
+- `generate-index` -- produces `prompts.json` from frontmatter on demand
+
+### Implementation Status
+
+- `list_prompts` and `get_prompt` tools: implemented and functional
+- All 90 prompt files have frontmatter and are discoverable (as of 2026-04-03)
+- Context management tools: specified in ADR 0003, not yet implemented

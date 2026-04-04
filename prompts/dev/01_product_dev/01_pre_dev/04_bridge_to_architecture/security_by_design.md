@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "bridge.security_by_design"
+  slug: "security-by-design"
+  title: "Security by Design"
+  version: "0.1.0"
+  status: "active"
+  phase: "design"
+  category: "Bridge to Architecture"
+  type: "instruction"
+  folder: "04_bridge_to_architecture"
+  tags: ["architecture"]
+  purpose: "Embed security into the architecture from the start"
+  context: "Use when designing system architecture with security as a first-class concern"
+  tier: 2
+dependencies:
+  requires: ["security_requirements","data_models"]
+  produces: ["security_design"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "security_design"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "security_by_design"
+---
 For our solution concept: "[insert solution concept]", let's establish a comprehensive security approach.
 
 Please help me:

@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "uxr.06_post_test_synthesis.synthesize_test_patterns"
+  slug: "synthesize-test-patterns"
+  title: "Synthesize Test Patterns & Insights"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Post-Test Analysis"
+  type: "instruction"
+  folder: "06_post_test_synthesis"
+  tags: ["mvp_feature"]
+  purpose: "Organize test observations into actionable insights"
+  context: "Use immediately after completing user testing"
+  tier: 1
+dependencies:
+  requires: []
+  produces: ["test_insights"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "test_insights"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "synthesize_test_patterns"
+---
 I've completed prototype testing and have these observations:
 
 [User should paste test observations here]

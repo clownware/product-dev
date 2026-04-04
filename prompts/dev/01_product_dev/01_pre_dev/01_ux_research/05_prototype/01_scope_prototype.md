@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "uxr.05_prototype.define_prototype_scope"
+  slug: "define-prototype-scope"
+  title: "Define Prototype Scope"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Prototype Planning & Testing"
+  type: "instruction"
+  folder: "05_prototype"
+  tags: ["mvp_feature"]
+  purpose: "Determine what to include and exclude from the prototype"
+  context: "Use when beginning prototype planning to establish boundaries"
+  tier: 1
+dependencies:
+  requires: ["user_flow"]
+  produces: ["prototype_scope"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "prototype_scope"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "define_prototype_scope"
+---
 Based on our user flow and key screens, let's define the scope for our initial prototype.
 
 Please help me determine:

@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Explore how emerging trends might create new user needs"
   context: "Use when analyzing how a specific trend might evolve and create opportunities"
+  tier: 3
 dependencies:
   requires: []
-  produces: []
+  produces: ["trend_analysis"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "trend_analysis"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

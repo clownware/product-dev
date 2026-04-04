@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Identify and analyze potential user segments for the problem space"
   context: "Use when determining which user segment to target initially"
+  tier: 2
 dependencies:
   requires: []
-  produces: []
+  produces: ["user_segment_analysis"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "user_segment_analysis"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

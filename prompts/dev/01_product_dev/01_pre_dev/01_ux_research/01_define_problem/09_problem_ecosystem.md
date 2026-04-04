@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Map the broader ecosystem and context around the problem"
   context: "Use to understand the problem's place in a larger system"
+  tier: 3
 dependencies:
-  requires: []
-  produces: []
+  requires: ["problem_statement"]
+  produces: ["ecosystem_map"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "ecosystem_map"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

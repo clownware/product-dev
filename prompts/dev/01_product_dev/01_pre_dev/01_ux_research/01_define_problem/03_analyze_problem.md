@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Deep dive into the underlying factors of the identified problem"
   context: "Use to understand root causes and context of the problem"
+  tier: 2
 dependencies:
-  requires: []
-  produces: []
+  requires: ["problem_statement"]
+  produces: ["problem_analysis"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "problem_analysis"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

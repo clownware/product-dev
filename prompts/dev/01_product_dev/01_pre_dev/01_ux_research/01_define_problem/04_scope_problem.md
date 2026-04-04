@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Define boundaries and constraints for the problem to address"
   context: "Use to establish clear scope before moving to solution design"
+  tier: 2
 dependencies:
-  requires: []
-  produces: []
+  requires: ["problem_statement"]
+  produces: ["problem_scope"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "problem_scope"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

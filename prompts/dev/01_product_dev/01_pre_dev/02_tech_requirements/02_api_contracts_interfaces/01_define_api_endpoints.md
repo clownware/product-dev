@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "tech.02_api_contracts.define_api_endpoints"
+  slug: "define-api-endpoints"
+  title: "Define API Endpoints"
+  version: "0.1.0"
+  status: "active"
+  phase: "spec"
+  category: "API Contracts & Interfaces"
+  type: "instruction"
+  folder: "02_api_contracts_interfaces"
+  tags: ["mvp_feature"]
+  purpose: "Create comprehensive API endpoint specifications"
+  context: "Use after data models and user flows are defined"
+  tier: 1
+dependencies:
+  requires: ["data_models","user_flow"]
+  produces: ["api_contracts"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "api_contracts"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "define_api_endpoints"
+---
 Based on our User Flow Document and Data Models, help me define the API endpoints needed for this application.
 
 For each endpoint:

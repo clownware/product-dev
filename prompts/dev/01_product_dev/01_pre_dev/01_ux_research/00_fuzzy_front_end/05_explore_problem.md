@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Identify underserved problems in a specific domain"
   context: "Use when seeking to discover valuable problems to solve"
+  tier: 1
 dependencies:
   requires: []
-  produces: []
+  produces: ["problem_space_map"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "problem_space_map"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

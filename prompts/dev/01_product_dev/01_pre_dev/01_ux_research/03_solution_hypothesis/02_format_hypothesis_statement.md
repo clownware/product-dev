@@ -1,3 +1,38 @@
+---
+metadata:
+  id: "uxr.03_solution_hypothesis.format_hypothesis_statement"
+  slug: "format-hypothesis-statement"
+  title: "Format Hypothesis Statement"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Solution Hypothesis"
+  type: "instruction"
+  folder: "03_solution_hypothesis"
+  tags: ["value_prop"]
+  purpose: "Formulate a testable hypothesis statement from the solution concept"
+  context: "Use after generating a solution concept to create a structured prediction"
+  tier: 1
+dependencies:
+  requires: ["solution_concept"]
+  produces: ["hypothesis_statement"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "hypothesis_statement"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "format_hypothesis_statement"
+---
+
 Based on our solution concept, please formulate a testable hypothesis statement.
 
 Use this format: "We believe that [solution/approach] will result in [outcome] for [user type], which we can measure by [metrics from Phase 2]."

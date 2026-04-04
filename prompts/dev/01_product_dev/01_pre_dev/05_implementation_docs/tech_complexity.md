@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "impl.tech_complexity"
+  slug: "tech-complexity-assessment"
+  title: "Technical Complexity Assessment"
+  version: "0.1.0"
+  status: "active"
+  phase: "dev"
+  category: "Implementation"
+  type: "instruction"
+  folder: "05_implementation_docs"
+  tags: ["implementation"]
+  purpose: "Assess technical complexity and identify high-risk areas"
+  context: "Use before starting development to prioritize effort"
+  tier: 2
+dependencies:
+  requires: ["data_models","api_contracts","business_rules"]
+  produces: ["complexity_assessment"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "complexity_assessment"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "tech_complexity_assessment"
+---
 For our solution concept: "[insert solution concept]" with key features: "[insert features]", let's assess implementation complexity to inform planning.
 
 Please help me:

@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Assess the problem's priority and impact from user perspective"
   context: "Use to validate problem significance before investing in solutions"
+  tier: 2
 dependencies:
-  requires: []
-  produces: []
+  requires: ["problem_statement"]
+  produces: ["problem_qualification"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "problem_qualification"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

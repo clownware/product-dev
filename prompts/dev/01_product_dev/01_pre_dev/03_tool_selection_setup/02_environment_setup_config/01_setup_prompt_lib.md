@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "setup.02_env.setup_prompt_lib"
+  slug: "setup-prompt-library"
+  title: "Setup Prompt Library"
+  version: "0.1.0"
+  status: "active"
+  phase: "design"
+  category: "Environment Setup"
+  type: "instruction"
+  folder: "02_environment_setup_config"
+  tags: ["setup"]
+  purpose: "Configure the prompt library for the project"
+  context: "Use when initializing the framework for a new project"
+  tier: 3
+dependencies:
+  requires: []
+  produces: ["prompt_lib_setup"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "prompt_lib_setup"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "setup_prompt_library"
+---
 Help me create a structured prompt library for this project based on our established requirements.
 
 For each category, develop 3-5 standardized prompt templates:
