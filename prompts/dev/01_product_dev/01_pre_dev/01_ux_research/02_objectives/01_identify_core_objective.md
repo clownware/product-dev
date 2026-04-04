@@ -1,3 +1,38 @@
+---
+metadata:
+  id: "uxr.02_objectives.identify_core_objective"
+  slug: "identify-core-objective"
+  title: "Identify Core Objective"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Objectives & Success Metrics"
+  type: "instruction"
+  folder: "02_objectives"
+  tags: ["value_prop"]
+  purpose: "Define the primary objective the solution should achieve"
+  context: "Use after problem statement to establish clear outcome-focused target"
+  tier: 1
+dependencies:
+  requires: ["problem_statement"]
+  produces: ["core_objective"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "core_objective"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "identify_core_objective"
+---
+
 Based on our problem statement: "[insert problem statement]" and proto-persona, help me define the primary objective our solution should achieve.
 
 Requirements for the objective:

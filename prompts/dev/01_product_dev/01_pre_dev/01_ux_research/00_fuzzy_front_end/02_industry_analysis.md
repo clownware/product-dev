@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Identify user pain points and opportunities in a specific industry"
   context: "Use when exploring a new industry vertical to understand potential problem spaces"
+  tier: 2
 dependencies:
   requires: []
-  produces: []
+  produces: ["industry_pain_points"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "industry_pain_points"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

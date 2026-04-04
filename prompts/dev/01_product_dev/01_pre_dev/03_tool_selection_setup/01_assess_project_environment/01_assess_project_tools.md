@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "setup.01_assess.project_tools"
+  slug: "assess-project-tools"
+  title: "Assess Project Tools"
+  version: "0.1.0"
+  status: "active"
+  phase: "design"
+  category: "Tool Selection & Setup"
+  type: "instruction"
+  folder: "01_assess_project_environment"
+  tags: ["setup"]
+  purpose: "Evaluate current and needed development tools"
+  context: "Use when setting up a new project environment"
+  tier: 2
+dependencies:
+  requires: ["solution_concept"]
+  produces: ["tool_assessment"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "tool_assessment"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "assess_project_tools"
+---
 Based on our project requirements and specifications from the UX phase, help me assess the optimal toolset for this project.
 
 For each category, suggest the most appropriate tool and configuration:

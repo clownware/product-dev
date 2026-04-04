@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Generate innovative concepts by combining elements from different domains"
   context: "Use for creative brainstorming when looking for unique approaches"
+  tier: 3
 dependencies:
   requires: []
-  produces: []
+  produces: ["combined_concept"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "combined_concept"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

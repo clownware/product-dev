@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "impl.tech_selection"
+  slug: "tech-selection-rationale"
+  title: "Technology Selection Rationale"
+  version: "0.1.0"
+  status: "active"
+  phase: "dev"
+  category: "Implementation"
+  type: "instruction"
+  folder: "05_implementation_docs"
+  tags: ["implementation"]
+  purpose: "Document technology selection decisions with rationale"
+  context: "Use when finalizing technology choices for implementation"
+  tier: 2
+dependencies:
+  requires: ["tech_stack_evaluation","solution_concept"]
+  produces: ["tech_selection_rationale"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "tech_selection_rationale"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "tech_selection_rationale"
+---
 Based on our solution requirements and user needs, let's evaluate and select the optimal technology stack.
 
 Please help me:

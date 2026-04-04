@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "uxr.06_post_test_synthesis.evaluate_hypothesis"
+  slug: "evaluate-hypothesis"
+  title: "Evaluate Hypothesis"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Post-Test Analysis"
+  type: "instruction"
+  folder: "06_post_test_synthesis"
+  tags: ["mvp_feature"]
+  purpose: "Assess whether testing validated or invalidated hypothesis"
+  context: "Use after synthesizing test results"
+  tier: 1
+dependencies:
+  requires: ["hypothesis_statement"]
+  produces: ["hypothesis_evaluation"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "hypothesis_evaluation"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "evaluate_hypothesis"
+---
 Based on our test results, let's evaluate our hypothesis: "[insert hypothesis]"
 
 Please assess:

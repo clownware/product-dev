@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Explore an initial product or feature concept inspired by a specific source"
   context: "Use when you have a spark of inspiration and want to explore it as a potential product concept"
+  tier: 1
 dependencies:
   requires: []
-  produces: []
+  produces: ["initial_concept"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "initial_concept"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

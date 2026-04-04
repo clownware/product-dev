@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Craft a precise problem statement to guide the design process"
   context: "Use after initial exploration to crystallize the core problem to address"
+  tier: 1
 dependencies:
   requires: []
-  produces: []
+  produces: ["problem_statement"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "problem_statement"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "setup.01_assess.tech_stack"
+  slug: "evaluate-tech-stack"
+  title: "Evaluate Tech Stack"
+  version: "0.1.0"
+  status: "active"
+  phase: "design"
+  category: "Tool Selection & Setup"
+  type: "instruction"
+  folder: "01_assess_project_environment"
+  tags: ["setup"]
+  purpose: "Evaluate and select technology stack"
+  context: "Use when choosing languages, frameworks, and infrastructure"
+  tier: 2
+dependencies:
+  requires: ["solution_concept","data_models"]
+  produces: ["tech_stack_evaluation"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "tech_stack_evaluation"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "evaluate_tech_stack"
+---
 Based on our project requirements, help me evaluate and select the optimal technology stack for this project.
 
 For each layer of the stack, provide:

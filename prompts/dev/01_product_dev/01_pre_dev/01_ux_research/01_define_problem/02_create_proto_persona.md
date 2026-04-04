@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Develop a lightweight persona to represent the target user"
   context: "Use after problem statement to create a concrete user representation"
+  tier: 1
 dependencies:
-  requires: []
-  produces: []
+  requires: ["problem_statement"]
+  produces: ["proto_persona"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "proto_persona"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

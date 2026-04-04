@@ -89,9 +89,13 @@ We want a single, canonical source of truth for prompt metadata that is:
 
 ### Implementation Notes
 
-- Initial rollout will focus on key prompt clusters (e.g. `00_fuzzy_front_end`, `01_define_problem`).
-- Migration will **only modify frontmatter**; prompt bodies (the actual instructions) will remain unchanged.
-- Future tooling can be added under an `mcp/` directory to:
-  - Validate prompt frontmatter against this schema
-  - Generate `prompts.json` indices from Markdown
-  - Export prompt metadata for MCP servers and other integrations.
+- **Migration status**: Complete. All 90 prompt files have ADR 0001-compliant frontmatter as of 2026-04-03.
+- Migration scripts: `scripts/migrate-frontmatter.mjs` and `scripts/migrate-remaining.mjs`
+- Prompt bodies were preserved unchanged during migration.
+- Non-prompt files (templates, reference articles, planning docs) were relocated out of prompt directories.
+
+### Extensions
+
+This schema has been extended by:
+- **ADR 0005**: Adds `tier`, `output`, `modes`, and `optional` dependency fields
+- **ADR 0007**: Formally deprecates the `prompts.json` indices that this ADR noted as derived artifacts

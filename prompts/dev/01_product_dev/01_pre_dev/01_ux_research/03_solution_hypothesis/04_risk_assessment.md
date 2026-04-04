@@ -1,3 +1,38 @@
+---
+metadata:
+  id: "uxr.03_solution_hypothesis.risk_assessment"
+  slug: "risk-assessment"
+  title: "Risk Assessment"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Solution Hypothesis"
+  type: "instruction"
+  folder: "03_solution_hypothesis"
+  tags: ["value_prop"]
+  purpose: "Identify and assess key risks to the solution hypothesis"
+  context: "Use after defining solution concept to evaluate risks and mitigation strategies"
+  tier: 2
+dependencies:
+  requires: ["solution_concept"]
+  produces: ["risk_assessment"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "risk_assessment"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "risk_assessment"
+---
+
 For our solution hypothesis: "[insert hypothesis]", please help me identify and assess the key risks.
 
 Please identify:

@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "setup.01_assess.tool_integration"
+  slug: "strategize-tool-integration"
+  title: "Strategize Tool Integration"
+  version: "0.1.0"
+  status: "active"
+  phase: "design"
+  category: "Tool Selection & Setup"
+  type: "instruction"
+  folder: "01_assess_project_environment"
+  tags: ["setup"]
+  purpose: "Plan how tools will work together"
+  context: "Use after assessing tools to plan integration approach"
+  tier: 2
+dependencies:
+  requires: ["tool_assessment"]
+  produces: ["integration_strategy"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "integration_strategy"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "strategize_tool_integration"
+---
 Help me develop a cohesive strategy for integrating our selected tools into a seamless workflow.
 
 Please address:

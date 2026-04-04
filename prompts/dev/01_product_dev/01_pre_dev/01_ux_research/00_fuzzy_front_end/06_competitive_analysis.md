@@ -12,9 +12,19 @@ metadata:
   tags: ["problem"]
   purpose: "Analyze the competitive landscape to identify gaps and opportunities"
   context: "Use when exploring a new market or product category"
+  tier: 2
 dependencies:
   requires: []
-  produces: []
+  produces: ["competitive_landscape"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "competitive_landscape"
+modes:
+  simulation: true
+  synthesis: true
 validation:
   gate: ""
   criteria: []

@@ -1,3 +1,38 @@
+---
+metadata:
+  id: "uxr.02_objectives.define_metrics"
+  slug: "define-success-metrics"
+  title: "Define Success Metrics"
+  version: "0.1.0"
+  status: "active"
+  phase: "discovery"
+  category: "Objectives & Success Metrics"
+  type: "instruction"
+  folder: "02_objectives"
+  tags: ["value_prop"]
+  purpose: "Establish measurable indicators of success"
+  context: "Use after defining core objective to create measurable criteria"
+  tier: 2
+dependencies:
+  requires: ["core_objective"]
+  produces: ["success_metrics"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "success_metrics"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "define_metrics"
+---
+
 For our core objective: "[insert core objective]", please help me define 1-2 specific, measurable metrics that will indicate success.
 
 For each metric:

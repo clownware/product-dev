@@ -1,3 +1,37 @@
+---
+metadata:
+  id: "bridge.ai_integration_strategy"
+  slug: "ai-integration-strategy"
+  title: "AI Integration Strategy"
+  version: "0.1.0"
+  status: "active"
+  phase: "design"
+  category: "Bridge to Architecture"
+  type: "instruction"
+  folder: "04_bridge_to_architecture"
+  tags: ["architecture"]
+  purpose: "Plan AI/ML integration approach"
+  context: "Use when the product includes AI-powered features"
+  tier: 3
+dependencies:
+  requires: ["solution_concept"]
+  produces: ["ai_integration_strategy"]
+  optional: []
+output:
+  format: "markdown"
+  sections: []
+  max_length: "500 words"
+  artifact_name: "ai_integration_strategy"
+modes:
+  simulation: true
+  synthesis: true
+validation:
+  gate: ""
+  criteria: []
+mcp:
+  exposed: true
+  operation: "ai_integration_strategy"
+---
 For our solution concept: "[insert solution concept]", let's explore opportunities to enhance the user experience through AI capabilities.
 
 Please help me:
