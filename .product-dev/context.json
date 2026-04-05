@@ -1,10 +1,207 @@
 {
   "$schema": "context-registry-v1",
-  "project_name": "",
-  "created": "",
-  "updated": "",
+  "project_name": "Tea Tracker",
+  "created": "2026-04-04T10:00:00-04:00",
+  "updated": "2026-04-04T14:00:00-04:00",
   "tier": 1,
-  "current_phase": "",
-  "artifacts": {},
-  "prompts_executed": []
+  "current_phase": "tech_requirements",
+  "artifacts": {
+    "initial_concept": {
+      "created": "2026-04-04T10:00:00-04:00",
+      "updated": "2026-04-04T10:00:00-04:00",
+      "path": "artifacts/initial_concept.md",
+      "source_prompt": "capture-initial-idea",
+      "version": 1
+    },
+    "problem_statement": {
+      "created": "2026-04-04T10:01:00-04:00",
+      "updated": "2026-04-04T10:01:00-04:00",
+      "path": "artifacts/problem_statement.md",
+      "source_prompt": "create-problem-statement",
+      "version": 1
+    },
+    "proto_persona": {
+      "created": "2026-04-04T10:02:00-04:00",
+      "updated": "2026-04-04T10:02:00-04:00",
+      "path": "artifacts/proto_persona.md",
+      "source_prompt": "create-proto-persona",
+      "version": 1
+    },
+    "core_objective": {
+      "created": "2026-04-04T10:03:00-04:00",
+      "updated": "2026-04-04T10:03:00-04:00",
+      "path": "artifacts/core_objective.md",
+      "source_prompt": "identify-core-objective",
+      "version": 1
+    },
+    "solution_concept": {
+      "created": "2026-04-04T10:04:00-04:00",
+      "updated": "2026-04-04T10:04:00-04:00",
+      "path": "artifacts/solution_concept.md",
+      "source_prompt": "generate-solution-concept",
+      "version": 1
+    },
+    "hypothesis_statement": {
+      "created": "2026-04-04T10:05:00-04:00",
+      "updated": "2026-04-04T10:05:00-04:00",
+      "path": "artifacts/hypothesis_statement.md",
+      "source_prompt": "format-hypothesis-statement",
+      "version": 1
+    },
+    "user_flow": {
+      "created": "2026-04-04T10:06:00-04:00",
+      "updated": "2026-04-04T10:06:00-04:00",
+      "path": "artifacts/user_flow.md",
+      "source_prompt": "map-primary-user-flow",
+      "version": 1
+    },
+    "screen_inventory": {
+      "created": "2026-04-04T10:07:00-04:00",
+      "updated": "2026-04-04T10:07:00-04:00",
+      "path": "artifacts/screen_inventory.md",
+      "source_prompt": "identify-screens-states",
+      "version": 1
+    },
+    "prototype_scope": {
+      "created": "2026-04-04T10:08:00-04:00",
+      "updated": "2026-04-04T10:08:00-04:00",
+      "path": "artifacts/prototype_scope.md",
+      "source_prompt": "scope-prototype",
+      "version": 1
+    },
+    "test_questions": {
+      "created": "2026-04-04T10:09:00-04:00",
+      "updated": "2026-04-04T10:09:00-04:00",
+      "path": "artifacts/test_questions.md",
+      "source_prompt": "define-test-questions",
+      "version": 1
+    },
+    "data_models": {
+      "created": "2026-04-04T14:00:00-04:00",
+      "updated": "2026-04-04T14:00:00-04:00",
+      "path": "artifacts/data_models.md",
+      "source_prompt": "define-data-models",
+      "version": 1
+    },
+    "api_contracts": {
+      "created": "2026-04-04T14:01:00-04:00",
+      "updated": "2026-04-04T14:01:00-04:00",
+      "path": "artifacts/api_contracts.md",
+      "source_prompt": "define-api-endpoints",
+      "version": 1
+    },
+    "business_rules": {
+      "created": "2026-04-04T14:02:00-04:00",
+      "updated": "2026-04-04T14:02:00-04:00",
+      "path": "artifacts/business_rules.md",
+      "source_prompt": "define-business-rules",
+      "version": 1
+    },
+    "nfr": {
+      "created": "2026-04-04T14:03:00-04:00",
+      "updated": "2026-04-04T14:03:00-04:00",
+      "path": "artifacts/nfr.md",
+      "source_prompt": "performance-requirements",
+      "version": 1
+    },
+    "technical_spec": {
+      "created": "2026-04-04T14:04:00-04:00",
+      "updated": "2026-04-04T14:04:00-04:00",
+      "path": "artifacts/technical_spec.md",
+      "source_prompt": "technical-spec-consolidated",
+      "version": 1
+    }
+  },
+  "prompts_executed": [
+    {
+      "slug": "capture-initial-idea",
+      "phase": "00_fuzzy_front_end",
+      "timestamp": "2026-04-04T10:00:00-04:00",
+      "artifact_produced": "initial_concept"
+    },
+    {
+      "slug": "create-problem-statement",
+      "phase": "01_define_problem",
+      "timestamp": "2026-04-04T10:01:00-04:00",
+      "artifact_produced": "problem_statement"
+    },
+    {
+      "slug": "create-proto-persona",
+      "phase": "01_define_problem",
+      "timestamp": "2026-04-04T10:02:00-04:00",
+      "artifact_produced": "proto_persona"
+    },
+    {
+      "slug": "identify-core-objective",
+      "phase": "02_objectives",
+      "timestamp": "2026-04-04T10:03:00-04:00",
+      "artifact_produced": "core_objective"
+    },
+    {
+      "slug": "generate-solution-concept",
+      "phase": "03_solution_hypothesis",
+      "timestamp": "2026-04-04T10:04:00-04:00",
+      "artifact_produced": "solution_concept"
+    },
+    {
+      "slug": "format-hypothesis-statement",
+      "phase": "03_solution_hypothesis",
+      "timestamp": "2026-04-04T10:05:00-04:00",
+      "artifact_produced": "hypothesis_statement"
+    },
+    {
+      "slug": "map-primary-user-flow",
+      "phase": "04_user_flow",
+      "timestamp": "2026-04-04T10:06:00-04:00",
+      "artifact_produced": "user_flow"
+    },
+    {
+      "slug": "identify-screens-states",
+      "phase": "04_user_flow",
+      "timestamp": "2026-04-04T10:07:00-04:00",
+      "artifact_produced": "screen_inventory"
+    },
+    {
+      "slug": "scope-prototype",
+      "phase": "05_prototype",
+      "timestamp": "2026-04-04T10:08:00-04:00",
+      "artifact_produced": "prototype_scope"
+    },
+    {
+      "slug": "define-test-questions",
+      "phase": "05_prototype",
+      "timestamp": "2026-04-04T10:09:00-04:00",
+      "artifact_produced": "test_questions"
+    },
+    {
+      "slug": "define-data-models",
+      "phase": "tech_requirements",
+      "timestamp": "2026-04-04T14:00:00-04:00",
+      "artifact_produced": "data_models"
+    },
+    {
+      "slug": "define-api-endpoints",
+      "phase": "tech_requirements",
+      "timestamp": "2026-04-04T14:01:00-04:00",
+      "artifact_produced": "api_contracts"
+    },
+    {
+      "slug": "define-business-rules",
+      "phase": "tech_requirements",
+      "timestamp": "2026-04-04T14:02:00-04:00",
+      "artifact_produced": "business_rules"
+    },
+    {
+      "slug": "performance-requirements",
+      "phase": "tech_requirements",
+      "timestamp": "2026-04-04T14:03:00-04:00",
+      "artifact_produced": "nfr"
+    },
+    {
+      "slug": "technical-spec-consolidated",
+      "phase": "tech_requirements",
+      "timestamp": "2026-04-04T14:04:00-04:00",
+      "artifact_produced": "technical_spec"
+    }
+  ]
 }
