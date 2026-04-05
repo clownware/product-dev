@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.04_nfr.localization_requirements"
-  slug: "localization-requirements"
-  title: "Localization Requirements"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "Non-Functional Requirements"
-  type: "instruction"
-  folder: "04_non_functional_requirements"
-  tags: ["nfr"]
-  purpose: "Define internationalization and localization needs"
-  context: "Use when the product will serve multiple locales or languages"
-  tier: 3
-dependencies:
-  requires: ["solution_concept"]
-  produces: ["localization_requirements"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "localization_requirements"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "localization_requirements"
+name: localization-requirements
+description: >
+  Define internationalization and localization needs.
+  Use when the product will serve multiple locales or languages.
+run: always
+produces: localization_requirements
+requires: [solution_concept]
+tier: 3
 ---
 Help me define localization and internationalization requirements for our application:
 

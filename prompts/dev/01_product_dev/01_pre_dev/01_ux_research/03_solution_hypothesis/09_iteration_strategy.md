@@ -1,39 +1,15 @@
 ---
-metadata:
-  id: "uxr.03_solution_hypothesis.iteration_strategy"
-  slug: "iteration-strategy"
-  title: "Iteration Strategy"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Solution Hypothesis"
-  type: "instruction"
-  folder: "03_solution_hypothesis"
-  tags: ["value_prop"]
-  purpose: "Develop a strategic plan for iterative development from MVP to v2"
-  context: "Use after defining solution concept to plan progressive build-out"
-  tier: 3
-dependencies:
-  requires: ["solution_concept"]
-  produces: ["iteration_strategy"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "iteration_strategy"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "iteration_strategy"
+name: iteration-strategy
+description: >
+  Develop a strategic plan for iterative development from MVP to v2.
+  Use after defining solution concept to plan progressive build-out.
+run: always
+produces: iteration_strategy
+requires: [solution_concept]
+tier: 3
 ---
 
-For our solution concept: "[insert solution concept]", let's develop a strategic plan for iterative development.
+For our solution concept: {{solution_concept}}, let's develop a strategic plan for iterative development.
 
 Please help me define:
 

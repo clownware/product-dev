@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "uxr.06_post_test_synthesis.refine_problem_statement"
-  slug: "post-test-refine-problem"
-  title: "Refine Problem Statement Post-Test"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Post-Test Analysis"
-  type: "instruction"
-  folder: "06_post_test_synthesis"
-  tags: ["mvp_feature"]
-  purpose: "Refine problem statement based on test learnings"
-  context: "Use when test results suggest the problem needs reframing"
-  tier: 3
-dependencies:
-  requires: ["hypothesis_evaluation","problem_statement"]
-  produces: ["updated_problem_statement"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "updated_problem_statement"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "post_test_refine_problem"
+name: post-test-refine-problem
+description: >
+  Refine problem statement based on test learnings.
+  Use when test results suggest the problem needs reframing.
+run: always
+produces: updated_problem_statement
+requires: [hypothesis_evaluation, problem_statement]
+tier: 3
 ---
-Based on our test results and hypothesis evaluation, let's revisit our problem statement: "[insert problem statement]"
+Based on our test results and hypothesis evaluation, let's revisit our problem statement: {{problem_statement}}
 
 Consider:
 1. Did testing reveal aspects of the problem we didn't anticipate?

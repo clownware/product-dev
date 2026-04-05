@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.06_post_test_synthesis.plan_next_iteration"
-  slug: "plan-next-iteration"
-  title: "Plan Next Iteration"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Post-Test Analysis"
-  type: "instruction"
-  folder: "06_post_test_synthesis"
-  tags: ["mvp_feature"]
-  purpose: "Define changes for next prototype iteration"
-  context: "Use when hypothesis is partially validated, requiring refinement"
-  tier: 2
-dependencies:
-  requires: ["hypothesis_evaluation"]
-  produces: ["iteration_plan"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "iteration_plan"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "plan_next_iteration"
+name: plan-next-iteration
+description: >
+  Define changes for next prototype iteration.
+  Use when hypothesis is partially validated, requiring refinement.
+run: always
+produces: iteration_plan
+requires: [hypothesis_evaluation]
+tier: 2
 ---
 Based on our test results and hypothesis evaluation, please help me plan the next iteration of our prototype.
 

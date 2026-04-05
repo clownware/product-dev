@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.05_prototype.choose_fidelity_level"
-  slug: "choose-fidelity-level"
-  title: "Choose Fidelity Level"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Prototype Planning & Testing"
-  type: "instruction"
-  folder: "05_prototype"
-  tags: ["mvp_feature"]
-  purpose: "Determine appropriate fidelity for different prototype aspects"
-  context: "Use to balance effort vs. test validity"
-  tier: 2
-dependencies:
-  requires: ["prototype_scope"]
-  produces: ["fidelity_decision"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "fidelity_decision"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "choose_fidelity_level"
+name: choose-fidelity-level
+description: >
+  Determine appropriate fidelity for different prototype aspects.
+  Use to balance effort vs. test validity.
+run: always
+produces: fidelity_decision
+requires: [prototype_scope]
+tier: 2
 ---
 Help me determine the appropriate fidelity level for our prototype based on our testing goals.
 

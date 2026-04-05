@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.02_api_contracts.define_interface_boundaries"
-  slug: "define-interface-boundaries"
-  title: "Define Interface Boundaries"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "API Contracts & Interfaces"
-  type: "instruction"
-  folder: "02_api_contracts_interfaces"
-  tags: ["mvp_feature"]
-  purpose: "Establish clear boundaries between system components"
-  context: "Use when designing system architecture"
-  tier: 2
-dependencies:
-  requires: []
-  produces: []
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "define_interface_boundaries"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "define_interface_boundaries"
+name: define-interface-boundaries
+description: >
+  Establish clear boundaries between system components.
+  Use when designing system architecture.
+run: always
+produces: define_interface_boundaries
+requires: []
+tier: 2
 ---
 Help me define the clear interface boundaries between different parts of our system:
 

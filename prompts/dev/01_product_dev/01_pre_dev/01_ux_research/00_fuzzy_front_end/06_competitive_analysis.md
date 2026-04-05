@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.00_fuzzy_front_end.competitive_analysis"
-  slug: "competitive-analysis"
-  title: "Competitive Analysis"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Early Ideation & Exploration"
-  type: "instruction"
-  folder: "00_fuzzy_front_end"
-  tags: ["problem"]
-  purpose: "Analyze the competitive landscape to identify gaps and opportunities"
-  context: "Use when exploring a new market or product category"
-  tier: 2
-dependencies:
-  requires: []
-  produces: ["competitive_landscape"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "competitive_landscape"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "competitive_analysis"
+name: competitive-analysis
+description: >
+  Analyze the competitive landscape to identify gaps and opportunities.
+  Use when exploring a new market or product category.
+run: always
+produces: competitive_landscape
+requires: []
+tier: 2
 ---
 I'm interested in understanding the current landscape of solutions in the [specific domain] space.
 

@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.05_prototype.test_participant_goals"
-  slug: "test-participant-goals"
-  title: "Test Participant Goals"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Prototype Planning & Testing"
-  type: "instruction"
-  folder: "05_prototype"
-  tags: ["mvp_feature"]
-  purpose: "Define what each test participant should try to accomplish"
-  context: "Use when designing specific tasks for test participants"
-  tier: 3
-dependencies:
-  requires: ["test_questions"]
-  produces: ["participant_goals"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "participant_goals"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "test_participant_goals"
+name: test-participant-goals
+description: >
+  Define what each test participant should try to accomplish.
+  Use when designing specific tasks for test participants.
+run: always
+produces: participant_goals
+requires: [test_questions]
+tier: 3
 ---
 For our prototype test, let's define specific goals for test participants.
 

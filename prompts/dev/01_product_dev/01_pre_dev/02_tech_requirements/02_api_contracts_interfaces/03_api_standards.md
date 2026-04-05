@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.02_api_contracts.establish_api_standards"
-  slug: "establish-api-standards"
-  title: "Establish API Standards"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "API Contracts & Interfaces"
-  type: "instruction"
-  folder: "02_api_contracts_interfaces"
-  tags: ["mvp_feature"]
-  purpose: "Define consistent API conventions and patterns"
-  context: "Use before API implementation to ensure consistency"
-  tier: 2
-dependencies:
-  requires: []
-  produces: []
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "establish_api_standards"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "establish_api_standards"
+name: establish-api-standards
+description: >
+  Define consistent API conventions and patterns.
+  Use before API implementation to ensure consistency.
+run: always
+produces: establish_api_standards
+requires: []
+tier: 2
 ---
 Help me establish consistent API standards and conventions for our project:
 

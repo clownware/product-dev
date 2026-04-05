@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "uxr.01_define_problem.analyze_problem"
-  slug: "analyze-problem"
-  title: "Analyze Problem"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Problem Definition"
-  type: "instruction"
-  folder: "01_define_problem"
-  tags: ["problem"]
-  purpose: "Deep dive into the underlying factors of the identified problem"
-  context: "Use to understand root causes and context of the problem"
-  tier: 2
-dependencies:
-  requires: ["problem_statement"]
-  produces: ["problem_analysis"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "problem_analysis"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "analyze_problem"
+name: analyze-problem
+description: >
+  Deep dive into the underlying factors of the identified problem.
+  Use to understand root causes and context of the problem.
+run: always
+produces: problem_analysis
+requires: [problem_statement]
+tier: 2
 ---
-For our problem statement: "[insert problem statement]", please help me understand the underlying factors.
+For our problem statement: {{problem_statement}}, please help me understand the underlying factors.
 
 Analyze this problem by identifying:
 1. What are 3-5 root causes of this problem?

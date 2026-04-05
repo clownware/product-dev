@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.00_fuzzy_front_end.combine_ideas"
-  slug: "combine-ideas"
-  title: "Combine Ideas"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Early Ideation & Exploration"
-  type: "instruction"
-  folder: "00_fuzzy_front_end"
-  tags: ["problem"]
-  purpose: "Generate innovative concepts by combining elements from different domains"
-  context: "Use for creative brainstorming when looking for unique approaches"
-  tier: 3
-dependencies:
-  requires: []
-  produces: ["combined_concept"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "combined_concept"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "combine_ideas"
+name: combine-ideas
+description: >
+  Generate innovative concepts by combining elements from different domains.
+  Use for creative brainstorming when looking for unique approaches.
+run: always
+produces: combined_concept
+requires: []
+tier: 3
 ---
 Help me generate an innovative concept by combining elements from these two different products/services/domains:
 

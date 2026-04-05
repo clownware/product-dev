@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.04_nfr.device_browser_compatibility"
-  slug: "device-browser-compatibility"
-  title: "Device & Browser Compatibility"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "Non-Functional Requirements"
-  type: "instruction"
-  folder: "04_non_functional_requirements"
-  tags: ["nfr"]
-  purpose: "Define device and browser support requirements"
-  context: "Use when specifying cross-platform compatibility targets"
-  tier: 3
-dependencies:
-  requires: ["platform_strategy"]
-  produces: ["compatibility_requirements"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "compatibility_requirements"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "device_browser_compatibility"
+name: device-browser-compatibility
+description: >
+  Define device and browser support requirements.
+  Use when specifying cross-platform compatibility targets.
+run: always
+produces: compatibility_requirements
+requires: [platform_strategy]
+tier: 3
 ---
 Help me define device and browser compatibility requirements for our application:
 

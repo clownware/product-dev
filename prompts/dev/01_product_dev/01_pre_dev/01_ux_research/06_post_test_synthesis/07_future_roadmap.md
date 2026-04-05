@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.06_post_test_synthesis.future_roadmap"
-  slug: "future-roadmap"
-  title: "Future Roadmap"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Post-Test Analysis"
-  type: "instruction"
-  folder: "06_post_test_synthesis"
-  tags: ["mvp_feature"]
-  purpose: "Define a forward-looking roadmap based on validated learnings"
-  context: "Use after completing a test cycle to plan ahead"
-  tier: 3
-dependencies:
-  requires: ["iteration_plan"]
-  produces: ["future_roadmap"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "future_roadmap"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "future_roadmap"
+name: future-roadmap
+description: >
+  Define a forward-looking roadmap based on validated learnings.
+  Use after completing a test cycle to plan ahead.
+run: always
+produces: future_roadmap
+requires: [iteration_plan]
+tier: 3
 ---
 Based on everything we've learned, help me outline a forward-looking roadmap.
 

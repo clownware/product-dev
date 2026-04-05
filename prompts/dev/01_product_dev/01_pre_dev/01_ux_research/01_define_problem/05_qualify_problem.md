@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "uxr.01_define_problem.qualify_problem"
-  slug: "qualify-problem"
-  title: "Qualify Problem"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Problem Definition"
-  type: "instruction"
-  folder: "01_define_problem"
-  tags: ["problem"]
-  purpose: "Assess the problem's priority and impact from user perspective"
-  context: "Use to validate problem significance before investing in solutions"
-  tier: 2
-dependencies:
-  requires: ["problem_statement"]
-  produces: ["problem_qualification"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "problem_qualification"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "qualify_problem"
+name: qualify-problem
+description: >
+  Assess the problem's priority and impact from user perspective.
+  Use to validate problem significance before investing in solutions.
+run: always
+produces: problem_qualification
+requires: [problem_statement]
+tier: 2
 ---
-For our problem statement: "[insert problem statement]", help me assess its priority from a user perspective.
+For our problem statement: {{problem_statement}}, help me assess its priority from a user perspective.
 
 Please evaluate:
 1. Severity: How painful is this problem when users encounter it? (1-5 scale)

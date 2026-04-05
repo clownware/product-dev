@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.01_data_models.validate_data_model"
-  slug: "validate-data-model"
-  title: "Validate Data Model"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "Data Models"
-  type: "instruction"
-  folder: "01_data_models"
-  tags: ["mvp_feature"]
-  purpose: "Review data models for completeness and potential issues"
-  context: "Use after initial data model design for quality check"
-  tier: 2
-dependencies:
-  requires: ["data_models"]
-  produces: ["data_model_validation"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "data_model_validation"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "validate_data_model"
+name: validate-data-model
+description: >
+  Review data models for completeness and potential issues.
+  Use after initial data model design for quality check.
+run: always
+produces: data_model_validation
+requires: [data_models]
+tier: 2
 ---
 For our defined data models, help me identify potential issues or improvements:
 

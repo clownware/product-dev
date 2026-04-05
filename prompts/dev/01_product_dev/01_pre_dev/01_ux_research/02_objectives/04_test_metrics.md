@@ -1,39 +1,15 @@
 ---
-metadata:
-  id: "uxr.02_objectives.test_metrics"
-  slug: "test-metrics"
-  title: "Test Metrics"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Objectives & Success Metrics"
-  type: "instruction"
-  folder: "02_objectives"
-  tags: ["value_prop"]
-  purpose: "Plan how to measure success metrics during prototype testing"
-  context: "Use when preparing for prototype testing phase"
-  tier: 3
-dependencies:
-  requires: ["success_metrics"]
-  produces: ["metric_test_plan"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "metric_test_plan"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "test_metrics"
+name: test-metrics
+description: >
+  Plan how to measure success metrics during prototype testing.
+  Use when preparing for prototype testing phase.
+run: always
+produces: metric_test_plan
+requires: [success_metrics]
+tier: 3
 ---
 
-For our success metrics: "[insert metrics]", help me plan how we'll measure these in a prototype test.
+For our success metrics: {{success_metrics}}, help me plan how we'll measure these in a prototype test.
 
 For each metric, please suggest:
 1. What specific data we should collect during testing

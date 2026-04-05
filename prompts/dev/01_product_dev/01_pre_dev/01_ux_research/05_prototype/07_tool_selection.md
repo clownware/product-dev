@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.05_prototype.prototype_tool_selection"
-  slug: "prototype-tool-selection"
-  title: "Prototype Tool Selection"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Prototype Planning & Testing"
-  type: "instruction"
-  folder: "05_prototype"
-  tags: ["mvp_feature"]
-  purpose: "Select appropriate prototyping tools"
-  context: "Use when deciding how to build the prototype"
-  tier: 3
-dependencies:
-  requires: ["prototype_scope","fidelity_decision"]
-  produces: ["prototype_tool_choice"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "prototype_tool_choice"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "prototype_tool_selection"
+name: prototype-tool-selection
+description: >
+  Select appropriate prototyping tools.
+  Use when deciding how to build the prototype.
+run: always
+produces: prototype_tool_choice
+requires: [prototype_scope, fidelity_decision]
+tier: 3
 ---
 Based on our prototype scope and fidelity decisions, help me select the right prototyping tool.
 

@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "setup.02_env.project_structure"
-  slug: "define-project-structure"
-  title: "Define Project Structure"
-  version: "0.1.0"
-  status: "active"
-  phase: "design"
-  category: "Environment Setup"
-  type: "instruction"
-  folder: "02_environment_setup_config"
-  tags: ["setup"]
-  purpose: "Define directory structure and file organization"
-  context: "Use when scaffolding a new project"
-  tier: 2
-dependencies:
-  requires: ["tech_stack_evaluation"]
-  produces: ["project_structure"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "project_structure"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "define_project_structure"
+name: define-project-structure
+description: >
+  Define directory structure and file organization.
+  Use when scaffolding a new project.
+run: always
+produces: project_structure
+requires: [tech_stack_evaluation]
+tier: 2
 ---
 Help me define an optimal project structure based on our selected tools and architectural approach.
 

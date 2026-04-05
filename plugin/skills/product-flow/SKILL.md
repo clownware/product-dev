@@ -43,9 +43,9 @@ All prompts are in `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/`. Read
 
 ### Tier 2 Additional Prompts
 
-- Phase 04: `identify_decision_points`, `error_handling`, `user_entry_exit_points`, `validate_flow`
-- Phase 05: `fidelity_choice`, `identify_interactions`, `test_participant_goals`, `test_script`
-- Phase 06: `iteration_plan`, `pivot_options`, `refine_problem_statement`
+- Phase 04: `identify-decision-points`, `plan-error-handling`, `user-entry-exit-points`, `validate-flow`
+- Phase 05: `choose-fidelity-level`, `identify-key-interactions`, `test-participant-goals`, `create-test-script`
+- Phase 06: `plan-next-iteration`, `explore-pivot-options`, `post-test-refine-problem`
 
 ## Execution Flow
 

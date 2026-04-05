@@ -1,39 +1,15 @@
 ---
-metadata:
-  id: "uxr.02_objectives.platform_strategy"
-  slug: "platform-strategy"
-  title: "Platform Strategy"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Objectives & Success Metrics"
-  type: "instruction"
-  folder: "02_objectives"
-  tags: ["value_prop"]
-  purpose: "Develop platform strategy and release approach"
-  context: "Use early in planning to guide technical decisions"
-  tier: 3
-dependencies:
-  requires: ["problem_statement"]
-  produces: ["platform_strategy"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "platform_strategy"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "platform_strategy"
+name: platform-strategy
+description: >
+  Develop platform strategy and release approach.
+  Use early in planning to guide technical decisions.
+run: always
+produces: platform_strategy
+requires: [problem_statement]
+tier: 3
 ---
 
-For our solution addressing: "[insert problem statement]", let's develop a clear platform strategy.
+For our solution addressing: {{problem_statement}}, let's develop a clear platform strategy.
 
 Please help me determine:
 

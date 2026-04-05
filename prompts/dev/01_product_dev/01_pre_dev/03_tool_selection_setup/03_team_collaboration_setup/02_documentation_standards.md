@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "setup.03_collab.doc_standards"
-  slug: "documentation-standards"
-  title: "Documentation Standards"
-  version: "0.1.0"
-  status: "active"
-  phase: "design"
-  category: "Team Collaboration"
-  type: "instruction"
-  folder: "03_team_collaboration_setup"
-  tags: ["setup"]
-  purpose: "Define documentation conventions and standards"
-  context: "Use when establishing how the team documents code and decisions"
-  tier: 3
-dependencies:
-  requires: ["project_structure"]
-  produces: ["documentation_standards"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "documentation_standards"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "documentation_standards"
+name: documentation-standards
+description: >
+  Define documentation conventions and standards.
+  Use when establishing how the team documents code and decisions.
+run: always
+produces: documentation_standards
+requires: [project_structure]
+tier: 3
 ---
 Help me define documentation standards for our project.
 

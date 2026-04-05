@@ -1,39 +1,15 @@
 ---
-metadata:
-  id: "uxr.03_solution_hypothesis.solution_alternatives"
-  slug: "solution-alternatives"
-  title: "Solution Alternatives"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Solution Hypothesis"
-  type: "instruction"
-  folder: "03_solution_hypothesis"
-  tags: ["value_prop"]
-  purpose: "Explore multiple distinct solution approaches before committing to one"
-  context: "Use after defining problem and objective to ensure broad solution exploration"
-  tier: 3
-dependencies:
-  requires: ["problem_statement", "core_objective"]
-  produces: ["alternative_solutions"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "alternative_solutions"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "solution_alternatives"
+name: solution-alternatives
+description: >
+  Explore multiple distinct solution approaches before committing to one.
+  Use after defining problem and objective to ensure broad solution exploration.
+run: always
+produces: alternative_solutions
+requires: [problem_statement, core_objective]
+tier: 3
 ---
 
-Based on our problem statement: "[insert problem statement]" and core objective: "[insert objective]", let's explore multiple potential solution approaches.
+Based on our problem statement: {{problem_statement}} and core objective: {{core_objective}}, let's explore multiple potential solution approaches.
 
 Please generate 3 distinct solution alternatives that:
 1. Take meaningfully different approaches to solving the core problem

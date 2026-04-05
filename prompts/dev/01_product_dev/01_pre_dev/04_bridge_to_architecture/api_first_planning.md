@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "bridge.api_first_planning"
-  slug: "api-first-planning"
-  title: "API-First Planning"
-  version: "0.1.0"
-  status: "active"
-  phase: "design"
-  category: "Bridge to Architecture"
-  type: "instruction"
-  folder: "04_bridge_to_architecture"
-  tags: ["architecture"]
-  purpose: "Plan API-first development approach"
-  context: "Use when designing the system as API-first"
-  tier: 2
-dependencies:
-  requires: ["api_contracts","data_models"]
-  produces: ["api_first_plan"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "api_first_plan"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "api_first_planning"
+name: api-first-planning
+description: >
+  Plan API-first development approach.
+  Use when designing the system as API-first.
+run: always
+produces: api_first_plan
+requires: [api_contracts, data_models]
+tier: 2
 ---
-Based on our solution concept: "[insert solution concept]" and user flows, let's define the API contract that will support our application.
+Based on our solution concept: {{solution_concept}} and user flows, let's define the API contract that will support our application.
 
 Please help me:
 

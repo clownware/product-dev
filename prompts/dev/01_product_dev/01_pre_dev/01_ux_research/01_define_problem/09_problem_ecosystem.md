@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "uxr.01_define_problem.problem_ecosystem"
-  slug: "problem-ecosystem"
-  title: "Problem Ecosystem"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Problem Definition"
-  type: "instruction"
-  folder: "01_define_problem"
-  tags: ["problem"]
-  purpose: "Map the broader ecosystem and context around the problem"
-  context: "Use to understand the problem's place in a larger system"
-  tier: 3
-dependencies:
-  requires: ["problem_statement"]
-  produces: ["ecosystem_map"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "ecosystem_map"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "problem_ecosystem"
+name: problem-ecosystem
+description: >
+  Map the broader ecosystem and context around the problem.
+  Use to understand the problem's place in a larger system.
+run: always
+produces: ecosystem_map
+requires: [problem_statement]
+tier: 3
 ---
-For our problem statement: "[insert problem statement]", let's explore the broader ecosystem in which this problem exists.
+For our problem statement: {{problem_statement}}, let's explore the broader ecosystem in which this problem exists.
 
 Please help me understand:
 

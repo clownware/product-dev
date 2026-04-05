@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "bridge.analytics_strategy"
-  slug: "analytics-strategy"
-  title: "Analytics Strategy"
-  version: "0.1.0"
-  status: "active"
-  phase: "design"
-  category: "Bridge to Architecture"
-  type: "instruction"
-  folder: "04_bridge_to_architecture"
-  tags: ["architecture"]
-  purpose: "Define analytics implementation strategy"
-  context: "Use when planning how to measure product usage and success"
-  tier: 2
-dependencies:
-  requires: ["success_metrics","user_flow"]
-  produces: ["analytics_strategy"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "analytics_strategy"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "analytics_strategy"
+name: analytics-strategy
+description: >
+  Define analytics implementation strategy.
+  Use when planning how to measure product usage and success.
+run: always
+produces: analytics_strategy
+requires: [success_metrics, user_flow]
+tier: 2
 ---
-For our solution: "[insert solution concept]" with core metrics: "[insert metrics]", let's develop a comprehensive analytics strategy.
+For our solution: {{solution_concept}} with core metrics: {{success_metrics}}, let's develop a comprehensive analytics strategy.
 
 Please help me define:
 

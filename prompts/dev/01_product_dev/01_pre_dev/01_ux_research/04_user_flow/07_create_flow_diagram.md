@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.04_user_flow.create_flow_diagram"
-  slug: "create-flow-diagram"
-  title: "Create Flow Diagram"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "User Flow & Interaction"
-  type: "instruction"
-  folder: "04_user_flow"
-  tags: ["user_flow"]
-  purpose: "Generate a structured flow diagram from the user flow"
-  context: "Use to create a visual representation of the flow"
-  tier: 3
-dependencies:
-  requires: ["user_flow","decision_points"]
-  produces: ["flow_diagram"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "flow_diagram"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "create_flow_diagram"
+name: create-flow-diagram
+description: >
+  Generate a structured flow diagram from the user flow.
+  Use to create a visual representation of the flow.
+run: always
+produces: flow_diagram
+requires: [user_flow, decision_points]
+tier: 3
 ---
 Based on our complete user flow including decision points and error paths, please create a structured flow diagram.
 

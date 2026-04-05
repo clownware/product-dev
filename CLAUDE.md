@@ -63,7 +63,7 @@ Entry points: `/idea`, `/problem`
 
 ### tech-spec (Tech Requirements)
 
-Entry point: `/spec`. Spawns the Tech Spec Writer subagent (`.claude/agents/tech-spec-writer.md`). Requires design artifacts: `solution_concept`, `user_flow`.
+Entry point: `/spec`. Spawns the Tech Spec Writer subagent (`plugin/agents/tech-spec-writer.md`). Requires design artifacts: `solution_concept`, `user_flow`.
 
 ## Run Conditionality (ADR 0006)
 
@@ -98,10 +98,6 @@ When escalating:
 3. Present them as optional branches: "We can go deeper here. Available: [list with one-line descriptions]. Which would be most useful, or should we continue the main sequence?"
 4. Let the user pick which Tier 2 prompts to run — do not run all automatically
 5. After each selected Tier 2 prompt, return to the main Tier 1 sequence
-
-**Frontmatter note:** Tier 2 prompts use an older nested frontmatter schema (`metadata.tier`, `dependencies.requires`, `output.artifact_name`). When reading Tier 2 prompts, check for both schemas:
-- Simple (Tier 1): `tier`, `requires`, `produces` at top level
-- Nested (Tier 2): `metadata.tier`, `dependencies.requires`, `dependencies.produces` or `output.artifact_name`
 
 Never auto-escalate to Tier 3. Only run all prompts in a phase when explicitly requested.
 
@@ -297,7 +293,7 @@ After every 2-3 prompts, offer navigation:
 
 **Prerequisites:** Verify `solution_concept` and `user_flow` exist in the registry.
 
-**How:** Spawn `.claude/agents/tech-spec-writer.md` with the Agent tool. The subagent reads artifacts from `.product-dev/artifacts/` directly and writes specs back to the registry.
+**How:** Spawn `plugin/agents/tech-spec-writer.md` with the Agent tool. The subagent reads artifacts from `.product-dev/artifacts/` directly and writes specs back to the registry.
 
 **After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs). Let the user review and iterate on each.
 

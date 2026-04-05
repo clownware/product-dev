@@ -38,13 +38,14 @@ The subagent runs the tech requirements prompt sequence from `prompts/dev/01_pro
 | 2 | `02_api_contracts_interfaces/01_define_api_endpoints.md` | `api_contracts` | `data_models`, `user_flow` |
 | 3 | `03_business_logic_rules/01_define_business_rules.md` | `business_rules` | `solution_concept`, `user_flow` |
 | 4 | `04_non_functional_requirements/01_performance_requirements.md` | `nfr` | `solution_concept`, `user_flow` |
+| 5 | `05_consolidate_spec.md` | `technical_spec` | `data_models`, `api_contracts`, `business_rules`, `nfr` |
 
 ### Tier 2 Additional Prompts
 
-- Data models: `validate_data_model`, `data_access_patterns`, `data_volume_scaling`
-- API: `interface_boundaries`, `api_standards`, `integration_requirements`
-- Business rules: `map_decision_logic`, `spec_calculations`, `authorization_rules`
-- NFRs: `security_requirements`, `accessibility_requirements`
+- Data models: `validate-data-model`, `identify-data-access-patterns`, `assess-data-volume-scaling`
+- API: `define-interface-boundaries`, `establish-api-standards`, `define-integration-requirements`
+- Business rules: `map-decision-logic`, `specify-calculations`, `define-authorization-rules`
+- NFRs: `security-requirements`, `accessibility-requirements`
 
 ## Output
 

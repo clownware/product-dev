@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.01_define_problem.user_validation_questions"
-  slug: "user-validation-questions"
-  title: "User Validation Questions"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Problem Definition"
-  type: "instruction"
-  folder: "01_define_problem"
-  tags: ["problem"]
-  purpose: "Generate questions to validate problem with real users"
-  context: "Use when preparing for user interviews or validation sessions"
-  tier: 3
-dependencies:
-  requires: ["problem_statement","proto_persona"]
-  produces: ["validation_questions"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "validation_questions"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "user_validation_questions"
+name: user-validation-questions
+description: >
+  Generate questions to validate problem with real users.
+  Use when preparing for user interviews or validation sessions.
+run: always
+produces: validation_questions
+requires: [problem_statement, proto_persona]
+tier: 3
 ---
 Based on our problem statement and proto-persona, help me create a set of questions to validate our assumptions with real users.
 

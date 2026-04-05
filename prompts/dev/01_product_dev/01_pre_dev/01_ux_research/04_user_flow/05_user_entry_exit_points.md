@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.04_user_flow.entry_exit_points"
-  slug: "user-entry-exit-points"
-  title: "User Entry & Exit Points"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "User Flow & Interaction"
-  type: "instruction"
-  folder: "04_user_flow"
-  tags: ["user_flow"]
-  purpose: "Map where users enter and leave the experience"
-  context: "Use to understand user context before and after using the product"
-  tier: 3
-dependencies:
-  requires: ["user_flow"]
-  produces: ["entry_exit_analysis"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "entry_exit_analysis"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "user_entry_exit_points"
+name: user-entry-exit-points
+description: >
+  Map where users enter and leave the experience.
+  Use to understand user context before and after using the product.
+run: always
+produces: entry_exit_analysis
+requires: [user_flow]
+tier: 3
 ---
 For our user flow, let's identify all entry and exit points.
 

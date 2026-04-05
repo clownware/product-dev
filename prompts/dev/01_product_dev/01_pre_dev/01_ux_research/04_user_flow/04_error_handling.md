@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.04_user_flow.plan_error_handling"
-  slug: "plan-error-handling"
-  title: "Plan Error Handling"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "User Flow & Interaction"
-  type: "instruction"
-  folder: "04_user_flow"
-  tags: ["user_flow"]
-  purpose: "Define how to handle critical errors in flow"
-  context: "Use to ensure smooth error recovery"
-  tier: 2
-dependencies:
-  requires: ["user_flow"]
-  produces: ["error_handling_plan"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "error_handling_plan"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "plan_error_handling"
+name: plan-error-handling
+description: >
+  Define how to handle critical errors in flow.
+  Use to ensure smooth error recovery.
+run: always
+produces: error_handling_plan
+requires: [user_flow]
+tier: 2
 ---
 For our user flow, let's identify potential critical errors and how to handle them.
 

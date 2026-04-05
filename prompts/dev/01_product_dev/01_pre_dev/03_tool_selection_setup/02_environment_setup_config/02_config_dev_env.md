@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "setup.02_env.config_dev_env"
-  slug: "configure-dev-environment"
-  title: "Configure Development Environment"
-  version: "0.1.0"
-  status: "active"
-  phase: "design"
-  category: "Environment Setup"
-  type: "instruction"
-  folder: "02_environment_setup_config"
-  tags: ["setup"]
-  purpose: "Set up the development environment"
-  context: "Use when configuring IDE, linting, testing, and CI"
-  tier: 2
-dependencies:
-  requires: ["tech_stack_evaluation"]
-  produces: ["dev_env_config"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "dev_env_config"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "configure_dev_environment"
+name: configure-dev-environment
+description: >
+  Set up the development environment.
+  Use when configuring IDE, linting, testing, and CI.
+run: always
+produces: dev_env_config
+requires: [tech_stack_evaluation]
+tier: 2
 ---
 Based on our selected toolset, help me create configuration files and documentation for our development environment.
 

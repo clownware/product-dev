@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.04_nfr.security_requirements"
-  slug: "security-requirements"
-  title: "Security Requirements"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "Non-Functional Requirements"
-  type: "instruction"
-  folder: "04_non_functional_requirements"
-  tags: ["nfr"]
-  purpose: "Define security requirements and threat model"
-  context: "Use when specifying authentication, authorization, and data protection needs"
-  tier: 2
-dependencies:
-  requires: ["data_models","api_contracts"]
-  produces: ["security_requirements"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "security_requirements"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "security_requirements"
+name: security-requirements
+description: >
+  Define security requirements and threat model.
+  Use when specifying authentication, authorization, and data protection needs.
+run: always
+produces: security_requirements
+requires: [data_models, api_contracts]
+tier: 2
 ---
 Help me define comprehensive security requirements for our application:
 

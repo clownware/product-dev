@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "uxr.05_prototype.create_test_script"
-  slug: "create-test-script"
-  title: "Create Test Script"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Prototype Planning & Testing"
-  type: "instruction"
-  folder: "05_prototype"
-  tags: ["mvp_feature"]
-  purpose: "Develop comprehensive script for user testing sessions"
-  context: "Use to ensure thorough and consistent test execution"
-  tier: 3
-dependencies:
-  requires: ["test_questions"]
-  produces: ["test_script"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "test_script"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "create_test_script"
+name: create-test-script
+description: >
+  Develop comprehensive script for user testing sessions.
+  Use to ensure thorough and consistent test execution.
+run: always
+produces: test_script
+requires: [test_questions]
+tier: 3
 ---
-For testing our prototype of: "[insert solution concept]", let's create a structured test script.
+For testing our prototype of: {{solution_concept}}, let's create a structured test script.
 
 Please help me develop:
 

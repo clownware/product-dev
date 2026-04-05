@@ -11,18 +11,30 @@
 
 ### Frontmatter
 
-Every prompt file has YAML frontmatter (ADR 0001, ADR 0009):
+Every prompt file uses this single YAML frontmatter schema (ADR 0001, ADR 0009). All 90 prompts have been migrated to this format — there is no legacy/nested schema.
 
 ```yaml
 ---
 name: kebab-case-name
+description: >
+  One-two sentence purpose. Used for display and search.
 run: always | entry_point | context_gated
 run_when: [plain-English condition, only for context_gated]
 produces: artifact_name
 requires: [dependency_artifact_1, dependency_artifact_2]
-tier: 1 | 2
+tier: 1 | 2 | 3
 ---
 ```
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `name` | Yes | Kebab-case, matches the slug used in `prompts_executed` |
+| `description` | Yes | Brief purpose — shown in tier escalation menus and search |
+| `run` | Yes | `always` (sequential), `entry_point` (pick one), `context_gated` (check condition) |
+| `run_when` | Only if `context_gated` | Plain-English condition evaluated at runtime |
+| `produces` | Yes | `snake_case` artifact name written to registry |
+| `requires` | Yes | Array of artifact names that must exist before execution |
+| `tier` | Yes | 1 (quick exploration), 2 (structured discovery), 3 (full framework) |
 
 ### Body Structure (Enhancement Pattern v2)
 
@@ -138,6 +150,7 @@ claude --plugin-dir ./plugin
 - `/problem "test problem"` — should enter at Phase 01
 - `/product-dev:status` — should show project state or "no project found"
 - `/spec` — should check gates and spawn the tech-spec-writer subagent
+- `/summary` — should assemble a project brief from existing design artifacts
 
 ## ADR Process
 

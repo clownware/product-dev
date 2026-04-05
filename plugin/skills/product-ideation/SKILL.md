@@ -37,10 +37,10 @@ Pick entry point (1a or 1b) based on user input:
 
 When escalation signals detected, add these from the same phase:
 
-- Phase 00: `industry_analysis`, `competitive_analysis`, `explore_user_segments`
-- Phase 01: `analyze_problem`, `scope_problem`, `qualify_problem`
-- Phase 02: `define_metrics`, `set_constraints`
-- Phase 03: `risk_assessment`, `generate_features`, `check_assumptions`
+- Phase 00: `industry-analysis`, `competitive-analysis`, `explore-user-segments`
+- Phase 01: `analyze-problem`, `scope-problem`, `qualify-problem`
+- Phase 02: `define-success-metrics`, `set-constraints`, `define-anti-goals`
+- Phase 03: `risk-assessment`, `generate-features`, `check-assumptions`
 
 ## Execution Flow
 

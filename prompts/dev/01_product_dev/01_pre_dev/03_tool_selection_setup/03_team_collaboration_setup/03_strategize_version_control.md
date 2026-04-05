@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "setup.03_collab.version_control"
-  slug: "strategize-version-control"
-  title: "Strategize Version Control"
-  version: "0.1.0"
-  status: "active"
-  phase: "design"
-  category: "Team Collaboration"
-  type: "instruction"
-  folder: "03_team_collaboration_setup"
-  tags: ["setup"]
-  purpose: "Define branching strategy and version control practices"
-  context: "Use when setting up Git workflow for the team"
-  tier: 2
-dependencies:
-  requires: ["team_workflow"]
-  produces: ["version_control_strategy"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "version_control_strategy"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "strategize_version_control"
+name: strategize-version-control
+description: >
+  Define branching strategy and version control practices.
+  Use when setting up Git workflow for the team.
+run: always
+produces: version_control_strategy
+requires: [team_workflow]
+tier: 2
 ---
 Help me define a version control strategy that supports our AI-powered development workflow.
 

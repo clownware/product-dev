@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.04_user_flow.validate_flow"
-  slug: "validate-flow"
-  title: "Validate User Flow"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "User Flow & Interaction"
-  type: "instruction"
-  folder: "04_user_flow"
-  tags: ["user_flow"]
-  purpose: "Validate the user flow against objectives and constraints"
-  context: "Use as a quality check before prototyping"
-  tier: 3
-dependencies:
-  requires: ["user_flow","screen_inventory"]
-  produces: ["flow_validation"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "flow_validation"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "validate_flow"
+name: validate-flow
+description: >
+  Validate the user flow against objectives and constraints.
+  Use as a quality check before prototyping.
+run: always
+produces: flow_validation
+requires: [user_flow, screen_inventory]
+tier: 3
 ---
 Let's validate our user flow against our objectives and constraints.
 

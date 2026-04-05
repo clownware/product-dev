@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "tech.01_data_models.assess_data_volume_scaling"
-  slug: "assess-data-volume-scaling"
-  title: "Assess Data Volume & Scaling"
-  version: "0.1.0"
-  status: "active"
-  phase: "spec"
-  category: "Data Models"
-  type: "instruction"
-  folder: "01_data_models"
-  tags: ["mvp_feature"]
-  purpose: "Project data growth and scaling requirements"
-  context: "Use for capacity planning and architecture decisions"
-  tier: 2
-dependencies:
-  requires: []
-  produces: []
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "assess_data_volume_scaling"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "assess_data_volume_scaling"
+name: assess-data-volume-scaling
+description: >
+  Project data growth and scaling requirements.
+  Use for capacity planning and architecture decisions.
+run: always
+produces: assess_data_volume_scaling
+requires: []
+tier: 2
 ---
 Help me assess the expected data volume and scaling needs for our application:
 

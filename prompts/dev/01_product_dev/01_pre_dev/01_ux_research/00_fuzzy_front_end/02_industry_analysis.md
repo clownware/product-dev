@@ -1,36 +1,12 @@
 ---
-metadata:
-  id: "uxr.00_fuzzy_front_end.industry_analysis"
-  slug: "industry-analysis"
-  title: "Industry Analysis"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Early Ideation & Exploration"
-  type: "instruction"
-  folder: "00_fuzzy_front_end"
-  tags: ["problem"]
-  purpose: "Identify user pain points and opportunities in a specific industry"
-  context: "Use when exploring a new industry vertical to understand potential problem spaces"
-  tier: 2
-dependencies:
-  requires: []
-  produces: ["industry_pain_points"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "industry_pain_points"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "industry_analysis"
+name: industry-analysis
+description: >
+  Identify user pain points and opportunities in a specific industry.
+  Use when exploring a new industry vertical to understand potential problem spaces.
+run: always
+produces: industry_pain_points
+requires: []
+tier: 2
 ---
 I'm interested in exploring problems worth solving in the [specific industry] industry.
 

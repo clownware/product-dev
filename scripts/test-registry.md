@@ -5,7 +5,7 @@ Manual test plan for Phase 3 context registry. Run in Claude Code from the repo 
 ## Prerequisites
 
 - CLAUDE.md exists at repo root
-- `.claude/agents/tech-spec-writer.md` exists
+- `plugin/agents/tech-spec-writer.md` exists
 - `.product-dev/context.json` template exists (empty)
 - 14 Tier 1 prompts in `prompts/dev/` with frontmatter
 
@@ -83,7 +83,7 @@ Manual test plan for Phase 3 context registry. Run in Claude Code from the repo 
 
 **Verify:**
 - [ ] Claude checks that `solution_concept` and `user_flow` artifacts exist
-- [ ] Tech Spec Writer subagent spawns (`.claude/agents/tech-spec-writer.md`)
+- [ ] Tech Spec Writer subagent spawns (`plugin/agents/tech-spec-writer.md`)
 - [ ] Subagent reads artifacts from `.product-dev/artifacts/`
 - [ ] Subagent presents spec areas one at a time
 - [ ] Final `technical_spec` artifact written to registry

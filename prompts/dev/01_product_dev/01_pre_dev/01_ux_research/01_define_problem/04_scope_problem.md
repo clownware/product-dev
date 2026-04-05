@@ -1,38 +1,14 @@
 ---
-metadata:
-  id: "uxr.01_define_problem.scope_problem"
-  slug: "scope-problem"
-  title: "Scope Problem"
-  version: "0.1.0"
-  status: "active"
-  phase: "discovery"
-  category: "Problem Definition"
-  type: "instruction"
-  folder: "01_define_problem"
-  tags: ["problem"]
-  purpose: "Define boundaries and constraints for the problem to address"
-  context: "Use to establish clear scope before moving to solution design"
-  tier: 2
-dependencies:
-  requires: ["problem_statement"]
-  produces: ["problem_scope"]
-  optional: []
-output:
-  format: "markdown"
-  sections: []
-  max_length: "500 words"
-  artifact_name: "problem_scope"
-modes:
-  simulation: true
-  synthesis: true
-validation:
-  gate: ""
-  criteria: []
-mcp:
-  exposed: true
-  operation: "scope_problem"
+name: scope-problem
+description: >
+  Define boundaries and constraints for the problem to address.
+  Use to establish clear scope before moving to solution design.
+run: always
+produces: problem_scope
+requires: [problem_statement]
+tier: 2
 ---
-Let's establish clear boundaries for our problem scope based on our statement: "[insert problem statement]"
+Let's establish clear boundaries for our problem scope based on our statement: {{problem_statement}}
 
 Help me define:
 1. What specific aspects of this problem we WILL address
