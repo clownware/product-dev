@@ -277,18 +277,26 @@ After every 2-3 prompts, offer navigation:
 
 ## Plugin
 
-The framework is packaged as a Claude Code plugin at `plugin/`. Structure follows ADR 0008.
+The framework is packaged as a Claude Code plugin at `plugin/`. Structure follows ADR 0008. Install locally with `claude plugin install --plugin-dir ./plugin`.
 
 ```
 plugin/
 ├── .claude-plugin/plugin.json   # Manifest: name, description, version, author
-├── commands/                    # 4 slash commands (/product-dev:idea, :problem, :spec, :status)
-├── skills/                      # 3 conversational workflows (product-ideation, product-flow, tech-spec)
-└── agents/                      # 1 subagent (tech-spec-writer)
+├── commands/                    # 3 thin entry points (/idea, /problem, /spec)
+│   ├── idea.md
+│   ├── problem.md
+│   └── spec.md
+├── skills/                      # 4 skills (3 workflows + status)
+│   ├── product-ideation/SKILL.md
+│   ├── product-flow/SKILL.md
+│   ├── tech-spec/SKILL.md
+│   └── status/SKILL.md
+└── agents/                      # 1 subagent
+    └── tech-spec-writer.md
 ```
 
-**Commands** are entry points — lightweight files that set up context and invoke the appropriate skill.
-**Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints.
+**Commands** are short entry points — `/idea`, `/problem`, `/spec` set up context and dispatch to the appropriate skill.
+**Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints. Also accessible as `/product-dev:product-ideation`, `/product-dev:product-flow`, `/product-dev:tech-spec`, `/product-dev:status`.
 **Agents** are isolated workers — the tech-spec-writer takes design artifacts and produces structured specs.
 
 The plugin references prompts by path from `prompts/dev/` — it does not embed prompt content. The context registry (`.product-dev/`) lives in the user's project directory, not in the plugin.
