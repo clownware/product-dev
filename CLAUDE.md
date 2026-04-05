@@ -92,7 +92,16 @@ Default to **Tier 1** (quick exploration, 5-10 min). Only the prompts listed abo
 - User says "that's enough", "move on", "keep it simple"
 - Short, confirmatory responses
 
-When escalating, check the same phase directory for additional prompts. Read their frontmatter and offer the relevant ones. Example: after `create_problem_statement`, offer `analyze_problem` or `scope_problem` from `01_define_problem/`.
+When escalating:
+1. Update `tier` to 2 in `context.json`
+2. Check the current phase directory for Tier 2 prompts (files with `tier: 2` in frontmatter)
+3. Present them as optional branches: "We can go deeper here. Available: [list with one-line descriptions]. Which would be most useful, or should we continue the main sequence?"
+4. Let the user pick which Tier 2 prompts to run — do not run all automatically
+5. After each selected Tier 2 prompt, return to the main Tier 1 sequence
+
+**Frontmatter note:** Tier 2 prompts use an older nested frontmatter schema (`metadata.tier`, `dependencies.requires`, `output.artifact_name`). When reading Tier 2 prompts, check for both schemas:
+- Simple (Tier 1): `tier`, `requires`, `produces` at top level
+- Nested (Tier 2): `metadata.tier`, `dependencies.requires`, `dependencies.produces` or `output.artifact_name`
 
 Never auto-escalate to Tier 3. Only run all prompts in a phase when explicitly requested.
 
@@ -231,7 +240,26 @@ When the user starts a conversation or continues an existing project:
    - Domain interest, no specific product idea → `explore_problem` (entry_point)
    - Has a problem but no statement → `create_problem_statement` (skip Phase 00)
    - Request for specs → check prerequisites for tech-spec path
-   - Continuing from previous session → resume at the next unblocked prompt
+   - Continuing from previous session → resume using the algorithm below
+
+### Session Resume Algorithm
+
+When `.product-dev/context.json` exists and the user is continuing (not starting fresh):
+
+1. Read `context.json` and display a brief status summary (project name, tier, current phase, artifact count)
+2. Determine the **active skill** from `current_phase`:
+   - `00_fuzzy_front_end` through `03_solution_hypothesis` → product-ideation
+   - `04_user_flow` through `06_post_test_synthesis` → product-flow
+   - `tech_requirements` → tech-spec
+3. Find the **next unblocked prompt** within that skill's Tier 1 sequence:
+   - For each prompt in sequence order, check if its `slug` appears in `prompts_executed`
+   - Skip any already-executed prompts
+   - For the first unexecuted prompt, check if ALL items in its `requires` array exist as keys in `context.json.artifacts`
+   - If requirements are met → this is the next prompt to run
+   - If requirements are NOT met → report the missing artifacts and suggest running prerequisites
+   - For `context_gated` prompts, also evaluate the `run_when` condition before offering
+4. If all prompts in the current skill are complete, suggest the next skill in the workflow
+5. Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk — never from conversation history (which is empty in a new session)
 
 3. **Execute prompt**:
    - Read the prompt file from `prompts/dev/01_product_dev/01_pre_dev/...`

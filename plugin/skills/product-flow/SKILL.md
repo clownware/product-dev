@@ -66,6 +66,7 @@ All prompts are in `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/`. Read
 ## Context Registry
 
 Same operations as product-ideation:
+- **On start**: Read `.product-dev/context.json`. If `prompts_executed` contains prompts from this skill's sequence, resume at the next unexecuted prompt (see CLAUDE.md Session Resume Algorithm). Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk.
 - `setArtifact` after each prompt
 - `getArtifact` to resolve `{{variables}}`
 - Update `current_phase` in registry as flow progresses

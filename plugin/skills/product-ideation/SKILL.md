@@ -75,7 +75,7 @@ When escalating, insert the relevant Tier 2 prompts at the current phase positio
 
 ## Context Registry
 
-- **On start**: Create project if `.product-dev/context.json` doesn't exist
+- **On start**: Read `.product-dev/context.json`. If it doesn't exist, create the project. If it does exist and `prompts_executed` contains prompts from this skill's sequence, resume at the next unexecuted prompt (see CLAUDE.md Session Resume Algorithm). Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk.
 - **After each prompt**: `setArtifact(name, content, sourcePrompt)` — write `.md` file + update registry
 - **Before each prompt**: `getArtifact(name)` — resolve `{{variables}}` from `.product-dev/artifacts/`
 - **On tier change**: Update `tier` field in registry
