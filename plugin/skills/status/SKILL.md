@@ -1,6 +1,10 @@
 ---
 name: status
-description: Display current project state and suggest next steps
+description: >
+  Display current product development project state and suggest next steps.
+  Deterministic — reads .product-dev/context.json.
+user-invocable: true
+allowed-tools: "Read Glob"
 ---
 
 Display the current product development project status. This is primarily deterministic — no LLM generation needed for core display.

@@ -2,5 +2,9 @@
   "name": "product-dev",
   "description": "AI-assisted product development framework. Guides from vague idea to technical spec through structured UX research, hypothesis formation, and prototype planning.",
   "version": "0.1.0",
-  "author": "clownware"
+  "author": {
+    "name": "clownware"
+  },
+  "license": "MIT",
+  "keywords": ["product-development", "ux-research", "prototyping", "tech-spec"]
 }

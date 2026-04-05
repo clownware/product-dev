@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prompt consistency framework for library-wide validation
 - Enhancement Pattern Guide (`docs/updates/00_ENHANCEMENT_PATTERN.md`)
 - Context Handoff document (`docs/updates/CONTEXT_HANDOFF.md`)
+- Plugin scaffold: 3 commands, 4 skills, 1 subagent — installable via `claude plugin install`
+- `plugin/skills/status/SKILL.md` — status promoted from command to skill with `allowed-tools: "Read Glob"`
+- Skill frontmatter: `user-invocable`, `allowed-tools`, `argument-hint` on all SKILL.md files
+- Plugin agent consolidated from `.claude/agents/` (richer version with execution rules, cross-reference summary, tier 2 prompts)
 
 ### Changed
 - All 14 Tier 1 prompts rewritten using Enhancement Pattern v2: minimal frontmatter, XML-tagged body (`<system_context>`, `<constraints>`, `<example>`), tea tracker examples, direct instructions, custom word limits
@@ -27,7 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ADR 0004: Amended — consolidated 8 skills → 3 skills + 4 commands, reduced 4 subagents → 1
 - ADR 0005: Amended — minimal frontmatter for plugin runtime, rich schema deferred for MCP
 - ADR 0006: Amended — added `run`/`run_when` conditionality model alongside tier system
+- ADR 0008: Updated — plugin structure aligned to shipping Claude Code plugin format (status as skill, flat agent file, proper frontmatter fields)
 - Frontmatter migration complete for all prompt files
+- `plugin.json` manifest: `author` string → object, added `license` and `keywords`
+- Plugin agent frontmatter: `tools` comma-separated → space-separated, added `maxTurns: 20`
+- README.md: full rewrite reflecting plugin-based framework, install instructions, current repo structure
+
+### Removed
+- `plugin/commands/status.md` — replaced by `plugin/skills/status/SKILL.md`
 
 ### Deprecated
 - `prompts.json` index files (ADR 0007) -- to be replaced by frontmatter-driven MCP queries

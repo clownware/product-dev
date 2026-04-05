@@ -23,30 +23,35 @@ Package the framework as a single plugin targeting Cowork and Claude Code, with 
 ```
 product-dev/
 ├── .claude-plugin/plugin.json       # Plugin manifest
-├── .mcp.json                        # Optional: prompt-server MCP connector
 ├── commands/
-│   ├── idea.md                      # /product-dev:idea
-│   ├── problem.md                   # /product-dev:problem
-│   ├── spec.md                      # /product-dev:spec
-│   └── status.md                    # /product-dev:status
+│   ├── idea.md                      # /idea — entry point for product ideas
+│   ├── problem.md                   # /problem — entry point at Phase 01
+│   └── spec.md                      # /spec — entry point for tech specs
 ├── skills/
-│   ├── product-ideation/SKILL.md    # Phases 00-03
-│   ├── product-flow/SKILL.md        # Phases 04-06
-│   └── tech-spec/SKILL.md           # Tech requirements
+│   ├── product-ideation/SKILL.md    # Phases 00-03 (user-invocable + auto-invocable)
+│   ├── product-flow/SKILL.md        # Phases 04-06 (user-invocable + auto-invocable)
+│   ├── tech-spec/SKILL.md           # Tech requirements (user-invocable + auto-invocable)
+│   └── status/SKILL.md             # Project status display (read-only)
 └── agents/
-    └── tech-spec-writer/            # Subagent for structured spec generation
+    └── tech-spec-writer.md          # Subagent for structured spec generation
 ```
+
+Commands provide short entry points (`/idea`, `/problem`, `/spec`). Skills are also accessible as `/product-dev:product-ideation`, `/product-dev:product-flow`, `/product-dev:tech-spec`, `/product-dev:status`.
 
 ### Component Mapping
 
 | Framework Concept | Plugin Mechanism | ADR Reference |
 |-------------------|-----------------|---------------|
-| 4 slash commands | `commands/*.md` | ADR 0004 |
-| 3 consolidated skills | `skills/*/SKILL.md` | ADR 0004 |
-| 1 subagent (Tech Spec Writer) | `agents/tech-spec-writer/` | ADR 0004 |
-| MCP prompt tools | `.mcp.json` (optional) | ADR 0002 |
+| 3 entry-point commands | `commands/*.md` | ADR 0004 |
+| 4 skills (3 workflows + status) | `skills/*/SKILL.md` | ADR 0004 |
+| 1 subagent (Tech Spec Writer) | `agents/tech-spec-writer.md` | ADR 0004 |
+| MCP prompt tools | `.mcp.json` (deferred) | ADR 0002 |
 | Prompt library | Referenced from skills, not bundled | ADR 0001 |
 | Context registry | `.product-dev/context.json` in user's project | ADR 0003 |
+
+### Skill Frontmatter
+
+All skills declare `user-invocable: true` and `allowed-tools` to constrain tool access. The status skill is read-only (`allowed-tools: "Read Glob"`). Workflow skills have `argument-hint` for discoverability.
 
 ### Why Plugin Over Standalone MCP
 
