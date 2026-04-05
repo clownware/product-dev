@@ -310,10 +310,11 @@ The framework is packaged as a Claude Code plugin at `plugin/`. Structure follow
 ```
 plugin/
 ├── .claude-plugin/plugin.json   # Manifest: name, description, version, author
-├── commands/                    # 3 thin entry points (/idea, /problem, /spec)
+├── commands/                    # 4 commands (/idea, /problem, /spec, /summary)
 │   ├── idea.md
 │   ├── problem.md
-│   └── spec.md
+│   ├── spec.md
+│   └── summary.md
 ├── skills/                      # 4 skills (3 workflows + status)
 │   ├── product-ideation/SKILL.md
 │   ├── product-flow/SKILL.md
@@ -323,11 +324,20 @@ plugin/
     └── tech-spec-writer.md
 ```
 
-**Commands** are short entry points — `/idea`, `/problem`, `/spec` set up context and dispatch to the appropriate skill.
+**Commands** are entry points — `/idea`, `/problem`, `/spec` dispatch to workflow skills. `/summary` assembles a consolidated project brief.
 **Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints. Also accessible as `/product-dev:product-ideation`, `/product-dev:product-flow`, `/product-dev:tech-spec`, `/product-dev:status`.
 **Agents** are isolated workers — the tech-spec-writer takes design artifacts and produces structured specs.
 
 The plugin references prompts by path from `prompts/dev/` — it does not embed prompt content. The context registry (`.product-dev/`) lives in the user's project directory, not in the plugin.
+
+### Deliverables
+
+The workflow produces two consolidated handoff documents:
+
+- **Project Brief** (`/summary`) — Assembles design artifacts (problem, persona, hypothesis, flows, prototype scope) into a single document. The "why and what."
+- **Technical Spec** (`/spec`) — Data models, API contracts, business rules, NFRs. The "how."
+
+Both are written to `.product-dev/artifacts/` (`project_brief.md` and `technical_spec.md`). Individual working artifacts remain in the same directory for iteration.
 
 ---
 

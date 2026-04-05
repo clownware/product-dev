@@ -36,8 +36,8 @@ The subagent runs the tech requirements prompt sequence from `prompts/dev/01_pro
 |------|-------------|----------|----------|
 | 1 | `01_data_models/01_data_model.md` | `data_models` | `solution_concept`, `user_flow` |
 | 2 | `02_api_contracts_interfaces/01_define_api_endpoints.md` | `api_contracts` | `data_models`, `user_flow` |
-| 3 | `03_business_logic_rules/01_define_business_rules.md` | `business_rules` | — |
-| 4 | `04_non_functional_requirements/01_performance_requirements.md` | `nfr` | — |
+| 3 | `03_business_logic_rules/01_define_business_rules.md` | `business_rules` | `solution_concept`, `user_flow` |
+| 4 | `04_non_functional_requirements/01_performance_requirements.md` | `nfr` | `solution_concept`, `user_flow` |
 
 ### Tier 2 Additional Prompts
 

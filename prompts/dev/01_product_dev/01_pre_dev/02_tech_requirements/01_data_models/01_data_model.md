@@ -6,7 +6,7 @@ description: >
 run: always
 produces: data_models
 requires: [solution_concept, user_flow]
-tier: 2
+tier: 1
 ---
 Based on our Solution Hypothesis Document, help me define the core data models needed for this project.
 

@@ -42,6 +42,7 @@ claude --plugin-dir ./plugin
 | `/idea` | Start from a product idea — "a tea tracking app" |
 | `/problem` | Start from a problem domain — "specialty tea enthusiasts can't track brewing parameters" |
 | `/spec` | Generate technical specs from existing design artifacts |
+| `/summary` | Generate a consolidated project brief from design artifacts |
 | `/product-dev:status` | Show project progress and suggest next steps |
 
 ### Workflow Skills
@@ -62,7 +63,7 @@ Default is **Tier 1** (quick exploration, 5-10 min per phase). The framework esc
 /
 ├── plugin/                            # Claude Code plugin (installable)
 │   ├── .claude-plugin/plugin.json     # Plugin manifest
-│   ├── commands/                      # 3 entry-point commands
+│   ├── commands/                      # 4 commands (3 entry-points + summary)
 │   ├── skills/                        # 4 skills (3 workflows + status)
 │   └── agents/                        # 1 subagent (tech-spec-writer)
 │
@@ -109,6 +110,15 @@ Project state lives in `.product-dev/context.json`:
 - **Execution log**: Which prompts ran, when, what they produced
 - **Phase tracking**: Current position in the workflow
 - **Tier state**: Current engagement level
+
+### Deliverables
+
+The workflow produces two consolidated handoff documents:
+
+- **Project Brief** (`/summary`) — Problem, persona, hypothesis, user flows, prototype scope. The "why and what."
+- **Technical Spec** (`/spec`) — Data models, API contracts, business rules, NFRs. The "how."
+
+Both are written to `.product-dev/artifacts/` alongside the individual working artifacts. Run either command at any point — they'll include whatever artifacts exist and mark gaps.
 
 ### Tech Spec Subagent
 
