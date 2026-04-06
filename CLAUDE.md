@@ -112,10 +112,16 @@ All project state persists in `.product-dev/` in the working directory. This ena
 ```
 .product-dev/
 ├── context.json              # Registry: metadata, artifact index, execution log
-└── artifacts/                # One .md file per artifact
-    ├── initial_concept.md
-    ├── problem_statement.md
-    └── ...
+├── artifacts/                # One .md file per artifact (working outputs)
+│   ├── initial_concept.md
+│   ├── problem_statement.md
+│   └── ...
+└── spec-package/             # Compiled output (created by /compile)
+    ├── manifest.yaml         # Entry point — reading order + defaults
+    ├── context/              # Prose: problem, persona, hypothesis, concept
+    ├── spec/                 # YAML: entities, flows, screens, endpoints, rules, constraints
+    ├── docs/                 # Governance: compiled PRD + extracted ADRs
+    └── validation-report.yaml
 ```
 
 ### context.json Schema
@@ -306,7 +312,7 @@ The framework is packaged as a Claude Code plugin at `plugin/`. Structure follow
 ```
 plugin/
 ├── .claude-plugin/plugin.json   # Manifest: name, description, version, author
-├── commands/                    # 4 commands (/idea, /problem, /spec, /summary)
+├── commands/                    # 5 commands (/idea, /problem, /spec, /compile, /summary)
 │   ├── idea.md
 │   ├── problem.md
 │   ├── spec.md
@@ -320,7 +326,7 @@ plugin/
     └── tech-spec-writer.md
 ```
 
-**Commands** are entry points — `/idea`, `/problem`, `/spec` dispatch to workflow skills. `/summary` assembles a consolidated project brief.
+**Commands** are entry points — `/idea`, `/problem`, `/spec` dispatch to workflow skills. `/compile` assembles artifacts into a validated spec package. `/summary` assembles a consolidated project brief.
 **Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints. Also accessible as `/product-dev:product-ideation`, `/product-dev:product-flow`, `/product-dev:tech-spec`, `/product-dev:status`.
 **Agents** are isolated workers — the tech-spec-writer takes design artifacts and produces structured specs.
 
@@ -328,12 +334,13 @@ The plugin references prompts by path from `prompts/dev/` — it does not embed 
 
 ### Deliverables
 
-The workflow produces two consolidated handoff documents:
+The workflow produces three deliverables:
 
 - **Project Brief** (`/summary`) — Assembles design artifacts (problem, persona, hypothesis, flows, prototype scope) into a single document. The "why and what."
 - **Technical Spec** (`/spec`) — Data models, API contracts, business rules, NFRs. The "how."
+- **Spec Package** (`/compile`) — Compiled output directory with three layers: context (prose), spec (YAML), governance (PRD + ADRs). Validated for cross-reference integrity. Agent-consumable. The "build from this."
 
-Both are written to `.product-dev/artifacts/` (`project_brief.md` and `technical_spec.md`). Individual working artifacts remain in the same directory for iteration.
+Working artifacts live in `.product-dev/artifacts/`. The compiled spec package lives in `.product-dev/spec-package/`. See `docs/spec-package-schema.md` for the full schema (ADR 0010).
 
 ---
 
@@ -345,3 +352,4 @@ Both are written to `.product-dev/artifacts/` (`project_brief.md` and `technical
 - Progressive disclosure and tiered engagement: ADR 0006
 - Plugin architecture: ADR 0008
 - Prompt enhancement pattern: ADR 0009
+- Spec package as compilation target: ADR 0010

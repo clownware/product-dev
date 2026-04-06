@@ -1,0 +1,50 @@
+# Performance, security, and operational constraints. Implementation
+# agent: use these as acceptance criteria and configuration targets.
+
+performance:
+  response_times:
+    - endpoint: list-teas
+      p95_ms: 200
+      note: Collection overview is the first screen — must feel instant
+    - endpoint: create-tea
+      p95_ms: 500
+      note: Acceptable to be slightly slower for writes
+    - endpoint: get-tea
+      p95_ms: 100
+    - endpoint: update-tea
+      p95_ms: 300
+
+  capacity:
+    max_teas_per_user: 1000
+    max_concurrent_users: 100
+    note: >
+      Prototype scale. Don't over-engineer for millions of users,
+      but don't make choices that prevent scaling later.
+
+security:
+  authentication: jwt_bearer
+  authorization: user_scoped
+  sensitive_fields:
+    - user.email
+  rate_limiting:
+    authenticated: 100/minute
+    unauthenticated: 10/minute
+
+operational:
+  database: postgres
+  deployment: single_region
+  monitoring:
+    - endpoint_latency
+    - error_rate
+    - active_users
+
+prototype_scope:
+  build_priority:
+    - collection-overview
+    - add-tea-form
+    - tea-detail
+  deferred:
+    - Search/filter within collection
+    - Notification/reminder system for drink_soon teas
+    - Import from spreadsheet
+    - Image upload for tea packaging

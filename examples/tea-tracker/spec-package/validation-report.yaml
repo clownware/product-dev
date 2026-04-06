@@ -1,0 +1,69 @@
+generated_at: '2026-04-05T15:21:37Z'
+summary:
+  total_checks: 20
+  passed: 16
+  failed: 0
+  warnings: 4
+checks:
+- id: ref-001
+  status: pass
+  details: All 5 field references in endpoints.yaml resolve to entities.yaml
+- id: ref-002
+  status: pass
+  details: All api_calls in flows.yaml match endpoint IDs
+- id: ref-003
+  status: pass
+  details: All screen references in flows.yaml match screen IDs
+- id: ref-004
+  status: pass
+  details: All flow_steps in screens.yaml match step IDs in flows.yaml
+- id: ref-005
+  status: pass
+  details: All entity references in rules.yaml exist in entities.yaml
+- id: ref-006
+  status: pass
+  details: All enforced_at references in rules.yaml resolve
+- id: ref-007
+  status: pass
+  details: All data_source references in screens.yaml match endpoint IDs
+- id: ref-008
+  status: pass
+  details: All field references in screens.yaml content match entity fields
+- id: cmp-001
+  status: warn
+  details: step-4 decides 'Taps the flagged tea' but collection-overview has no matching
+    action
+- id: cmp-002
+  status: pass
+  details: All 4 endpoints have at least one flow_step reference
+- id: cmp-003
+  status: pass
+  details: All 3 screens have at least one flow_step reference
+- id: cmp-004
+  status: warn
+  details: 'Entities not referenced in any screen: user'
+- id: cmp-005
+  status: pass
+  details: All required entity fields have corresponding required inputs in create
+    endpoints
+- id: cmp-006
+  status: pass
+  details: All computed fields have corresponding rules
+- id: cmp-007
+  status: warn
+  details: list-teas has rules ['ownership-isolation'] but no error responses
+- id: con-001
+  status: pass
+  details: Field types in endpoint request/response match entity field types
+- id: con-002
+  status: pass
+  details: Enum values in endpoints match enum values in entities
+- id: con-003
+  status: pass
+  details: max_length constraints in endpoints match entities
+- id: con-004
+  status: pass
+  details: Required/optional in create endpoint requests matches entity field requirements
+- id: con-005
+  status: warn
+  details: user constraint 'unique' has no corresponding rule

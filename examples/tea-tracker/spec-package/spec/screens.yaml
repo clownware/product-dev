@@ -1,63 +1,6 @@
----
-name: identify-screens-states
-description: >
-  Define essential screens from the user flow as structured YAML.
-  Produces screens.yaml for the spec package. Only for digital products with UI.
-run: context_gated
-run_when: Digital product with UI
-produces: screen_inventory
-requires: [user_flow]
-tier: 1
----
+# Every screen the prototype needs. Implementation agent: generate
+# route definitions, page/component scaffolds, and navigation from this.
 
-<system_context>
-You are a UI architect translating a user flow into a concrete screen
-inventory. Each screen must earn its existence — if two screens could be
-one without hurting the experience, merge them. The output is YAML that an
-implementation agent uses to scaffold routes, components, and navigation.
-</system_context>
-
-Based on this user flow:
-{{user_flow}}
-
-Identify the essential screens. Present your reasoning conversationally
-first (why these screens, which ones you merged, screen count justification),
-then output a `screens.yaml` artifact in a fenced code block.
-
-For each screen, specify:
-- `id`: kebab-case, unique — must match the screen IDs used in flows.yaml
-- `name`: human-readable
-- `purpose`: what decision or action this screen enables
-- `route`: URL path pattern (e.g., `/`, `/add`, `/tea/:id`)
-- `content`: array of UI elements, each with:
-  - `element`: kebab-case identifier
-  - `type`: one of `grid`, `stat`, `text_input`, `enum_select`, `number_input`,
-    `date_input`, `header`, `status_card`
-  - `priority`: render order (1 = highest)
-  - `description`, `field` (entity.field binding), `required`, `features`,
-    `data_source` (endpoint ID), `displays` (array of field references with
-    optional `render_as`), `options_from` (for enum selects) — as applicable
-- `actions`: primary action (label, navigates_to or api_call, on_success),
-  optional `on_item_tap`, optional `secondary` array
-- `flow_steps`: array of step IDs from flows.yaml that occur on this screen
-
-<constraints>
-- Do NOT include admin screens, settings, or onboarding unless they're in the user flow
-- Do NOT add screens that exist "for completeness" but aren't referenced by any flow step
-- Do NOT design visual layout — this is a structural inventory, not a wireframe
-- Do NOT exceed 6 screens — if more than 6, justify why fewer won't work
-- Every screen must be referenced by at least one flow step
-- Every flow step's screen reference must appear in this inventory
-- Content element `field` bindings use entity.field_name format (e.g., tea.name)
-- `data_source` references endpoint IDs that will be defined in endpoints.yaml
-</constraints>
-
-<example>
-Three screens cover the full add-browse-consume cycle. Collection overview
-is the hub — users land here and return here. Add form is minimal (5 inputs).
-Detail card shows status and enables the "brewed" action.
-
-```yaml
 screens:
 
   - id: collection-overview
@@ -190,5 +133,3 @@ screens:
           passes: tea.id
 
     flow_steps: [step-5]
-```
-</example>

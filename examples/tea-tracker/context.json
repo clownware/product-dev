@@ -1,0 +1,108 @@
+{
+  "$schema": "context-registry-v1",
+  "project_name": "Tea Cabinet Snapshot",
+  "created": "2026-04-05T10:00:00Z",
+  "updated": "2026-04-05T14:00:00Z",
+  "tier": 1,
+  "current_phase": "02_tech_requirements",
+  "artifacts": {
+    "initial_concept": {
+      "created": "2026-04-05T10:00:00Z",
+      "updated": "2026-04-05T10:00:00Z",
+      "path": "artifacts/initial_concept.md",
+      "source_prompt": "capture-initial-idea",
+      "version": 1
+    },
+    "problem_statement": {
+      "created": "2026-04-05T10:10:00Z",
+      "updated": "2026-04-05T10:10:00Z",
+      "path": "artifacts/problem_statement.md",
+      "source_prompt": "create-problem-statement",
+      "version": 1
+    },
+    "proto_persona": {
+      "created": "2026-04-05T10:20:00Z",
+      "updated": "2026-04-05T10:20:00Z",
+      "path": "artifacts/proto_persona.md",
+      "source_prompt": "create-proto-persona",
+      "version": 1
+    },
+    "core_objective": {
+      "created": "2026-04-05T10:30:00Z",
+      "updated": "2026-04-05T10:30:00Z",
+      "path": "artifacts/core_objective.md",
+      "source_prompt": "identify-core-objective",
+      "version": 1
+    },
+    "solution_concept": {
+      "created": "2026-04-05T10:40:00Z",
+      "updated": "2026-04-05T10:40:00Z",
+      "path": "artifacts/solution_concept.md",
+      "source_prompt": "generate-solution-concept",
+      "version": 1
+    },
+    "hypothesis_statement": {
+      "created": "2026-04-05T10:50:00Z",
+      "updated": "2026-04-05T10:50:00Z",
+      "path": "artifacts/hypothesis_statement.md",
+      "source_prompt": "format-hypothesis-statement",
+      "version": 1
+    },
+    "user_flow": {
+      "created": "2026-04-05T11:00:00Z",
+      "updated": "2026-04-05T11:00:00Z",
+      "path": "artifacts/user_flow.md",
+      "source_prompt": "map-primary-user-flow",
+      "version": 1
+    },
+    "screen_inventory": {
+      "created": "2026-04-05T11:10:00Z",
+      "updated": "2026-04-05T11:10:00Z",
+      "path": "artifacts/screen_inventory.md",
+      "source_prompt": "identify-screens-states",
+      "version": 1
+    },
+    "data_models": {
+      "created": "2026-04-05T12:00:00Z",
+      "updated": "2026-04-05T12:00:00Z",
+      "path": "artifacts/data_models.md",
+      "source_prompt": "define-data-models",
+      "version": 1
+    },
+    "api_contracts": {
+      "created": "2026-04-05T12:30:00Z",
+      "updated": "2026-04-05T12:30:00Z",
+      "path": "artifacts/api_contracts.md",
+      "source_prompt": "define-api-endpoints",
+      "version": 1
+    },
+    "business_rules": {
+      "created": "2026-04-05T13:00:00Z",
+      "updated": "2026-04-05T13:00:00Z",
+      "path": "artifacts/business_rules.md",
+      "source_prompt": "define-business-rules",
+      "version": 1
+    },
+    "nfr": {
+      "created": "2026-04-05T13:30:00Z",
+      "updated": "2026-04-05T13:30:00Z",
+      "path": "artifacts/nfr.md",
+      "source_prompt": "performance-requirements",
+      "version": 1
+    }
+  },
+  "prompts_executed": [
+    {"slug": "capture-initial-idea", "phase": "00_fuzzy_front_end", "timestamp": "2026-04-05T10:00:00Z", "artifact_produced": "initial_concept"},
+    {"slug": "create-problem-statement", "phase": "01_define_problem", "timestamp": "2026-04-05T10:10:00Z", "artifact_produced": "problem_statement"},
+    {"slug": "create-proto-persona", "phase": "01_define_problem", "timestamp": "2026-04-05T10:20:00Z", "artifact_produced": "proto_persona"},
+    {"slug": "identify-core-objective", "phase": "02_objectives", "timestamp": "2026-04-05T10:30:00Z", "artifact_produced": "core_objective"},
+    {"slug": "generate-solution-concept", "phase": "03_solution_hypothesis", "timestamp": "2026-04-05T10:40:00Z", "artifact_produced": "solution_concept"},
+    {"slug": "format-hypothesis-statement", "phase": "03_solution_hypothesis", "timestamp": "2026-04-05T10:50:00Z", "artifact_produced": "hypothesis_statement"},
+    {"slug": "map-primary-user-flow", "phase": "04_user_flow", "timestamp": "2026-04-05T11:00:00Z", "artifact_produced": "user_flow"},
+    {"slug": "identify-screens-states", "phase": "04_user_flow", "timestamp": "2026-04-05T11:10:00Z", "artifact_produced": "screen_inventory"},
+    {"slug": "define-data-models", "phase": "02_tech_requirements", "timestamp": "2026-04-05T12:00:00Z", "artifact_produced": "data_models"},
+    {"slug": "define-api-endpoints", "phase": "02_tech_requirements", "timestamp": "2026-04-05T12:30:00Z", "artifact_produced": "api_contracts"},
+    {"slug": "define-business-rules", "phase": "02_tech_requirements", "timestamp": "2026-04-05T13:00:00Z", "artifact_produced": "business_rules"},
+    {"slug": "performance-requirements", "phase": "02_tech_requirements", "timestamp": "2026-04-05T13:30:00Z", "artifact_produced": "nfr"}
+  ]
+}

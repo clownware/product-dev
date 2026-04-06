@@ -6,5 +6,5 @@ build/
 .DS_Store
 
 # Product dev project artifacts — per-project state, not framework code.
-# Commit for team continuity, gitignore if artifacts contain sensitive content.
-# .product-dev/
+# The examples/tea-tracker/ directory has reference fixtures for testing.
+.product-dev/

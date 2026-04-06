@@ -1,64 +1,13 @@
----
-name: define-business-rules
-description: >
-  Document business logic rules as structured YAML with conditional logic.
-  Produces rules.yaml for the spec package. Each rule specifies where it fires.
-run: always
-produces: business_rules
-requires: [data_models, user_flow]
-tier: 1
----
+# Business Rules
 
-<system_context>
-You are a systems analyst documenting the conditional behaviors that go beyond
-simple CRUD. Every rule must specify WHERE it fires (which endpoint or computed
-field) so the implementation agent knows exactly where to put the code. Use
-IF/THEN logic, not prose descriptions.
-</system_context>
-
-Given:
-- Data models: {{data_models}}
-- User flow: {{user_flow}}
-
-Produce a `rules.yaml` artifact. Present your reasoning conversationally
-first (which behaviors need explicit rules vs. what's just CRUD), then output
-the YAML in a fenced code block.
-
-**Rules**: One entry per business behavior that isn't obvious from the data
-model or endpoint shape. Derive rules from:
-- Computed fields in the data model (each needs a computation rule)
-- Validation beyond simple type checking (duplicate detection, cross-field validation)
-- Side effects (creating X also updates Y)
-- Access control patterns (ownership isolation, role-based filtering)
-
-For each rule, specify:
-- `id`: kebab-case, unique across all rules
-- `name`: human-readable
-- `trigger`: what event or action fires this rule
-- `enforced_at`: array of endpoint IDs or `computed_field` — where to implement
-- `references.entities`: which entities this rule involves
-- `references.endpoints`: which endpoints enforce it (optional)
-- `references.fields`: specific fields involved (optional)
-- `logic`: IF/THEN pseudocode. Explicit conditions and actions. No prose.
-- `edge_cases`: array of {condition, behavior} for non-obvious scenarios
-
-<constraints>
-- Do NOT write rules in prose — use IF/THEN conditional logic in the `logic` field
-- Do NOT create rules for standard CRUD behavior — only document non-obvious logic
-- Do NOT skip edge cases — if you can think of a weird input, document what happens
-- Do NOT leave `enforced_at` vague — name the exact endpoint IDs or `computed_field`
-- Every rule must reference at least one entity from the data model
-- Every endpoint referenced in `enforced_at` must exist in the API contracts (or will exist — flag if the endpoint hasn't been defined yet)
-</constraints>
-
-<example>
-Here's how the tea tracker's business rules look:
-
-Five rules cover the non-CRUD behaviors: freshness computation, duplicate
-prevention, quantity tracking, automatic open-date inference, and ownership
-isolation.
+Five rules capture the conditional logic beyond basic CRUD. The freshness calculation is the heart of the product — it runs on every read and drives the color indicators on the overview screen. Duplicate prevention uses a case-insensitive compound key. The ownership isolation rule returns 404 instead of 403 to prevent tea ID enumeration across users.
 
 ```yaml
+# Business rules the implementation must enforce. Implementation agent:
+# these are the conditional behaviors that go beyond simple CRUD. Each
+# rule specifies WHERE it fires (endpoint or computed field) so you know
+# exactly where to implement it.
+
 rules:
 
   - id: freshness-calculation
@@ -156,4 +105,3 @@ rules:
       GET /teas/:id must return 404 (not 403) if tea belongs to another user.
       (Prevents enumeration of other users' tea IDs.)
 ```
-</example>
