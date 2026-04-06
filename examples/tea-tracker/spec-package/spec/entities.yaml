@@ -1,0 +1,135 @@
+# Every entity the system persists.
+# Implementation agent: generate schema migrations, ORM models, and
+# TypeScript types from this file.
+
+entities:
+
+  - id: tea
+    name: Tea
+    description: >
+      A specific tea in the user's collection. Represents one product,
+      not one serving. Quantity tracks how much remains.
+    fields:
+      - name: id
+        type: uuid
+        required: true
+        description: Unique identifier
+        generated: true
+
+      - name: user_id
+        type: uuid
+        required: true
+        description: Owner of this tea
+        references: user.id
+
+      - name: name
+        type: string
+        required: true
+        max_length: 200
+        description: Display name (e.g., "Gyokuro Imperial")
+
+      - name: type
+        type: enum
+        required: true
+        values: [green, black, oolong, white, puerh, herbal, other]
+        description: Tea category
+
+      - name: vendor
+        type: string
+        required: false
+        max_length: 200
+        description: Where the tea was purchased
+
+      - name: quantity_g
+        type: integer
+        required: false
+        min: 0
+        description: Remaining quantity in grams
+
+      - name: opened_at
+        type: datetime
+        required: false
+        description: When the tea was first opened. Null if sealed.
+
+      - name: freshness_window_days
+        type: integer
+        required: false
+        default_by_type:
+          green: 60
+          white: 90
+          black: 180
+          oolong: 120
+          puerh: null
+          herbal: 120
+          other: 90
+        description: >
+          Days after opening before quality degrades. Null means no
+          degradation (e.g., aged pu-erh). Used to compute freshness_status.
+
+      - name: created_at
+        type: datetime
+        required: true
+        generated: true
+
+      - name: updated_at
+        type: datetime
+        required: true
+        generated: true
+
+    computed_fields:
+      - name: freshness_status
+        type: enum
+        values: [fresh, drink_soon, past_peak, ageless]
+        logic: >
+          If opened_at is null -> fresh.
+          If freshness_window_days is null -> ageless.
+          If days_since_opened < (window * 0.7) -> fresh.
+          If days_since_opened < window -> drink_soon.
+          Else -> past_peak.
+        description: Derived from opened_at and freshness_window_days.
+
+    constraints:
+      - type: unique
+        fields: [user_id, name, vendor]
+        description: No duplicate tea entries per user
+
+    indexes:
+      - fields: [user_id, freshness_status]
+        purpose: Collection overview filtered by attention needed
+
+  - id: user
+    name: User
+    description: A registered user of the application.
+    fields:
+      - name: id
+        type: uuid
+        required: true
+        generated: true
+
+      - name: email
+        type: string
+        required: true
+        format: email
+        max_length: 255
+
+      - name: display_name
+        type: string
+        required: false
+        max_length: 100
+
+      - name: created_at
+        type: datetime
+        required: true
+        generated: true
+
+    constraints:
+      - type: unique
+        fields: [email]
+
+# Type reference for implementation:
+#   uuid        -> UUID v4, stored as string/native UUID
+#   string      -> UTF-8, use max_length for column sizing
+#   integer     -> Signed 32-bit
+#   datetime    -> ISO 8601 with timezone (store as UTC)
+#   enum        -> Application-level enum, store as string
+#   boolean     -> true/false

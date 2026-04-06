@@ -1,0 +1,45 @@
+schema_version: 1.0.0
+project_name: Tea Cabinet Snapshot
+generated_at: '2026-04-05T15:21:37Z'
+source_tier: 1
+reading_order:
+- context/concept.md
+- context/problem.md
+- context/persona.md
+- spec/entities.yaml
+- spec/flows.yaml
+- spec/screens.yaml
+- spec/endpoints.yaml
+- spec/rules.yaml
+- spec/constraints.yaml
+- docs/prd.md
+- docs/adrs/
+artifacts_compiled:
+- problem_statement
+- proto_persona
+- hypothesis_statement
+- solution_concept
+- data_models
+- user_flow
+- screen_inventory
+- api_contracts
+- business_rules
+- nfr
+- initial_concept
+- core_objective
+artifacts_missing: []
+validation:
+  status: pass
+  checks_passed: 16
+  checks_failed: 0
+  checks_warned: 4
+  report: validation-report.yaml
+defaults:
+  api_prefix: /v1
+  id_format: uuid_v4
+  timestamp_format: iso_8601
+  pagination: cursor
+  auth_mechanism: jwt_bearer
+  error_format: rfc_7807
+  date_format: iso_8601
+  string_encoding: utf_8

@@ -1,0 +1,86 @@
+# User Flow
+
+The primary flow is "add tea and review collection" — it covers the most common session: user gets a delivery, logs the new tea, then checks what else needs attention. This single flow touches all three screens and exercises both write and read paths through the API.
+
+The critical moment is at step 2 (the add-tea form). If data entry takes more than 15 seconds, adoption collapses regardless of how good the rest of the experience is.
+
+```yaml
+# The primary user journey through the product. Each step maps to a
+# screen and zero or more API calls.
+# Implementation agent: use this to wire up navigation/routing and
+# ensure every transition has a working code path.
+
+flows:
+
+  - id: add-and-review
+    name: Add Tea and Review Collection
+    description: >
+      User adds a new tea after purchase, then checks collection for
+      teas that need attention.
+    trigger: User receives a tea delivery
+
+    steps:
+      - id: step-1
+        order: 1
+        action: Opens app from home screen
+        screen: collection-overview
+        sees:
+          - Tea grid with name + type
+          - Freshness indicators (green/yellow/red)
+          - Quantity remaining per tea
+          - Total collection count
+        decides: Taps "Add tea" button
+        api_calls: [list-teas]
+
+      - id: step-2
+        order: 2
+        action: Types tea name or scans label
+        screen: add-tea-form
+        sees:
+          - Name field with autocomplete
+          - Type selector
+          - Quantity and open date fields
+        decides: Confirms match or fills in manually
+        api_calls: []
+
+      - id: step-3
+        order: 3
+        action: Sets quantity and open date, taps Save
+        screen: add-tea-form
+        sees:
+          - Preview card showing how tea will appear
+        decides: Taps Save
+        api_calls: [create-tea]
+
+      - id: step-4
+        order: 4
+        action: Returns to collection overview
+        screen: collection-overview
+        sees:
+          - New tea in grid
+          - Older tea flagged as "drink soon"
+        decides: Taps the flagged tea
+        api_calls: [list-teas]
+
+      - id: step-5
+        order: 5
+        action: Views tea detail, marks as brewed
+        screen: tea-detail
+        sees:
+          - Days since opened
+          - Brew-by window
+          - Quantity remaining
+        decides: Taps "brewed" to decrement quantity
+        api_calls: [get-tea, update-tea]
+
+    exit_condition: >
+      Collection reflects new addition and consumed serving. User knows
+      what they have and what needs attention.
+
+    critical_moment:
+      step: step-2
+      reason: >
+        If adding a tea takes more than 15 seconds or requires too much
+        manual input, users won't do it consistently, and the entire
+        system's value collapses.
+```
