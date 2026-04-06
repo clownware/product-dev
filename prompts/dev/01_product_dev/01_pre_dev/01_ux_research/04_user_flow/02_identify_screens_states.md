@@ -1,8 +1,8 @@
 ---
 name: identify-screens-states
 description: >
-  Define essential screens or states needed for the user flow.
-  Only for digital products with a UI.
+  Define essential screens from the user flow as structured YAML.
+  Produces screens.yaml for the spec package. Only for digital products with UI.
 run: context_gated
 run_when: Digital product with UI
 produces: screen_inventory
@@ -13,56 +13,182 @@ tier: 1
 <system_context>
 You are a UI architect translating a user flow into a concrete screen
 inventory. Each screen must earn its existence — if two screens could be
-one without hurting the experience, merge them. Prototype budgets are tight.
+one without hurting the experience, merge them. The output is YAML that an
+implementation agent uses to scaffold routes, components, and navigation.
 </system_context>
 
 Based on this user flow:
 {{user_flow}}
 
-Identify the essential screens:
+Identify the essential screens. Present your reasoning conversationally
+first (why these screens, which ones you merged, screen count justification),
+then output a `screens.yaml` artifact in a fenced code block.
 
-For each screen, provide:
-
-**Screen Name**: Descriptive name (not "Screen 1").
-
-**Purpose**: One sentence — why this screen exists. What decision or action does it enable?
-
-**Key Content**: 3-5 information elements displayed. Prioritized — most important first.
-
-**Primary Action**: The one thing the user most likely does here. Secondary actions optional (max 2).
-
-**Transitions**: Where the user came from, where they go next. Reference flow steps.
-
-After all screens, add:
-
-**Screen Count Check**: State the total. If more than 6 screens, justify why fewer won't work. Fewer screens = faster prototype.
+For each screen, specify:
+- `id`: kebab-case, unique — must match the screen IDs used in flows.yaml
+- `name`: human-readable
+- `purpose`: what decision or action this screen enables
+- `route`: URL path pattern (e.g., `/`, `/add`, `/tea/:id`)
+- `content`: array of UI elements, each with:
+  - `element`: kebab-case identifier
+  - `type`: one of `grid`, `stat`, `text_input`, `enum_select`, `number_input`,
+    `date_input`, `header`, `status_card`
+  - `priority`: render order (1 = highest)
+  - `description`, `field` (entity.field binding), `required`, `features`,
+    `data_source` (endpoint ID), `displays` (array of field references with
+    optional `render_as`), `options_from` (for enum selects) — as applicable
+- `actions`: primary action (label, navigates_to or api_call, on_success),
+  optional `on_item_tap`, optional `secondary` array
+- `flow_steps`: array of step IDs from flows.yaml that occur on this screen
 
 <constraints>
-- Do NOT include admin screens, settings, or onboarding unless they're in the tested flow
-- Do NOT list every possible state — focus on the happy path states only
-- Do NOT design the screens — this is an inventory, not a wireframe
-- Do NOT add screens that exist "for completeness" but aren't in the user flow
-- Under 350 words total
+- Do NOT include admin screens, settings, or onboarding unless they're in the user flow
+- Do NOT add screens that exist "for completeness" but aren't referenced by any flow step
+- Do NOT design visual layout — this is a structural inventory, not a wireframe
+- Do NOT exceed 6 screens — if more than 6, justify why fewer won't work
+- Every screen must be referenced by at least one flow step
+- Every flow step's screen reference must appear in this inventory
+- Content element `field` bindings use entity.field_name format (e.g., tea.name)
+- `data_source` references endpoint IDs that will be defined in endpoints.yaml
 </constraints>
 
 <example>
-**1. Collection Overview**
-- **Purpose**: Give the user an immediate read on their collection status — what needs attention?
-- **Key Content**: Tea grid with name + type, freshness indicator (green/yellow/red), quantity remaining, total collection count
-- **Primary Action**: Tap a tea to view detail. Secondary: tap "Add tea."
-- **Transitions**: App launch → here. Tapping tea → Detail. Tapping add → Add Form.
+Three screens cover the full add-browse-consume cycle. Collection overview
+is the hub — users land here and return here. Add form is minimal (5 inputs).
+Detail card shows status and enables the "brewed" action.
 
-**2. Add Tea Form**
-- **Purpose**: Capture a new tea with minimal friction.
-- **Key Content**: Name field (with autocomplete), type selector, quantity, open date (defaults to today)
-- **Primary Action**: Save the tea.
-- **Transitions**: From Overview "Add" button. Save → back to Overview.
+```yaml
+screens:
 
-**3. Tea Detail Card**
-- **Purpose**: Show everything about one tea — status, history, and actions.
-- **Key Content**: Full name + vendor, days since opened, recommended brew-by window, quantity remaining, brewing notes
-- **Primary Action**: Mark as "brewed" (decrements quantity). Secondary: edit details.
-- **Transitions**: From Overview tap. Back → Overview.
+  - id: collection-overview
+    name: Collection Overview
+    purpose: >
+      Give the user an immediate read on collection status — what needs
+      attention?
+    route: /
 
-**Screen Count Check**: 3 screens. This covers the full add → browse → consume cycle from the user flow. No additional screens needed for the happy path prototype.
+    content:
+      - element: tea-grid
+        type: grid
+        priority: 1
+        description: Visual grid of all teas
+        data_source: list-teas
+        displays:
+          - field: tea.name
+          - field: tea.type
+          - field: tea.freshness_status
+            render_as: color_indicator
+          - field: tea.quantity_g
+
+      - element: collection-count
+        type: stat
+        priority: 2
+        description: Total number of teas
+        data_source: list-teas.meta.total
+
+    actions:
+      primary:
+        label: Add tea
+        navigates_to: add-tea-form
+      on_item_tap:
+        navigates_to: tea-detail
+        passes: tea.id
+
+    flow_steps: [step-1, step-4]
+
+  - id: add-tea-form
+    name: Add Tea Form
+    purpose: Capture a new tea with minimal friction.
+    route: /add
+
+    content:
+      - element: name-input
+        type: text_input
+        priority: 1
+        field: tea.name
+        required: true
+        features: [autocomplete]
+
+      - element: type-selector
+        type: enum_select
+        priority: 2
+        field: tea.type
+        required: true
+        options_from: entities.tea.fields.type.values
+
+      - element: vendor-input
+        type: text_input
+        priority: 3
+        field: tea.vendor
+        required: false
+
+      - element: quantity-input
+        type: number_input
+        priority: 4
+        field: tea.quantity_g
+        required: false
+        unit: grams
+
+      - element: opened-date
+        type: date_input
+        priority: 5
+        field: tea.opened_at
+        required: false
+        default: today
+
+    actions:
+      primary:
+        label: Save
+        api_call: create-tea
+        on_success: navigates_to collection-overview
+
+    flow_steps: [step-2, step-3]
+
+  - id: tea-detail
+    name: Tea Detail Card
+    purpose: >
+      Show everything about one tea — status, history, actions.
+    route: /tea/:id
+
+    content:
+      - element: tea-header
+        type: header
+        priority: 1
+        displays:
+          - field: tea.name
+          - field: tea.vendor
+          - field: tea.type
+
+      - element: freshness-display
+        type: status_card
+        priority: 2
+        displays:
+          - field: tea.freshness_status
+          - field: tea.opened_at
+            render_as: days_since
+          - field: tea.freshness_window_days
+            render_as: remaining_days
+
+      - element: quantity-display
+        type: stat
+        priority: 3
+        displays:
+          - field: tea.quantity_g
+            render_as: "{value}g remaining"
+
+    actions:
+      primary:
+        label: Brewed
+        api_call: update-tea
+        payload:
+          quantity_g: "decrement"
+        on_success: refresh
+      secondary:
+        - label: Edit
+          navigates_to: add-tea-form
+          mode: edit
+          passes: tea.id
+
+    flow_steps: [step-5]
+```
 </example>

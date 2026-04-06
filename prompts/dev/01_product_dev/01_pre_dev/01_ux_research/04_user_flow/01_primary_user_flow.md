@@ -2,7 +2,7 @@
 name: map-primary-user-flow
 description: >
   Map the core happy path from entry to goal completion.
-  Defines the backbone for prototype design.
+  Produces flows.yaml for the spec package.
 run: always
 produces: user_flow
 requires: [solution_concept]
@@ -13,61 +13,126 @@ tier: 1
 You are an interaction designer mapping the user's journey through a solution
 concept. Focus on the user's mental model, not the system's architecture.
 Every step should answer: what is the user trying to do, and what do they
-see or do next?
+see or do next? The output is YAML that feeds directly into the spec package.
 </system_context>
 
 Based on this solution concept:
 {{solution_concept}}
 
-Map the primary user flow:
+Map the primary user flow. Present your thinking conversationally first
+(why this entry point, why this sequence, where the risk is), then output
+a `flows.yaml` artifact in a fenced code block.
 
-**Entry Point**: How does the user arrive? What triggers them to engage? One sentence.
+**Flow structure**: One flow entry for the primary happy path. Each step
+maps to a screen (by ID, kebab-case — screens will be defined next) and
+zero or more API calls (by endpoint ID — endpoints will be defined later).
 
-**Flow Steps**: Numbered sequence of steps from entry to goal completion. For each step:
-- **Action**: What the user does (verb-first)
-- **Sees**: What information or feedback they receive
-- **Decides**: What judgment or choice (if any) they make before the next step
+For each step, specify:
+- `id`: step-N (sequential)
+- `order`: integer
+- `action`: what the user does (verb-first)
+- `screen`: screen ID this step occurs on
+- `sees`: array of what the user observes
+- `decides`: what judgment or choice they make before the next step
+- `api_calls`: array of endpoint IDs triggered (empty array if none)
 
-Happy path only — no error states, no edge cases, no alternate routes.
+Also specify:
+- `trigger`: what initiates this flow
+- `exit_condition`: what "done" looks like
+- `critical_moment`: the step where the experience is most likely to succeed
+  or fail, and why
 
-**Exit Point**: What does "done" look like? How does the user know they succeeded?
-
-**Critical Moment**: The single step where the experience is most likely to succeed or fail. Why is this step fragile?
+Screen IDs and endpoint IDs are forward references — they'll be defined in
+later prompts. Use descriptive kebab-case names that match what the screens
+and endpoints will be called.
 
 <constraints>
 - Do NOT exceed 8 steps — if you need more, the flow is too complex for a first prototype
-- Do NOT include system internals (API calls, database writes) — user perspective only
-- Do NOT branch the flow — happy path means one path
+- Do NOT branch the flow — happy path means one path, one flow entry
 - Do NOT add "nice to have" steps that aren't essential to goal completion
-- Under 350 words total
+- Do NOT invent screens or endpoints that go beyond the solution concept scope
+- Screen IDs must be kebab-case and descriptive (not "screen-1")
+- Endpoint IDs must be kebab-case verb-noun (e.g., list-teas, create-tea)
 </constraints>
 
 <example>
-**Entry Point**: Maya opens the app after receiving a tea delivery, wanting to add her new purchase.
+The tea tracker's primary flow covers the add-and-review cycle: user gets a
+delivery, adds the new tea, then checks what needs attention. The critical
+moment is step 2 — if adding a tea is too slow, the whole system breaks.
 
-**Flow Steps**:
+```yaml
+flows:
 
-1. **Action**: Opens app from home screen
-   **Sees**: Collection overview — grid of teas with freshness indicators
-   **Decides**: Taps "Add tea" button
+  - id: add-and-review
+    name: Add Tea and Review Collection
+    description: >
+      User adds a new tea after purchase, then checks collection for
+      teas that need attention.
+    trigger: User receives a tea delivery
 
-2. **Action**: Types tea name or scans label
-   **Sees**: Auto-suggested match from vendor catalog (or blank form)
-   **Decides**: Confirms match or fills in manually
+    steps:
+      - id: step-1
+        order: 1
+        action: Opens app from home screen
+        screen: collection-overview
+        sees:
+          - Tea grid with name + type
+          - Freshness indicators (green/yellow/red)
+          - Quantity remaining per tea
+          - Total collection count
+        decides: Taps "Add tea" button
+        api_calls: [list-teas]
 
-3. **Action**: Sets quantity and open date (defaults to today)
-   **Sees**: Preview card showing how this tea will appear in collection
-   **Decides**: Taps "Save"
+      - id: step-2
+        order: 2
+        action: Types tea name or scans label
+        screen: add-tea-form
+        sees:
+          - Name field with autocomplete
+          - Type selector
+          - Quantity and open date fields
+        decides: Confirms match or fills in manually
+        api_calls: []
 
-4. **Action**: Returns to collection overview
-   **Sees**: New tea appears in grid, sorted by freshness status
-   **Decides**: Notices an older tea flagged as "brew soon" — taps it
+      - id: step-3
+        order: 3
+        action: Sets quantity and open date, taps Save
+        screen: add-tea-form
+        sees:
+          - Preview card showing how tea will appear
+        decides: Taps Save
+        api_calls: [create-tea]
 
-5. **Action**: Views tea detail card
-   **Sees**: Days since opened, recommended brew-by window, quantity remaining
-   **Decides**: Decides to brew this one today, taps "brewed" to update
+      - id: step-4
+        order: 4
+        action: Returns to collection overview
+        screen: collection-overview
+        sees:
+          - New tea in grid
+          - Older tea flagged as "drink soon"
+        decides: Taps the flagged tea
+        api_calls: [list-teas]
 
-**Exit Point**: Maya's collection reflects both the new addition and the consumed serving. She knows what she has and what needs attention.
+      - id: step-5
+        order: 5
+        action: Views tea detail, marks as brewed
+        screen: tea-detail
+        sees:
+          - Days since opened
+          - Brew-by window
+          - Quantity remaining
+        decides: Taps "brewed" to decrement quantity
+        api_calls: [get-tea, update-tea]
 
-**Critical Moment**: Step 2 — adding the tea. If this takes more than 15 seconds or requires too much manual input, users won't do it consistently, and the entire system's value collapses.
+    exit_condition: >
+      Collection reflects new addition and consumed serving. User knows
+      what they have and what needs attention.
+
+    critical_moment:
+      step: step-2
+      reason: >
+        If adding a tea takes more than 15 seconds or requires too much
+        manual input, users won't do it consistently, and the entire
+        system's value collapses.
+```
 </example>
