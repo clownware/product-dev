@@ -1,23 +1,30 @@
 # Product Development Framework
 
-> AI-assisted product development from vague idea to technical spec. A Claude Code plugin that guides structured UX research, hypothesis formation, and prototype planning.
+> A Claude Code plugin that compiles fuzzy product ideas into validated, agent-consumable specification packages.
 
 [![Framework Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Apache_2.0-yellow.svg)](LICENSE)
 
 ## What It Does
 
-Takes a product idea (or just a problem domain) and walks you through a structured research process:
+Takes a product idea and walks you through structured product thinking — problem definition, persona, hypothesis, user flows — then compiles the output into a **spec package** that an implementation agent (Claude Code, Cursor, etc.) can build from without guessing.
 
-1. **Capture & explore** the idea or problem space
-2. **Define** the problem statement and proto-persona
-3. **Form** a core objective and solution hypothesis
-4. **Map** user flows and screen inventory
-5. **Plan** prototype scope and test questions
-6. **Synthesize** test results and evaluate the hypothesis
-7. **Generate** technical specifications (data models, APIs, business rules, NFRs)
+```
+"I have an idea for a      →  Guided conversation  →  spec-package/
+ tea tracking app"             (14 prompts)              ├── manifest.yaml
+                                                         ├── context/     (why)
+                                                         ├── spec/        (what)
+                                                         ├── docs/        (decisions)
+                                                         └── CLAUDE.md    (handoff)
+```
 
-Each step produces a named artifact stored in `.product-dev/artifacts/`. The framework tracks progress in `.product-dev/context.json` so you can pick up where you left off across sessions.
+The spec package has three layers:
+
+- **Context** (prose) — problem, persona, hypothesis, concept. Gives the implementation agent the *why*.
+- **Specification** (YAML) — entities, flows, screens, endpoints, rules, constraints. Gives the agent the *what* with cross-referenced IDs and type-safe schemas.
+- **Governance** (markdown) — compiled PRD and extracted ADRs. The *decisions and rationale*, including what was explicitly excluded.
+
+A validation pipeline checks referential integrity across all spec files before the package is marked as ready.
 
 ## Install
 
@@ -27,102 +34,85 @@ claude plugin install --plugin-dir ./plugin
 
 Works in Claude Code CLI, Desktop app, and VS Code extension.
 
-For development/testing without installing:
-
-```bash
-claude --plugin-dir ./plugin
-```
-
 ## Usage
 
-### Entry Points
+### Commands
 
 | Command | What It Does |
 |---------|-------------|
 | `/idea` | Start from a product idea — "a tea tracking app" |
-| `/problem` | Start from a problem domain — "specialty tea enthusiasts can't track brewing parameters" |
-| `/spec` | Generate technical specs from existing design artifacts |
-| `/summary` | Generate a consolidated project brief from design artifacts |
+| `/problem` | Start from a problem domain — "specialty tea enthusiasts waste tea" |
+| `/spec` | Generate technical specs (data models, API, business rules, NFRs) |
+| `/compile` | Assemble artifacts into a validated spec package + handoff instruction |
+| `/summary` | Generate a consolidated project brief |
 | `/product-dev:status` | Show project progress and suggest next steps |
 
-### Workflow Skills
+### Typical Flow
 
-The plugin includes three workflow skills that Claude invokes automatically as you progress:
+```
+/idea tea tracking app        → Captures concept, defines problem, creates persona,
+                                 forms hypothesis (Phases 00-03, ~20 min)
 
-- **product-ideation** — Phases 00-03: idea capture through testable hypothesis
-- **product-flow** — Phases 04-06: user flows, prototype planning, test synthesis
-- **tech-spec** — Technical requirements: data models, API contracts, business rules, NFRs
+                               → Maps user flow, identifies screens, scopes prototype
+                                 (Phase 04, ~15 min)
+
+/spec                          → Generates data models, API contracts, business rules,
+                                 constraints as structured YAML (Tech Spec, ~20 min)
+
+/compile                       → Assembles spec-package/, runs 20 validation checks,
+                                 generates CLAUDE.md handoff instruction (~30 sec)
+```
+
+Then copy `spec-package/` and `CLAUDE.md` into a fresh project directory and point an implementation agent at it.
 
 ### Tiered Engagement
 
-Default is **Tier 1** (quick exploration, 5-10 min per phase). The framework escalates to Tier 2 when you give detailed responses or ask to go deeper, adding analysis and validation prompts at each phase.
+Default is **Tier 1** (quick exploration, ~60 min total). The framework escalates to Tier 2 when you give detailed responses or ask to go deeper.
 
 ## Repository Structure
 
 ```
-/
 ├── plugin/                            # Claude Code plugin (installable)
 │   ├── .claude-plugin/plugin.json     # Plugin manifest
-│   ├── commands/                      # 4 commands (3 entry-points + summary)
+│   ├── commands/                      # 5 commands (/idea, /problem, /spec, /compile, /summary)
 │   ├── skills/                        # 4 skills (3 workflows + status)
 │   └── agents/                        # 1 subagent (tech-spec-writer)
 │
 ├── prompts/dev/01_product_dev/01_pre_dev/
-│   ├── 01_ux_research/                # 14 Tier 1 prompts across 7 phases
-│   └── 02_tech_requirements/          # Tech spec prompts (4 areas)
+│   ├── 01_ux_research/                # Tier 1 prompts: phases 00-06
+│   └── 02_tech_requirements/          # Tech spec prompts: 4 areas
 │
-├── .product-dev/                      # Context registry (created per-project)
-│   ├── context.json                   # Project state, artifact index, execution log
-│   └── artifacts/                     # One .md file per artifact
+├── scripts/
+│   ├── compile_spec.py                # Spec package compiler
+│   ├── validate_spec.py               # 20-check cross-reference validator
+│   └── generate_handoff.py            # CLAUDE.md handoff generator
+│
+├── examples/tea-tracker/              # Reference spec package (test fixture)
+│   ├── context.json                   # Sample registry
+│   ├── artifacts/                     # Sample working artifacts (12 files)
+│   ├── spec-package/                  # Compiled output (16 files)
+│   └── CLAUDE.md                      # Generated handoff instruction
 │
 ├── docs/
-│   ├── prd.md                         # Product Requirements Document
-│   ├── adrs/                          # 9 Architecture Decision Records
-│   ├── updates/                       # Enhancement guides and handoff docs
-│   └── planning/                      # Documentation checklists
+│   ├── spec-package-schema.md         # Spec package YAML schema (v1.0.0)
+│   ├── adrs/                          # 10 Architecture Decision Records
+│   └── updates/                       # PRD v3, refactor roadmap, enhancement guides
 │
 └── mcp/prompt-server/                 # MCP server (deferred, optional)
 ```
 
-## How It Works
+## Spec Package Schema
 
-### Prompt Library
+See [`docs/spec-package-schema.md`](docs/spec-package-schema.md) for the full schema definition:
 
-14 Tier 1 prompts drive the core workflow. Each prompt has YAML frontmatter defining its dependencies and outputs:
+- `entities.yaml` — Data model with typed fields, constraints, indexes
+- `flows.yaml` — User journey with screen + API call references per step
+- `screens.yaml` — UI inventory with content elements, data sources, actions
+- `endpoints.yaml` — API contracts with request/response schemas
+- `rules.yaml` — Business logic as IF/THEN pseudocode with enforcement locations
+- `constraints.yaml` — Performance targets, security config, prototype scope
 
-```yaml
----
-name: create-problem-statement
-run: always
-produces: problem_statement
-requires: [initial_concept]
-tier: 1
----
-```
-
-Prompt bodies use XML-tagged structure (`<system_context>`, `<constraints>`, `<example>`) with template variables (`{{artifact_name}}`) that resolve from the context registry.
-
-### Context Registry
-
-Project state lives in `.product-dev/context.json`:
-
-- **Artifacts**: Named outputs from each prompt, stored as `.md` files
-- **Execution log**: Which prompts ran, when, what they produced
-- **Phase tracking**: Current position in the workflow
-- **Tier state**: Current engagement level
-
-### Deliverables
-
-The workflow produces two consolidated handoff documents:
-
-- **Project Brief** (`/summary`) — Problem, persona, hypothesis, user flows, prototype scope. The "why and what."
-- **Technical Spec** (`/spec`) — Data models, API contracts, business rules, NFRs. The "how."
-
-Both are written to `.product-dev/artifacts/` alongside the individual working artifacts. Run either command at any point — they'll include whatever artifacts exist and mark gaps.
-
-### Tech Spec Subagent
-
-The tech-spec-writer is a dedicated subagent that reads design artifacts and produces structured specifications. It runs Tier 1 prompts for data models, API contracts, business rules, and NFRs, presenting each area for review before proceeding.
+All IDs are cross-referenced. The validation pipeline checks 20 rules across referential integrity, completeness, and consistency.
 
 ## Architecture Decisions
 
@@ -131,12 +121,11 @@ Key decisions are documented as ADRs in `docs/adrs/`:
 | ADR | Decision |
 |-----|----------|
 | [0001](docs/adrs/0001-prompt-frontmatter-schema.md) | YAML frontmatter as canonical prompt metadata |
-| [0002](docs/adrs/0002-mcp-prompt-packaging.md) | MCP packaging (deferred in favor of plugin) |
 | [0003](docs/adrs/0003-context-registry-state-management.md) | File-based context registry at `.product-dev/` |
 | [0004](docs/adrs/0004-skill-subagent-decomposition.md) | 3 skills + 1 subagent decomposition |
-| [0006](docs/adrs/0006-progressive-disclosure-tiered-engagement.md) | Tiered engagement with run conditionality |
 | [0008](docs/adrs/0008-plugin-architecture.md) | Plugin as delivery vehicle |
 | [0009](docs/adrs/0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 |
+| [0010](docs/adrs/0010-spec-package-compilation-target.md) | Spec package as compilation target |
 
 ## Contributing
 

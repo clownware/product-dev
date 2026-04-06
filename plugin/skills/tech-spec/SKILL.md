@@ -36,9 +36,14 @@ The subagent runs the tech requirements prompt sequence from `prompts/dev/01_pro
 |------|-------------|----------|----------|
 | 1 | `01_data_models/01_data_model.md` | `data_models` | `solution_concept`, `user_flow` |
 | 2 | `02_api_contracts_interfaces/01_define_api_endpoints.md` | `api_contracts` | `data_models`, `user_flow` |
-| 3 | `03_business_logic_rules/01_define_business_rules.md` | `business_rules` | `solution_concept`, `user_flow` |
-| 4 | `04_non_functional_requirements/01_performance_requirements.md` | `nfr` | `solution_concept`, `user_flow` |
-| 5 | `05_consolidate_spec.md` | `technical_spec` | `data_models`, `api_contracts`, `business_rules`, `nfr` |
+| 3 | `03_business_logic_rules/01_define_business_rules.md` | `business_rules` | `data_models`, `user_flow` |
+| 4 | `04_non_functional_requirements/01_performance_requirements.md` | `nfr` | `data_models`, `api_contracts`, `user_flow` |
+
+### Context-Gated Handling
+
+- **Step 2** (`define-api-endpoints`): Gate: "Client-server architecture."
+  - **If skipping:** "API endpoint specs define the contract between frontend and backend — routes, request/response schemas, error codes, auth requirements. Since this is a local-only app (or CLI tool, hardware product, etc.), there's no client-server boundary to spec. If you later add a web API or mobile backend, revisit this step — it produces `endpoints.yaml` for the spec package."
+  - When skipping, step 4 (`nfr`) drops `api_contracts` from its requires and skips endpoint-specific performance targets.
 
 ### Tier 2 Additional Prompts
 
@@ -58,7 +63,15 @@ The subagent handles all registry operations:
 - Writes `data_models`, `api_contracts`, `business_rules`, `nfr`, `technical_spec` to artifacts directory
 - Updates `context.json` with all artifact entries and execution log
 
+## Compilation
+
+After the tech spec sequence completes, offer to compile the spec package:
+
+> "Technical specs are complete. Ready to compile the spec package? This assembles all artifacts into a validated, agent-consumable package. Run `/compile` to proceed."
+
+The `/compile` command runs `scripts/compile_spec.py`, which assembles the context layer (prose), spec layer (YAML), governance layer (PRD + ADRs), and runs 20 cross-reference validation checks.
+
 ## Handoff
 
-After spec completion:
-> "Technical specification is complete. You have data models, API contracts, business rules, and NFRs ready for implementation. Run `/product-dev:status` to see the full project state."
+After spec completion and compilation:
+> "Spec package compiled and validated. The package is at `.product-dev/spec-package/`. An implementation agent can build from it using the manifest's reading order. Run `/product-dev:status` to see the full project state."

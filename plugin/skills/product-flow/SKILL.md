@@ -35,11 +35,15 @@ All prompts are in `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/`. Read
 | 5 | `06_post_test_synthesis/01_test_patterns_insights.md` | context_gated | `test_insights` | — |
 | 6 | `06_post_test_synthesis/02_check_hypothesis.md` | context_gated | `hypothesis_evaluation` | `hypothesis_statement`, `test_insights` |
 
-### Context-Gated Handling
+### Context-Gated Handling (Skip Annotations)
 
-- **Step 2** (`identify_screens_states`): Skip if the product is not a digital product with a UI. Say: "Since this isn't a screen-based digital product, we'll skip screen inventory and move to prototype scoping."
+When skipping a context-gated prompt, explain what the prompt would have covered and why it's not relevant. This teaches the full methodology even when only part of it applies.
 
-- **Steps 5-6** (post-test synthesis): Only run after the user has completed real prototype testing and has observations to share. Say: "The next steps involve analyzing test results. When you've run your prototype test and have observations, come back with `/product-dev:idea` and share what you learned — or just paste your notes here."
+- **Step 2** (`identify_screens_states`): Gate: "Digital product with UI."
+  - **If skipping:** "Screen inventory maps out every page or view the user interacts with — routes, content elements, data sources, and navigation wiring. Since this isn't a screen-based digital product, we're skipping it. If you later add a web or mobile interface, revisit this step — it feeds directly into the spec package's `screens.yaml`."
+
+- **Steps 5-6** (post-test synthesis): Gate: "User has completed testing."
+  - **If skipping:** "Post-test synthesis analyzes real user observations against your hypothesis — what patterns emerged, what surprised you, and whether the hypothesis held up. We're skipping this because there's no test data yet. When you've run your prototype test, come back and share what you observed. Even informal 'I watched someone use it' counts."
 
 ### Tier 2 Additional Prompts
 
@@ -56,10 +60,10 @@ All prompts are in `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/`. Read
 3. **Write artifacts** after each prompt to `.product-dev/artifacts/` and update registry.
 
 4. **Checkpoint** after user flow + screens:
-   > "We have the core flow and screens mapped. Want to go deeper into decision points and error cases, or move to prototype planning?"
+   > "The flow is [N] steps, not 15. Every step you add is a step you have to build and test. Ruthless scoping here saves days of engineering. Does this flow cover the core value moment?"
 
 5. **Checkpoint** after prototype scope + test questions:
-   > "Prototype scope and test questions are set. This is a good stopping point before you build and test. When you have test results, come back and we'll analyze them."
+   > "Prototype scope and test questions are locked. The test questions map directly to your hypothesis — if users can't do [critical moment], the hypothesis fails. This is a good stopping point before you build. When you have test results, come back and we'll analyze them."
 
 6. **Post-test** (steps 5-6): When the user returns with test data, collect observations, then run synthesis and hypothesis evaluation.
 

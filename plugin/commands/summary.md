@@ -2,17 +2,18 @@
 name: summary
 description: >
   Generate a consolidated project brief from design artifacts.
-  Produces a single handoff-ready document covering problem, persona,
-  hypothesis, user flows, and prototype scope.
+  For the full spec package with YAML specs and validation, use /compile instead.
 allowed-tools: "Read Write Glob"
 ---
 
-Generate a **Project Brief** — a single consolidated document from the design artifacts in `.product-dev/artifacts/`.
+Generate a **Project Brief** — a single prose document from the design artifacts in `.product-dev/artifacts/`.
+
+This is the lightweight alternative to `/compile`. Use `/summary` when you want a human-readable overview. Use `/compile` when you want a validated, agent-consumable spec package.
 
 ## Gate Check
 
 Read `.product-dev/context.json`. Require at least `problem_statement` and `solution_concept` to exist. If missing:
-> "Not enough artifacts to produce a meaningful brief. Run `/product-dev:idea` to build a solution concept first."
+> "Not enough artifacts to produce a meaningful brief. Run `/idea` to build a solution concept first."
 
 ## Execution
 
@@ -27,8 +28,6 @@ Read `.product-dev/context.json`. Require at least `problem_statement` and `solu
    - `screen_inventory.md` (if exists)
    - `prototype_scope.md` (if exists)
    - `test_questions.md` (if exists)
-   - `test_insights.md` (if exists)
-   - `hypothesis_evaluation.md` (if exists)
 
 2. Assemble into a single document with this structure:
 
@@ -39,50 +38,39 @@ Generated: {date}
 Tier: {tier}
 
 ## Problem
-
-{problem_statement content — the core statement, elaboration, and scope}
+{problem_statement content}
 
 ## Target User
-
 {proto_persona content}
 
 ## Objective
-
 {core_objective content}
 
 ## Solution Concept
-
-{solution_concept content — name, description, key assumptions}
+{solution_concept content}
 
 ## Hypothesis
-
 {hypothesis_statement content}
 
 ## User Flow
-
-{user_flow content}
+{user_flow content — if YAML, summarize the steps as prose}
 
 ## Screens & States
-{screen_inventory content, or "Not applicable (non-digital product)" if missing}
+{screen_inventory content, or "Not applicable" if missing}
 
 ## Prototype Scope
 {prototype_scope content, or "Not yet defined" if missing}
-
-## Test Plan
-{test_questions content, or "Not yet defined" if missing}
-
-## Test Results
-{test_insights + hypothesis_evaluation content, or "Testing not yet completed" if missing}
 ```
 
 3. Write to `.product-dev/artifacts/project_brief.md`
 
-4. Update `context.json`:
-   - Add `project_brief` artifact entry with `source_prompt: "summary"`, timestamps, version
-   - Append to `prompts_executed`
+4. Update `context.json` with `project_brief` artifact entry.
+
+5. Suggest next step:
+   > "Brief generated. When you're ready to produce a full spec package with structured YAML, validation, and implementation handoff, run `/compile`."
 
 ## Rules
 
-- **Do not rewrite or editorialize.** The brief assembles existing artifact content with minimal connective text. Each section should be recognizable as the artifact it came from.
-- **Mark gaps.** If an artifact doesn't exist yet, include the section header with a note about what's missing and which command produces it.
-- **Keep it under 3000 words.** If individual artifacts are long (e.g., detailed user flows), summarize to the key points and reference the full artifact file.
+- **Do not rewrite or editorialize.** Assemble existing artifact content with minimal connective text.
+- **Mark gaps.** Include section headers for missing artifacts with a note about what's needed.
+- **Keep it under 2000 words.** Summarize verbose artifacts to key points.

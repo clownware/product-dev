@@ -50,14 +50,20 @@ When escalation signals detected, add these from the same phase:
 
 3. **Write artifact**: After each prompt, write output to `.product-dev/artifacts/{produces}.md` and update `.product-dev/context.json` with artifact metadata and execution log entry.
 
-4. **Checkpoint** (after every 2-3 prompts): Pause and check in:
-   - "Does this capture what you're thinking?" (validation)
-   - "Should we go deeper on [X] or move forward?" (navigation)
-   - "I see [N] threads here. Which feels most promising?" (prioritization)
+4. **Checkpoint** (after every 2-3 prompts): Pause and check in with a coaching moment that validates the work AND teaches why it matters:
+
+   After problem statement + persona (steps 2-3):
+   > "A precise problem statement keeps you from building a solution to a problem no one has. Notice how we constrained to a specific behavior, not a demographic. Does this capture the real pain?"
+
+   After objective + solution concept (steps 4-5):
+   > "We now have a problem, a user, and a solution idea. Before we lock in, does this concept address the specific pain we identified — or has it drifted toward something more general?"
+
+   After hypothesis (step 6):
+   > "The hypothesis is your falsifiable bet. If the prototype doesn't validate this, you've learned something concrete instead of just having an opinion. Ready to map how a user would actually move through this?"
 
 5. **Advance**: After each checkpoint, check the next prompt's `run` type:
    - `always` → proceed with brief transition
-   - `context_gated` → check condition, skip with explanation if not met
+   - `context_gated` → check condition, skip with explanation of what was skipped and when to revisit (see Skip Annotations below)
    - End of sequence → suggest next skill: "We have a testable hypothesis. Ready to map the user flow? That's the next phase."
 
 ## Tier Escalation
