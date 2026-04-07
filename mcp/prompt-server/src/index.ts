@@ -13,6 +13,7 @@ import {
   ListToolsRequestSchema,
   ReadResourceRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { MarkdownLoader } from './loaders/markdown-loader.js';
@@ -61,15 +62,18 @@ class PromptMCPServer {
             properties: {
               tags: {
                 type: 'array',
-                items: { type: 'string' },
+                items: { type: 'string', maxLength: 100 },
+                maxItems: 50,
                 description: 'Filter by tags (prompts matching any tag)',
               },
               phase: {
                 type: 'string',
+                maxLength: 100,
                 description: 'Filter by lifecycle phase (e.g., discovery, spec)',
               },
               category: {
                 type: 'string',
+                maxLength: 100,
                 description: 'Filter by category',
               },
               status: {
@@ -78,6 +82,7 @@ class PromptMCPServer {
                 description: 'Filter by status',
               },
             },
+            additionalProperties: false,
           },
         },
         {
@@ -88,14 +93,19 @@ class PromptMCPServer {
             properties: {
               id: {
                 type: 'string',
+                maxLength: 255,
+                pattern: '^[a-zA-Z0-9._-]+$',
                 description: 'Prompt ID (e.g., uxr.00_fuzzy_front_end.capture_initial_idea)',
               },
               slug: {
                 type: 'string',
+                maxLength: 255,
+                pattern: '^[a-z0-9-]+$',
                 description: 'Prompt slug (e.g., capture-initial-idea)',
               },
             },
             oneOf: [{ required: ['id'] }, { required: ['slug'] }],
+            additionalProperties: false,
           },
         },
       ],
@@ -123,13 +133,14 @@ class PromptMCPServer {
 
       if (name === 'get_prompt') {
         const { id, slug } = args as { id?: string; slug?: string };
-        
-        let prompt;
-        if (id) {
-          prompt = await this.loader.getPromptById(id);
-        } else if (slug) {
-          prompt = await this.loader.getPromptBySlug(slug);
+
+        if (!id && !slug) {
+          throw new Error('get_prompt requires either "id" or "slug"');
         }
+
+        const prompt = id
+          ? await this.loader.getPromptById(id)
+          : await this.loader.getPromptBySlug(slug!);
 
         if (!prompt) {
           throw new Error(`Prompt not found: ${id || slug}`);
@@ -194,11 +205,26 @@ class PromptMCPServer {
   }
 
   async start() {
+    if (!fs.existsSync(PROMPTS_DIR)) {
+      throw new Error(
+        `Prompts directory not found: ${PROMPTS_DIR}. ` +
+        `Ensure the server is run from the project root or that the prompts/ directory exists.`
+      );
+    }
+
+    // Verify prompts are loadable and report count (zero prompts = silent failure mode)
+    const prompts = await this.loader.loadAllPrompts();
+    console.error(`Loaded ${prompts.length} prompts from ${PROMPTS_DIR}`);
+
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
     console.error('Prompt MCP Server running on stdio');
   }
 }
+
+// Clean exit on termination signals
+process.on('SIGTERM', () => process.exit(0));
+process.on('SIGINT', () => process.exit(0));
 
 // Start the server
 const server = new PromptMCPServer();

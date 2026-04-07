@@ -4,6 +4,19 @@ dist/
 build/
 *.log
 .DS_Store
+Thumbs.db
+
+# IDE config
+.idea/
+.vscode/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# npm pack output
+*.tgz
 
 # Product dev project artifacts — per-project state, not framework code.
 # The examples/tea-tracker/ directory has reference fixtures for testing.

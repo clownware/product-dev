@@ -110,6 +110,38 @@ def load_spec_package(pkg_dir: Path) -> dict[str, Any]:
         print(f"Error: Missing required spec files: {', '.join(missing)}", file=sys.stderr)
         sys.exit(2)
 
+    # Validate expected top-level structure so downstream checks can trust the shape.
+    # Each spec file must be a dict with its expected root key containing a list.
+    structure_requirements: dict[str, list[str]] = {
+        "entities": ["entities"],
+        "flows": ["flows"],
+        "screens": ["screens"],
+        "endpoints": ["api"],
+        "rules": ["rules"],
+    }
+    malformed = []
+    for spec_name, required_keys in structure_requirements.items():
+        data = specs.get(spec_name)
+        if not isinstance(data, dict):
+            malformed.append(f"{spec_name}.yaml: expected a YAML mapping, got {type(data).__name__}")
+            continue
+        for key in required_keys:
+            if key not in data:
+                malformed.append(f"{spec_name}.yaml: missing required key '{key}'")
+
+    # endpoints.yaml needs nested api.endpoints list
+    endpoints_data = specs.get("endpoints")
+    if isinstance(endpoints_data, dict):
+        api = endpoints_data.get("api")
+        if isinstance(api, dict) and "endpoints" not in api:
+            malformed.append("endpoints.yaml: 'api' key exists but missing 'endpoints' list")
+
+    if malformed:
+        print("Error: Spec files have unexpected structure:", file=sys.stderr)
+        for msg in malformed:
+            print(f"  - {msg}", file=sys.stderr)
+        sys.exit(2)
+
     return specs
 
 
@@ -123,34 +155,41 @@ def build_entity_index(specs: dict) -> tuple[set[str], dict[str, set[str]]]:
     entity_fields: dict[str, set[str]] = {}
 
     for entity in specs["entities"].get("entities", []):
-        eid = entity["id"]
+        eid = entity.get("id")
+        if not eid:
+            continue
         entity_ids.add(eid)
-        fields = {f["name"] for f in entity.get("fields", [])}
+        fields = {f.get("name", "") for f in entity.get("fields", []) if isinstance(f, dict)}
         for cf in entity.get("computed_fields", []):
-            fields.add(cf["name"])
+            if isinstance(cf, dict) and cf.get("name"):
+                fields.add(cf["name"])
+        fields.discard("")
         entity_fields[eid] = fields
 
     return entity_ids, entity_fields
 
 
 def build_endpoint_index(specs: dict) -> set[str]:
-    return {ep["id"] for ep in specs["endpoints"].get("api", {}).get("endpoints", [])}
+    return {ep["id"] for ep in specs["endpoints"]["api"].get("endpoints", []) if isinstance(ep, dict) and "id" in ep}
 
 
 def build_screen_index(specs: dict) -> set[str]:
-    return {s["id"] for s in specs["screens"].get("screens", [])}
+    return {s["id"] for s in specs["screens"].get("screens", []) if isinstance(s, dict) and "id" in s}
 
 
 def build_flow_step_index(specs: dict) -> set[str]:
     steps: set[str] = set()
     for flow in specs["flows"].get("flows", []):
+        if not isinstance(flow, dict):
+            continue
         for step in flow.get("steps", []):
-            steps.add(step["id"])
+            if isinstance(step, dict) and "id" in step:
+                steps.add(step["id"])
     return steps
 
 
 def build_rule_index(specs: dict) -> set[str]:
-    return {r["id"] for r in specs["rules"].get("rules", [])}
+    return {r["id"] for r in specs["rules"].get("rules", []) if isinstance(r, dict) and "id" in r}
 
 
 def resolve_entity_field_ref(ref: str, entity_fields: dict[str, set[str]]) -> bool:

@@ -95,9 +95,13 @@ def generate_handoff(pkg_dir: Path, spec_package_rel: str = "spec-package") -> s
     # Build entity summary
     entity_lines = []
     for e in entities:
+        if not isinstance(e, dict):
+            continue
+        name = e.get("name", "unnamed")
+        eid = e.get("id", "unknown")
         field_count = len(e.get("fields", []))
         computed = len(e.get("computed_fields", []))
-        desc = f"  - **{e['name']}** (`{e['id']}`) — {field_count} fields"
+        desc = f"  - **{name}** (`{eid}`) — {field_count} fields"
         if computed:
             desc += f", {computed} computed"
         entity_lines.append(desc)
@@ -105,12 +109,16 @@ def generate_handoff(pkg_dir: Path, spec_package_rel: str = "spec-package") -> s
     # Build screen summary
     screen_lines = []
     for s in screens:
-        screen_lines.append(f"  - **{s['name']}** (`{s['id']}`) — route `{s.get('route', '/')}`")
+        if not isinstance(s, dict):
+            continue
+        screen_lines.append(f"  - **{s.get('name', 'unnamed')}** (`{s.get('id', 'unknown')}`) — route `{s.get('route', '/')}`")
 
     # Build endpoint summary
     endpoint_lines = []
     for ep in endpoints:
-        endpoint_lines.append(f"  - `{ep['method']} {ep.get('path', '')}` (`{ep['id']}`) — {ep.get('purpose', '')}")
+        if not isinstance(ep, dict):
+            continue
+        endpoint_lines.append(f"  - `{ep.get('method', '?')} {ep.get('path', '')}` (`{ep.get('id', 'unknown')}`) — {ep.get('purpose', '')}")
 
     # Build scope section
     scope_section = ""
