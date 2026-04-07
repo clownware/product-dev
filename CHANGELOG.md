@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-04-06
+
+Version reset with the plugin architecture rewrite (ADR 0008). Prior 1.x/2.x versions
+were the standalone prompt library; 0.1.0 is the first release of the plugin-based framework.
+
 ### Added
 - ADR 0003: Context Registry and State Management
 - ADR 0004: Skill and Subagent Decomposition

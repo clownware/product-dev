@@ -62,8 +62,22 @@ List available prompts with optional filters.
 }
 ```
 
-**Returns:**
-Array of prompt summaries with `id`, `slug`, `title`, `purpose`, `phase`, `category`, `tags`, `status`.
+**Response shape:**
+
+```json
+[
+  {
+    "id": "uxr.00_fuzzy_front_end.capture_initial_idea",
+    "slug": "capture-initial-idea",
+    "title": "Capture Initial Idea",
+    "purpose": "Transform a vague product idea into a structured initial concept",
+    "phase": "discovery",
+    "category": "Early Ideation & Exploration",
+    "tags": ["ideation", "concept"],
+    "status": "active"
+  }
+]
+```
 
 #### get_prompt
 
@@ -83,8 +97,40 @@ Retrieve a single prompt by ID or slug.
 }
 ```
 
-**Returns:**
-Complete prompt object with `metadata`, `dependencies`, `validation`, `mcp`, `body`, and `filePath`.
+**Response shape:**
+
+```json
+{
+  "metadata": {
+    "id": "uxr.00_fuzzy_front_end.capture_initial_idea",
+    "slug": "capture-initial-idea",
+    "title": "Capture Initial Idea",
+    "version": "1.0.0",
+    "status": "active",
+    "phase": "discovery",
+    "category": "Early Ideation & Exploration",
+    "type": "template",
+    "folder": "00_fuzzy_front_end",
+    "tags": ["ideation", "concept"],
+    "purpose": "Transform a vague product idea into a structured initial concept",
+    "context": "Use at the start of a new product development conversation"
+  },
+  "dependencies": {
+    "requires": [],
+    "produces": ["initial_concept"]
+  },
+  "validation": {
+    "gate": "none",
+    "criteria": ["Concept is specific enough to evaluate"]
+  },
+  "mcp": {
+    "exposed": true,
+    "operation": "generate"
+  },
+  "body": "The full prompt template text...",
+  "filePath": "dev/01_product_dev/01_pre_dev/01_ux_research/00_fuzzy_front_end/01_capture_idea.md"
+}
+```
 
 ### Resources
 

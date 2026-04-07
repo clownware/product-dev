@@ -479,11 +479,17 @@ def compile_spec_package(project_dir: Path, validate: bool = True) -> int:
         if yaml_text is None:
             # Try reading the whole file as YAML (in case it's a raw YAML file)
             try:
-                yaml.safe_load(content)
-                yaml_text = content
+                parsed = yaml.safe_load(content)
+                if isinstance(parsed, dict):
+                    yaml_text = content
+                else:
+                    print(f"  SKIP: {artifact_name} — no YAML code block found and file is not a YAML mapping")
+                    missing.append(artifact_name)
+                    continue
             except yaml.YAMLError:
-                print(f"  WARN: {artifact_name} — no YAML code block found, copying as-is")
-                yaml_text = content
+                print(f"  SKIP: {artifact_name} — no YAML code block found and file is not valid YAML")
+                missing.append(artifact_name)
+                continue
 
         # Validate the extracted YAML parses
         validate_yaml(yaml_text, f"{artifact_name} -> {output_filename}")
@@ -532,6 +538,7 @@ def compile_spec_package(project_dir: Path, validate: bool = True) -> int:
                 [sys.executable, str(validator), str(pkg_dir), "-o", str(pkg_dir / "validation-report.yaml"), "-q"],
                 capture_output=True,
                 text=True,
+                shell=False,
             )
             print(f"  {result.stdout.strip()}")
 

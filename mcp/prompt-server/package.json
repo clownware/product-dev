@@ -16,8 +16,12 @@
     "ai",
     "product-development"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "clownware",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clownware/tool-mcp-ux-prototyping.git"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "js-yaml": "^4.1.0",
