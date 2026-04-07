@@ -5,6 +5,7 @@ description: >
   design test questions, and synthesize test results.
   Covers Phases 04-06 of the UX research workflow.
 user-invocable: true
+argument-hint: "[solution concept or user flow description]"
 allowed-tools: "Read Write Edit Glob Grep Bash Agent"
 ---
 
