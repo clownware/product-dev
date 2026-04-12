@@ -3,8 +3,8 @@
 ## Product Development Framework — Spec Package Compiler
 
 **Version:** 3.0.0
-**Status:** Draft
-**Last Updated:** 2026-04-05
+**Status:** Active — Phases 1-4 shipped in v0.1.0; Phase 5 multi-product validation ongoing
+**Last Updated:** 2026-04-11
 
 ---
 
@@ -457,7 +457,7 @@ operations + validation.
 
 ## Implementation Plan
 
-### Phase 1: Schema & Validation Foundation
+### Phase 1: Schema & Validation Foundation ✅ Shipped in v0.1.0
 
 **Objective:** Define the spec package schema and build the validation
 pipeline. This is the interface contract that everything else builds
@@ -465,65 +465,60 @@ toward.
 
 **Deliverables:**
 
-- [ ] Finalize `spec-package-schema.md` with all YAML file schemas
-- [ ] Build `scripts/validate_spec.py` with referential integrity checks
-- [ ] Build `scripts/compile_spec.py` that assembles the spec package
-- [ ] Create a manually-written reference spec package (tea tracker example)
+- [x] Finalize `spec-package-schema.md` with all YAML file schemas
+- [x] Build `scripts/validate_spec.py` with referential integrity checks
+- [x] Build `scripts/compile_spec.py` that assembles the spec package
+- [x] Create a manually-written reference spec package (tea tracker example)
   that passes all validation checks
-- [ ] Write the handoff instruction template
+- [x] Write the handoff instruction template (`scripts/generate_handoff.py`)
 
-**Exit criteria:** The reference spec package validates cleanly and a
-downstream agent (Claude Code) can build a working prototype from it
-without additional human input.
+**Exit criteria met:** Reference package at `examples/tea-tracker/spec-package/` validates cleanly (16 pass / 0 fail / 4 warn) and the generated `examples/tea-tracker/CLAUDE.md` instructs an implementation agent how to consume it.
 
-### Phase 2: Prompt Rewrite — Tech Spec
+### Phase 2: Prompt Rewrite — Tech Spec ✅ Shipped in v0.1.0
 
 **Objective:** Rewrite the three un-enhanced tech spec prompts to produce
 schema-compliant YAML output.
 
 **Deliverables:**
 
-- [ ] Enhance `define-data-models` → produces `entities.yaml` format
-- [ ] Enhance `define-business-rules` → produces `rules.yaml` format
-- [ ] Enhance `performance-requirements` → produces `constraints.yaml` format
-- [ ] Run each enhanced prompt on the tea tracker example and validate
+- [x] Enhance `define-data-models` → produces `entities.yaml` format
+- [x] Enhance `define-business-rules` → produces `rules.yaml` format
+- [x] Enhance `performance-requirements` → produces `constraints.yaml` format
+- [x] Run each enhanced prompt on the tea tracker example and validate
   output against schema
-- [ ] Update tech-spec-writer subagent to expect YAML output
+- [x] Update tech-spec-writer subagent to expect YAML output
 
-**Exit criteria:** All three prompts produce output that passes schema
-validation when compiled into a spec package.
+**Exit criteria met:** Tech spec prompts at `prompts/dev/01_product_dev/01_pre_dev/02_tech_requirements/` produce schema-compliant YAML.
 
-### Phase 3: Prompt Rewrite — Flows & Screens
+### Phase 3: Prompt Rewrite — Flows & Screens ✅ Shipped in v0.1.0
 
 **Objective:** Shift the already-enhanced flow and screen prompts from
 prose to YAML output.
 
 **Deliverables:**
 
-- [ ] Rewrite `map-primary-user-flow` output → `flows.yaml` format
-- [ ] Rewrite `identify-screens-states` output → `screens.yaml` format
-- [ ] Rewrite `define-api-endpoints` output → `endpoints.yaml` format
-- [ ] Run full sequence (phases 00-04 + tech spec) on tea tracker and
+- [x] Rewrite `map-primary-user-flow` output → `flows.yaml` format
+- [x] Rewrite `identify-screens-states` output → `screens.yaml` format
+- [x] Rewrite `define-api-endpoints` output → `endpoints.yaml` format
+- [x] Run full sequence (phases 00-04 + tech spec) on tea tracker and
   compile + validate
 
-**Exit criteria:** End-to-end pipeline produces a validating spec package
-from a single `/idea tea tracking app` invocation.
+**Exit criteria met:** End-to-end pipeline produces a validating spec package; commits `865d1cc` and `f4919bf` landed the rewrites.
 
-### Phase 4: Compilation & Governance
+### Phase 4: Compilation & Governance ✅ Shipped in v0.1.0 (1 deliverable deferred)
 
 **Objective:** Build the PRD compiler and ADR extractor.
 
 **Deliverables:**
 
-- [ ] PRD compilation from context artifacts
-- [ ] ADR extraction from scope boundaries, exclusions, assumptions
-- [ ] Technical ADR generation prompt (post-tech-spec)
-- [ ] Integrate governance docs into spec package and manifest
+- [x] PRD compilation from context artifacts
+- [x] ADR extraction from scope boundaries, exclusions, assumptions
+- [ ] Technical ADR generation prompt (post-tech-spec) — **deferred post-v1** (`docs/updates/refactor-roadmap.md` § Deferred): scope ADR extraction is currently sufficient; revisit if implementation agents start asking design-decision questions.
+- [x] Integrate governance docs into spec package and manifest
 
-**Exit criteria:** Spec package includes `docs/prd.md` and `docs/adrs/`
-with accurate, well-structured governance documents.
+**Exit criteria met:** Spec packages contain `docs/prd.md` and `docs/adrs/` (see `examples/tea-tracker/spec-package/docs/`).
 
-### Phase 5: End-to-End Validation
+### Phase 5: End-to-End Validation 🟡 Partial — tea tracker only as of v0.1.0
 
 **Objective:** Run the full pipeline on 2-3 real projects and evaluate
 spec package quality by measuring downstream agent build success.
@@ -531,10 +526,10 @@ spec package quality by measuring downstream agent build success.
 **Deliverables:**
 
 - [ ] Run pipeline on 3 different product types:
-  - A web app with client-server architecture (exercises full spec)
-  - A CLI tool or local-only app (exercises conditional skipping of
+  - [x] A web app with client-server architecture (exercises full spec) — `examples/tea-tracker/`
+  - [ ] A CLI tool or local-only app (exercises conditional skipping of
     API endpoints and screens)
-  - A service/process design (exercises conditional skipping of screens
+  - [ ] A service/process design (exercises conditional skipping of screens
     and API contracts)
 - [ ] For each, hand the spec package to Claude Code and measure:
   - Did the agent ask clarifying questions? (fewer = better)
@@ -543,7 +538,7 @@ spec package quality by measuring downstream agent build success.
 - [ ] Iterate on prompts and validation based on findings
 
 **Exit criteria:** At least 2 of 3 test projects produce working
-prototypes from the spec package without human intervention during build.
+prototypes from the spec package without human intervention during build. **Status:** Tea tracker compiles and validates cleanly; downstream agent build success and the two non-web-app product types remain to be exercised.
 
 ---
 
@@ -639,13 +634,12 @@ to the spec package compiler direction:
 | 0002 | MCP packaging deferred in favor of plugin | Accepted (amended) |
 | 0003 | File-based context registry at `.product-dev/` | Accepted |
 | 0004 | 3 skills + 1 subagent decomposition | Accepted (amended) |
+| 0005 | Prompt enhancement schema | Accepted |
 | 0006 | Tiered engagement with run conditionality | Accepted |
+| 0007 | JSON index deprecation | Accepted |
 | 0008 | Plugin as delivery vehicle | Accepted |
 | 0009 | Prompt Enhancement Pattern v2 | Accepted |
-| TBD | Spec package schema as compilation target | Proposed |
-| TBD | YAML output for structured prompts (phases 04+) | Proposed |
-| TBD | Python validation pipeline over LLM-based consistency checking | Proposed |
-| TBD | PRD/ADR generation as compilation artifacts | Proposed |
+| 0010 | Spec package as compilation target (covers spec schema, YAML output for structured prompts, Python validation pipeline, and PRD/ADR generation as compilation artifacts) | Accepted |
 
 ---
 

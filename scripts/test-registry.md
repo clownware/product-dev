@@ -188,5 +188,5 @@ FIX: Changed subagent to soft-block with [ASSUMPTION] markers for traceability.
 ### Remaining Known Gaps
 
 - **T6 not interactively validated**: The session resume algorithm was added but needs a real cross-session test (close Claude, reopen, verify it works).
-- **T11 frontmatter migration deferred**: Tier 2 prompts still use the old nested schema. Added detection logic but long-term fix is migration to simple schema.
+- **T11 frontmatter migration COMPLETED 2026-04-06** (commit `f4919bf`): All 73 legacy prompts, including Tier 2, were migrated to the simple flat frontmatter schema. The detection logic in CLAUDE.md is now redundant for the prompts in this repo but is left in place as a defensive read-side measure for any external prompts that might still use the nested schema. Verified: `grep -l "metadata:" prompts/dev/01_product_dev/01_pre_dev/` returns no matches; 43 prompts carry `tier: 2` at the top level.
 - **T4/T10 not interactively validated**: Code path analysis confirmed the logic is sound, but no actual Claude session tested these paths end-to-end.
