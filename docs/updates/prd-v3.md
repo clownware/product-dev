@@ -6,6 +6,8 @@
 **Status:** Active — Phases 1-4 shipped in v0.1.0; Phase 5 multi-product validation ongoing
 **Last Updated:** 2026-04-11
 
+> **Reading this document.** This is the v3 PRD — the spec and intent for the spec-package-compiler direction. It captures *why* the framework is shaped the way it is and *what* the implementation plan was. For the **authoritative current state of the repo** (what shipped, when, in which release), read [`CHANGELOG.md`](../../CHANGELOG.md). For **install and usage**, read [`README.md`](../../README.md). The phase checkboxes and ADR table in this document are kept in sync with shipped reality, but they are a convenience — the changelog is canonical.
+
 ---
 
 ## Executive Summary
