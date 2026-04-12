@@ -1,0 +1,56 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  python-pipeline:
+    name: Python pipeline (validate spec, generate handoff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Validate tea-tracker reference spec package
+        run: python scripts/validate_spec.py examples/tea-tracker/spec-package
+
+      - name: Smoke-test handoff generator
+        run: python scripts/generate_handoff.py examples/tea-tracker/spec-package -o /tmp/handoff.md
+
+      - name: Smoke-test compile_spec CLI
+        run: python scripts/compile_spec.py --help
+
+  mcp-server:
+    name: MCP server (typecheck + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp/prompt-server
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: mcp/prompt-server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Audit (fail on moderate+)
+        run: npm audit --audit-level=moderate
