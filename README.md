@@ -4,6 +4,7 @@
 
 [![Framework Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Apache_2.0-yellow.svg)](LICENSE)
+[![validate](https://github.com/clownware/tool-mcp-ux-prototyping/actions/workflows/validate.yml/badge.svg)](https://github.com/clownware/tool-mcp-ux-prototyping/actions/workflows/validate.yml)
 
 ## What It Does
 
