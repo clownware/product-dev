@@ -24,7 +24,7 @@ Before planning forward, here's the foundation we're building on:
 | Plugin scaffold (commands, skills, subagent) | ✅ Complete | `plugin/` |
 | CLAUDE.md (orchestration, registry ops, tier model) | ✅ Complete | repo root |
 | Context registry schema (context.json) | ✅ Defined | ADR 0003, CLAUDE.md |
-| 9 ADRs documenting key decisions | ✅ Complete | `docs/adrs/` |
+| 10 ADRs documenting key decisions | ✅ Complete | `docs/adrs/` |
 | Prompt frontmatter (run, run_when, produces, requires) | ✅ All 14 tagged | each prompt file |
 | Tech spec writer subagent | ✅ Complete | `plugin/agents/tech-spec-writer.md` |
 
