@@ -4,7 +4,7 @@
 
 Accepted (2026-04-04)
 
-> Migration complete. All prompts use YAML frontmatter. Stream Deck doc archived to `docs/archive/`. No `prompts.json` files remain.
+> Migration complete (amended 2026-06-06). All prompts use YAML frontmatter. Legacy files (`ux_framework_prompts.md`, `prompts.json`) were removed — all unique content was migrated to prompt frontmatter and the framework's mode system. No legacy files remain.
 
 ## Context
 
@@ -51,6 +51,8 @@ After frontmatter migration is verified (all 91 prompts discoverable via MCP ser
 1. Move `ux_framework_prompts.md` to `docs/archive/ux_framework_prompts.md`
 2. Add a note explaining it was the original prompt organization, now superseded by the frontmatter-based system
 3. Do not delete -- it has historical value and the organizational structure informed the current phase design
+
+> **Note (2026-06-06):** The Stream Deck document was removed during migration rather than archived, as all unique content (Simulation/Synthesis mode prompts) was migrated to the framework's mode system. The `docs/archive/` directory was never created.
 
 ### Verification
 

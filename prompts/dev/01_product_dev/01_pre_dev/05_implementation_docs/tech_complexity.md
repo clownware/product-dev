@@ -3,9 +3,10 @@ name: tech-complexity-assessment
 description: >
   Assess technical complexity and identify high-risk areas.
   Use before starting development to prioritize effort.
-run: always
+run: context_gated
+run_when: Project is a software product with client-server architecture
 produces: complexity_assessment
-requires: [data_models, api_contracts, business_rules]
+requires: [data_models, api_contracts, business_rules, solution_concept, feature_list]
 tier: 2
 ---
 For our solution concept: {{solution_concept}} with key features: {{feature_list}}, let's assess implementation complexity to inform planning.

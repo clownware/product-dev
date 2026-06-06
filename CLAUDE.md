@@ -316,6 +316,7 @@ plugin/
 │   ├── idea.md
 │   ├── problem.md
 │   ├── spec.md
+│   ├── compile.md
 │   └── summary.md
 ├── skills/                      # 4 skills (3 workflows + status)
 │   ├── product-ideation/SKILL.md

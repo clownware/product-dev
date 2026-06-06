@@ -2,7 +2,9 @@
 
 ## Status
 
-Accepted
+Accepted (Amended 2026-06-06)
+
+> **Amendment Note (2026-06-06):** Updated plugin structure and component mapping to reflect 5 shipped commands (added `compile.md` and `summary.md`). Original decision text preserved below.
 
 ## Context
 
@@ -26,7 +28,9 @@ product-dev/
 ├── commands/
 │   ├── idea.md                      # /idea — entry point for product ideas
 │   ├── problem.md                   # /problem — entry point at Phase 01
-│   └── spec.md                      # /spec — entry point for tech specs
+│   ├── spec.md                      # /spec — entry point for tech specs
+│   ├── compile.md                   # /compile — assemble validated spec package
+│   └── summary.md                   # /summary — consolidated project brief
 ├── skills/
 │   ├── product-ideation/SKILL.md    # Phases 00-03 (user-invocable + auto-invocable)
 │   ├── product-flow/SKILL.md        # Phases 04-06 (user-invocable + auto-invocable)
@@ -42,7 +46,7 @@ Commands provide short entry points (`/idea`, `/problem`, `/spec`). Skills are a
 
 | Framework Concept | Plugin Mechanism | ADR Reference |
 |-------------------|-----------------|---------------|
-| 3 entry-point commands | `commands/*.md` | ADR 0004 |
+| 5 entry-point commands | `commands/*.md` | ADR 0004 |
 | 4 skills (3 workflows + status) | `skills/*/SKILL.md` | ADR 0004 |
 | 1 subagent (Tech Spec Writer) | `agents/tech-spec-writer.md` | ADR 0004 |
 | MCP prompt tools | `.mcp.json` (deferred) | ADR 0002 |

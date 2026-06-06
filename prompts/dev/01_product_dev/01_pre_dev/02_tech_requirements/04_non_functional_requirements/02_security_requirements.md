@@ -3,7 +3,8 @@ name: security-requirements
 description: >
   Define security requirements and threat model.
   Use when specifying authentication, authorization, and data protection needs.
-run: always
+run: context_gated
+run_when: Project is a software product with client-server architecture
 produces: security_requirements
 requires: [data_models, api_contracts]
 tier: 2
