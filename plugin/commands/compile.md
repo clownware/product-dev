@@ -30,8 +30,9 @@ Compile the current project's artifacts into a spec package.
 
 ## Execution
 
-5. Run the compilation script:
+5. Ensure Python dependencies are installed, then run the compilation script:
    ```
+   pip install -r scripts/requirements.txt -q
    python scripts/compile_spec.py <project-dir>
    ```
    The script handles:
