@@ -3,7 +3,8 @@ name: api-first-planning
 description: >
   Plan API-first development approach.
   Use when designing the system as API-first.
-run: always
+run: context_gated
+run_when: Project is a software product with client-server architecture
 produces: api_first_plan
 requires: [api_contracts, data_models]
 tier: 2

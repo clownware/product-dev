@@ -3,7 +3,8 @@ name: performance-requirements
 description: >
   Define performance, security, and operational constraints as structured YAML.
   Produces constraints.yaml for the spec package. Scoped to prototype targets.
-run: always
+run: context_gated
+run_when: Project is a software product with client-server architecture
 produces: nfr
 requires: [data_models, api_contracts, user_flow]
 tier: 1

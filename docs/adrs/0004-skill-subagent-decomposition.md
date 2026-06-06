@@ -4,7 +4,9 @@
 
 Accepted (Amended 2026-04-04)
 
-> **Amendment Note:** Consolidated from 8 skills to 3 skills + 4 commands, and reduced from 4 subagents to 1. Reflects plugin delivery model (ADR 0008) and planning-in-chat principle.
+> **Amendment Note (2026-04-04):** Consolidated from 8 skills to 3 skills + 5 commands, and reduced from 4 subagents to 1. Reflects plugin delivery model (ADR 0008) and planning-in-chat principle.
+>
+> **Amendment Note (2026-06-06):** Updated command table to reflect 5 shipped commands (added `/compile` and `/summary`, moved `/status` to skills). Corrected counts in Consequences section.
 
 ## Context
 
@@ -39,14 +41,15 @@ Planning, design thinking, and research benefit from iterative back-and-forth in
 
 **Rationale:** `/idea` + `/problem` + `/hypothesis` are a continuous conversation that shouldn't be fragmented by tool boundaries. `/flow` + `/prototype` + `/evaluate` are a tight design-test loop. `/spec` stays standalone — different audience, tone, and output format.
 
-### Commands (4 total)
+### Commands (5 total)
 
 | Command | Purpose |
 |---------|---------|
 | `/idea` | Entry point into `product-ideation` skill |
 | `/problem` | Entry point into `product-ideation` skill, starting at problem definition |
 | `/spec` | Entry point into `tech-spec` skill |
-| `/status` | Deterministic project state display — no LLM needed |
+| `/compile` | Assembles artifacts into a validated spec package (ADR 0010) |
+| `/summary` | Assembles design artifacts into a consolidated project brief |
 
 ### Subagents (1 total)
 
@@ -91,7 +94,7 @@ User invokes command (e.g., /idea)
 ## Consequences
 
 **Positive:**
-- 4 commands are easy to remember and discover
+- 5 commands are easy to remember and discover
 - 3 skills cover the full lifecycle without fragmentation
 - Planning stays conversational (chat/cowork) where iteration has value
 - Implementation (tech spec) gets subagent focus where structured output is the goal
