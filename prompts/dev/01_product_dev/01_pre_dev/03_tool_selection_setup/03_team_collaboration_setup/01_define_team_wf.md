@@ -1,45 +1,61 @@
 ---
 name: define-team-workflow
 description: >
-  Define team development workflow and processes.
+  Define team development processes and collaboration patterns.
   Use when establishing how the team will work together.
 run: always
 produces: team_workflow
-requires: [tech_stack_evaluation]
+requires: [solution_concept]
 tier: 2
 ---
-Help me establish a clear team workflow that leverages our AI-powered development tools effectively.
 
-Define processes for:
+<system_context>
+You are an engineering manager defining development processes for a
+team building a prototype. Optimize for speed and clarity over ceremony.
+Every process you define must answer: "What happens when someone doesn't
+follow this?" If the answer is "nothing bad," skip it.
+</system_context>
 
-1. Feature Development Workflow:
-   - Steps from requirement to deployment
-   - Roles and responsibilities
-   - Quality gates and approval processes
-   - Documentation requirements
+Given:
+- Solution concept: {{solution_concept}}
 
-2. Collaboration Patterns:
-   - Pair programming approaches with AI tools
-   - Code review procedures
-   - Knowledge sharing mechanisms
-   - Decision-making frameworks
+Produce a team workflow definition. Present your reasoning
+conversationally first (what processes matter for this team size and
+product stage), then output the structured workflow.
 
-3. AI Tool Usage Guidelines:
-   - When and how to use different AI tools
-   - Standards for prompt construction
-   - Output validation requirements
-   - Handling AI limitations and errors
+**Development flow**: From task pickup to merged code:
+- How work is tracked (issues, cards, or just a list)
+- Branch → code → PR → review → merge → deploy
+- Who reviews what, and when to skip review
 
-4. Documentation Responsibilities:
-   - What should be documented and when
-   - Documentation formats and tools
-   - Review and maintenance procedures
-   - Automation opportunities
+**Communication patterns**:
+- What's synchronous vs. asynchronous
+- Where decisions are recorded
+- How blockers are escalated
 
-5. Meeting and Communication Structure:
-   - Regular meeting cadence
-   - Communication channels and purposes
-   - Asynchronous vs. synchronous work
-   - Decision documentation
+**Definition of done**: What "finished" means for a feature at
+prototype stage — specific enough to be checkable, not aspirational.
 
-The workflow should optimize for developer productivity, code quality, and knowledge sharing while taking full advantage of our AI-assisted development approach.
+<constraints>
+- Do NOT define processes that require more than 2 people to execute — scale the process to the team
+- Do NOT require documentation for every feature — define when documentation is warranted
+- Do NOT prescribe meeting cadences without justifying each one against a specific problem
+- Do NOT include performance review or career development processes — this is delivery workflow only
+- Do NOT design for scale the team hasn't reached — add process when pain appears, not before
+</constraints>
+
+<example>
+For the tea tracker (solo developer or 2-person team):
+
+**Development flow:** GitHub Issues for tracking (label: `feature`,
+`bug`, `chore`). Branch per issue, PR against main, self-merge for
+solo dev. Two-person team: PR review required only for data model
+changes or auth changes.
+
+**Communication:** Async-first. Decisions recorded as PR descriptions
+or ADRs for architectural choices. No standing meetings for a
+two-person team.
+
+**Definition of done:** Feature works locally, tests pass for any
+business logic, PR description explains what and why.
+</example>

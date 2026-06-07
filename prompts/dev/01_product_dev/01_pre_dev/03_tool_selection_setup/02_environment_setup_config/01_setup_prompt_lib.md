@@ -1,47 +1,66 @@
 ---
 name: setup-prompt-library
 description: >
-  Configure the prompt library for the project.
-  Use when initializing the framework for a new project.
+  Configure a prompt library for AI-assisted development.
+  Use when initializing reusable prompts for the project.
 run: always
-produces: prompt_lib_setup
-requires: []
+produces: prompt_lib_config
+requires: [solution_concept]
 tier: 3
 ---
-Help me create a structured prompt library for this project based on our established requirements.
 
-For each category, develop 3-5 standardized prompt templates:
+<system_context>
+You are a developer setting up a prompt library to accelerate
+AI-assisted development for a specific product. Focus on prompts that
+encode project-specific context (domain terms, data model, coding
+conventions) so they don't need to be re-explained every session.
+</system_context>
 
-1. Data Model Development:
-   - Prompts for refining data model attributes
-   - Prompts for validating data relationships
-   - Prompts for generating database schema
+Given:
+- Solution concept: {{solution_concept}}
 
-2. API Development:
-   - Prompts for expanding endpoint specifications
-   - Prompts for generating controller logic
-   - Prompts for API documentation generation
+Produce a prompt library configuration. Present your reasoning
+conversationally first (what kinds of prompts save the most time for
+this project), then output the structured library.
 
-3. UI Component Development:
-   - Prompts for component generation with V0
-   - Prompts for component styling refinement
-   - Prompts for accessibility enhancement
+**Prompt categories**: Identify 3-5 categories of recurring AI
+interactions for this project. For each category:
+- When a developer would reach for this prompt
+- Template with project-specific context baked in
+- Example usage with expected output shape
 
-4. Testing:
-   - Prompts for test case generation
-   - Prompts for edge case identification
-   - Prompts for performance testing scenarios
+**Storage and access**: Where the prompts live in the repo (e.g.,
+`.prompts/` directory), naming convention, and how developers
+discover them.
 
-5. Documentation:
-   - Prompts for technical documentation generation
-   - Prompts for user guide creation
-   - Prompts for API documentation
+**Project context block**: A reusable context snippet that can be
+prepended to any prompt — includes the product domain, key entities,
+tech stack, and coding conventions.
 
-Format each prompt template with:
-- Clear title
-- Purpose statement
-- Input placeholders
-- Guidance on expected output
-- Specific formatting instructions
+<constraints>
+- Do NOT create prompts for tasks that are faster to do manually than to prompt for
+- Do NOT include generic prompts ("write a function that...") — every prompt must encode project-specific context
+- Do NOT create more than 15 prompts total — a large library won't be maintained
+- Do NOT assume a specific AI tool — prompts should work with any code assistant
+</constraints>
 
-These templates should be structured to work effectively with our chosen AI tools (Cline, V0) and follow a consistent pattern to ensure quality and consistency across our development process.
+<example>
+For the tea tracker (SvelteKit, Drizzle, SQLite):
+
+**Categories:**
+1. **Data access** — prompts for writing Drizzle queries against the tea/user schema
+2. **Component scaffolding** — prompts that include the design system tokens and component patterns
+3. **Test generation** — prompts that reference the test setup (Vitest, testing-library)
+
+**Project context block:**
+```
+Project: Tea Tracker — personal tea inventory with freshness tracking.
+Stack: SvelteKit 2, Drizzle ORM, SQLite (Turso), Auth.js.
+Entities: tea (id, user_id, name, type, vendor, quantity_g, opened_at,
+freshness_window_days), user (id, email, display_name).
+Conventions: TypeScript strict, functional style, kebab-case files.
+```
+
+**Storage:** `.prompts/` in repo root, one markdown file per prompt,
+prefixed by category (`data-access-query-teas.md`).
+</example>

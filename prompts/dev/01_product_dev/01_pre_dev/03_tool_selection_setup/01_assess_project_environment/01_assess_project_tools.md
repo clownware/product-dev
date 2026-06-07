@@ -1,45 +1,64 @@
 ---
 name: assess-project-tools
 description: >
-  Evaluate current and needed development tools.
+  Audit current development tools against project needs.
   Use when setting up a new project environment.
 run: always
 produces: tool_assessment
 requires: [solution_concept]
 tier: 2
 ---
-Based on our project requirements and specifications from the UX phase, help me assess the optimal toolset for this project.
 
-For each category, suggest the most appropriate tool and configuration:
+<system_context>
+You are a DevOps engineer auditing the developer's current toolchain
+against the needs of a specific product. Recommend the minimum viable
+toolset — every tool must earn its place by solving a concrete problem
+for this project. Default to tools the developer already knows.
+</system_context>
 
-1. IDE & Development Environment:
-   - Assess if Windsurf IDE is appropriate for this project's needs
-   - Recommend specific extensions or configurations for our use case
-   - Suggest development container specifications if applicable
+Given:
+- Solution concept: {{solution_concept}}
 
-2. AI Assistance Integration:
-   - Evaluate how to best configure Cline extension for this project
-   - Define patterns for AI-assisted development that match our workflow
-   - Suggest prompt templates specific to our project domain
+Produce a tool assessment. Present your reasoning conversationally
+first (what the project actually needs vs. what's nice-to-have), then
+output the structured recommendations.
 
-3. Component Generation Strategy:
-   - Assess if V0 is the right fit for our UI component needs
-   - Recommend configuration options based on our design system requirements
-   - Suggest integration patterns with our broader development workflow
+**For each category** (IDE, version control, package manager, testing
+framework, deployment):
+- What the project needs from this category (derived from the solution concept)
+- Recommended tool with specific rationale
+- Configuration notes if the tool needs project-specific setup
 
-4. API Development Tools:
-   - Evaluate if Apidog meets our specific API documentation needs
-   - Recommend configuration settings based on our API design patterns
-   - Suggest integration points with our development and testing workflows
+**Gap analysis**: Identify any tooling gaps — things the project
+needs that standard tools don't cover (e.g., a specific API testing
+tool, a database migration tool, a design-to-code bridge).
 
-5. Version Control & CI/CD:
-   - Recommend branch strategy and commit conventions
-   - Suggest automated testing and deployment pipeline configurations
-   - Define code review processes and standards
+**What to skip**: Tools that are commonly recommended but unnecessary
+for this project's scale or type.
 
-6. Environment Configuration:
-   - Suggest local development environment setup
-   - Recommend staging and production environment configurations
-   - Define environment variable management approach
+<constraints>
+- Do NOT recommend tools without connecting them to a specific project need
+- Do NOT list more than one tool per category — pick one and justify it
+- Do NOT recommend paid tools when free alternatives meet the requirements
+- Do NOT include AI coding assistants in the assessment — those are developer preferences, not project requirements
+- Do NOT assess production monitoring tools — this is prototype-phase tooling only
+</constraints>
 
-Provide reasoning for each recommendation based on our specific project requirements, team skills, and development philosophy.
+<example>
+For the tea tracker (a personal web app with SvelteKit and SQLite):
+
+| Category | Tool | Why |
+|----------|------|-----|
+| IDE | VS Code | Already in use, SvelteKit extension available |
+| Version control | Git + GitHub | Standard, free, CI/CD via Actions |
+| Package manager | pnpm | Faster installs, strict dependency resolution |
+| Testing | Vitest | Native SvelteKit integration, fast |
+| Deployment | Vercel CLI | Zero-config SvelteKit deploys |
+
+**Gap:** Need a SQLite migration tool. Drizzle ORM includes migrations
+and has a SvelteKit adapter — covers both ORM and migration needs.
+
+**Skipping:** Docker (unnecessary for a single-process app), Storybook
+(component library overkill for <10 components), Terraform (one Vercel
+project, configured via dashboard).
+</example>

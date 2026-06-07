@@ -1,44 +1,76 @@
 ---
 name: analytics-strategy
 description: >
-  Define analytics implementation strategy.
-  Use when planning how to measure product usage and success.
+  Define what to measure and how to measure it.
+  Use when planning product analytics before implementation.
 run: always
 produces: analytics_strategy
-requires: [success_metrics, user_flow]
+requires: [solution_concept, core_objective]
 tier: 2
 ---
-For our solution: {{solution_concept}} with core metrics: {{success_metrics}}, let's develop a comprehensive analytics strategy.
 
-Please help me define:
+<system_context>
+You are a product analyst defining an analytics strategy for a prototype.
+Focus on the smallest set of events that validates the core hypothesis.
+Every tracked event must connect to a specific product question — if you
+can't say what decision the data informs, don't track it.
+</system_context>
 
-1. Key events to track:
-   - User actions and interactions
-   - System events and state changes
-   - Error conditions
-   - Performance metrics
-   - Business metrics
+Given:
+- Solution concept: {{solution_concept}}
+- Core objective: {{core_objective}}
 
-2. For each critical event:
-   - Specific definition and trigger conditions
-   - Properties/parameters to capture
-   - Connection to product goals and hypotheses
-   - Implementation considerations
+Produce an analytics strategy. Present your reasoning conversationally
+first (what questions matter most, what you'd skip), then output the
+structured event plan.
 
-3. User property/dimension strategy:
-   - What user characteristics should we capture?
-   - What segmentation dimensions are important?
-   - What session/context data is relevant?
+**Core events**: 5-10 events maximum that answer "is the product working?"
+For each event:
+- Name (verb_noun format: `added_tea`, `checked_freshness`)
+- Trigger condition (what user action fires it)
+- Properties to capture (2-4 per event, no more)
+- Which product question it answers
 
-4. Implementation approach:
-   - Recommended analytics tool/platform
-   - Integration strategy (client vs. server-side)
-   - Data layer requirements
-   - Privacy and consent considerations
+**Metrics derived from events**: 2-3 key metrics that roll up from
+the events above. For each, define the calculation and what "good"
+looks like for the prototype phase.
 
-5. Reporting framework:
-   - Key dashboards needed
-   - Critical metrics for ongoing monitoring
-   - Alert thresholds
+**What NOT to track**: Explicitly list categories of data you're
+skipping and why (privacy, complexity, premature optimization).
 
-This analytics strategy will ensure we collect the right data to measure success and inform future iterations.
+**Implementation approach**: Client-side vs. server-side, recommended
+tool, and integration pattern — keep it minimal for a prototype.
+
+<constraints>
+- Do NOT define more than 10 events — if you need more, the product scope is too broad
+- Do NOT track PII or PII-adjacent data (names, specific content) — track actions and counts
+- Do NOT specify dashboards or alerting — prototype analytics means looking at raw data
+- Do NOT recommend enterprise analytics platforms — pick lightweight tools appropriate for a prototype
+- Do NOT track vanity metrics (page views, session duration) unless they directly answer a product question
+</constraints>
+
+<example>
+Here's the analytics strategy for the tea tracker:
+
+The core question is: "Does tracking freshness change behavior?" We
+need to know if people actually check freshness and act on it.
+
+**Events:**
+
+| Event | Trigger | Properties | Answers |
+|-------|---------|------------|---------|
+| `added_tea` | User creates a tea entry | tea_type, has_opened_date | Are people building collections? |
+| `opened_tea` | User sets opened_at date | tea_type, days_since_added | Are people tracking freshness? |
+| `checked_collection` | User views tea list | total_teas, stale_count | How often do people check? |
+| `removed_tea` | User deletes a tea | freshness_status, days_in_collection | Does freshness drive removal? |
+
+**Key metric:** Stale tea removal rate = removed_tea(status=past_peak)
+/ total past_peak teas. If people remove stale teas more than they
+ignore them, the freshness feature is working.
+
+**Not tracking:** Individual tea names (PII-adjacent), brew counts
+(out of prototype scope), session duration (vanity metric).
+
+**Implementation:** Server-side event logging to a simple append-only
+table. No third-party analytics tool needed at prototype scale.
+</example>
