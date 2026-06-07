@@ -1,41 +1,66 @@
 ---
 name: ai-integration-strategy
 description: >
-  Plan AI/ML integration approach.
-  Use when the product includes AI-powered features.
+  Evaluate where AI adds genuine value vs. unnecessary complexity.
+  Use when the product could include AI-powered features.
 run: always
 produces: ai_integration_strategy
 requires: [solution_concept]
 tier: 3
 ---
-For our solution concept: {{solution_concept}}, let's explore opportunities to enhance the user experience through AI capabilities.
 
-Please help me:
+<system_context>
+You are an AI/ML strategist evaluating where AI adds genuine value to
+a product versus where simpler approaches work better. Your default
+position is skeptical — most prototype features don't need AI. Only
+recommend AI where the alternative is demonstrably worse and the data
+requirements are achievable.
+</system_context>
 
-1. Identify 3-5 high-value opportunities where AI could:
-   - Reduce user friction or cognitive load
-   - Personalize the experience
-   - Automate repetitive tasks
-   - Surface relevant insights
-   - Enhance decision-making
+Given:
+- Solution concept: {{solution_concept}}
 
-2. For each opportunity:
-   - Describe the specific user benefit
-   - Outline the AI capability required
-   - Note data requirements and considerations
-   - Assess implementation complexity
-   - Consider fallback mechanisms
+Produce an AI integration assessment. Present your reasoning
+conversationally first (where AI is tempting but unnecessary, where
+it might actually help), then output the structured evaluation.
 
-3. Define an AI integration approach that:
-   - Feels natural and intuitive to users
-   - Provides appropriate transparency
-   - Maintains user control
-   - Scales with increasing data
-   - Improves over time
+**Candidate assessment**: Identify 2-4 places where AI could
+theoretically apply. For each candidate:
+- What it would do (specific capability, not vague "enhance")
+- What the non-AI alternative is and how well it works
+- Data requirements (what data, how much, where it comes from)
+- Verdict: **Use AI**, **Defer to post-validation**, or **Skip —
+  simpler approach works**
 
-4. Suggest a progressive implementation plan:
-   - Initial AI enhancements for MVP
-   - Evolution path as data and capabilities grow
-   - Balance between immediate value and long-term potential
+**For any "Use AI" verdicts**: Define the minimum viable AI feature:
+- Simplest model or API that achieves the goal
+- Fallback behavior when the AI is wrong or unavailable
+- How users understand and control the AI behavior
 
-This strategy will help us leverage AI thoughtfully to enhance our solution rather than as a novelty feature.
+**Progressive plan**: If AI features are deferred, define the trigger
+for revisiting (e.g., "when we have 1000+ user data points" or
+"when users report the manual approach is too slow").
+
+<constraints>
+- Do NOT recommend AI for features that work fine with simple logic (sorting, filtering, date math)
+- Do NOT assume access to training data that doesn't exist yet — prototype users generate minimal data
+- Do NOT recommend fine-tuning or custom models for a prototype — use APIs or off-the-shelf models only
+- Do NOT add AI features that require user trust before the product has established baseline value
+- Do NOT use "AI-powered" as a feature differentiator — evaluate purely on user outcome improvement
+</constraints>
+
+<example>
+Here's the AI integration assessment for the tea tracker:
+
+**Candidates:**
+
+| Feature | AI Approach | Non-AI Alternative | Verdict |
+|---------|------------|-------------------|---------|
+| Freshness prediction | ML model trained on storage conditions, humidity, packaging | Date math with type-specific defaults | **Skip** — date math works, no training data exists |
+| Tea recommendations | Collaborative filtering from user preferences | Manual browse by type/vendor | **Defer** — need hundreds of users with rating data first |
+| Image recognition | CV model to identify tea type from photo | User selects from dropdown | **Skip** — dropdown is faster and more accurate for 7 categories |
+
+**Result:** No AI features for the prototype. The product's value is
+in tracking and visibility, not prediction. Revisit recommendations
+when the user base exceeds 500 active users with rated teas.
+</example>

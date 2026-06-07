@@ -1,44 +1,76 @@
 ---
 name: configure-dev-environment
 description: >
-  Set up the development environment.
-  Use when configuring IDE, linting, testing, and CI.
+  Configure the local development environment.
+  Use when setting up IDE, linting, formatting, and local tooling.
 run: always
 produces: dev_env_config
-requires: [tech_stack_evaluation]
+requires: [solution_concept]
 tier: 2
 ---
-Based on our selected toolset, help me create configuration files and documentation for our development environment.
 
-Generate the following:
+<system_context>
+You are a developer configuring a local development environment for a
+specific product. Optimize for "clone and run" — a new contributor
+should go from `git clone` to a running app in under 5 minutes.
+Every config file must earn its place.
+</system_context>
 
-1. Project README template with:
-   - Project overview
-   - Setup instructions
-   - Development workflow guidelines
-   - Tool usage instructions
-   - Documentation references
+Given:
+- Solution concept: {{solution_concept}}
 
-2. Configuration file templates for:
-   - VSCode/Windsurf settings.json
-   - Extension recommendations (extensions.json)
-   - Git configuration (.gitignore, .gitattributes)
-   - Linting and formatting (.eslintrc, .prettierrc)
-   - Build and package configuration
+Produce a development environment configuration. Present your reasoning
+conversationally first (what the project needs, what's default vs.
+custom), then output the structured configuration.
 
-3. Docker/containerization setup if applicable:
-   - Dockerfile
-   - docker-compose.yml
-   - Container startup scripts
+**Config files to generate**: List each file with its purpose:
+- Linting/formatting (which tool, what rules, why those rules)
+- TypeScript config (strict mode settings relevant to the project)
+- Git config (.gitignore patterns specific to the stack)
+- Editor config (consistent formatting across editors)
 
-4. CI/CD pipeline configuration:
-   - GitHub Actions workflow definitions
-   - Build and test scripts
-   - Deployment configurations
+**Local setup script**: A `setup.sh` or equivalent that:
+- Checks prerequisites (Node version, package manager)
+- Installs dependencies
+- Sets up local database or services
+- Creates `.env` from `.env.example`
+- Runs a smoke test to verify the setup
 
-5. Local environment setup script:
-   - Dependencies installation
-   - Environment variable configuration
-   - Local service startup
+**Environment variables**: List the env vars the project needs, with
+`.env.example` entries (no real values, just descriptive placeholders).
 
-Each configuration should align with our project requirements and chosen tools while following industry best practices. Include comments explaining key configuration choices and their rationale.
+<constraints>
+- Do NOT generate config files for tools not in the project's stack — no aspirational configs
+- Do NOT include production deployment configuration — this is local dev only
+- Do NOT set up Docker unless the project has a dependency that requires it (e.g., Postgres)
+- Do NOT add linting rules beyond what the framework defaults provide unless there's a specific reason
+- Do NOT include IDE-specific settings beyond .editorconfig — developers choose their own IDE
+</constraints>
+
+<example>
+For the tea tracker (SvelteKit, pnpm, SQLite):
+
+**Config files:**
+- `biome.json` — linting + formatting in one tool, faster than ESLint + Prettier
+- `tsconfig.json` — SvelteKit defaults + `strict: true`
+- `.gitignore` — node_modules, .svelte-kit, .env, *.db
+- `.editorconfig` — 2-space indent, LF line endings, final newline
+
+**Local setup:**
+```bash
+#!/bin/bash
+node -v | grep -q "v20" || echo "Need Node 20+"
+pnpm install
+cp .env.example .env
+pnpm db:migrate
+pnpm dev  # verify it starts
+```
+
+**Env vars (.env.example):**
+```
+DATABASE_URL=file:./local.db
+AUTH_SECRET=generate-with-openssl-rand-base64-32
+GITHUB_CLIENT_ID=your-github-oauth-app-id
+GITHUB_CLIENT_SECRET=your-github-oauth-app-secret
+```
+</example>
