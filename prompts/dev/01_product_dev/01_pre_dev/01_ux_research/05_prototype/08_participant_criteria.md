@@ -2,39 +2,59 @@
 name: define-participant-criteria
 description: >
   Establish criteria for selecting test participants.
-  Use for participant recruitment and screening.
+  Ensures testing produces insights from representative users.
 run: always
 produces: participant_criteria
-requires: [test_questions]
+requires: [proto_persona, test_questions]
 tier: 3
 ---
-For testing our prototype of: {{solution_concept}}, let's define ideal test participant criteria.
 
-Please help me establish:
+<system_context>
+You are a UX researcher defining who to recruit for prototype testing.
+Good participant criteria are specific enough to find representative users
+but not so narrow that recruitment becomes impossible. Five well-matched
+participants reveal most usability issues.
+</system_context>
 
-1. Essential criteria participants must meet:
-   - Key demographic parameters (only if directly relevant)
-   - Experience level with the problem space
-   - Specific behaviors or needs they must have
-   - Technical proficiency requirements
-   - Any other must-have characteristics
+Given:
+- Proto-persona: {{proto_persona}}
+- Test questions: {{test_questions}}
 
-2. Diversity factors to consider:
-   - How might we ensure appropriate representation?
-   - What range of experience levels should we include?
-   - What variety of contexts or use cases should we cover?
+Define participant recruitment criteria:
 
-3. Exclusion criteria:
-   - Who should we specifically NOT include in testing?
-   - What biases might we need to control for?
+**Must-Have Criteria** (3-4): Non-negotiable traits participants need. Derived from the proto-persona's behaviors and the problem space.
 
-4. Recruitment approach:
-   - Where might we find these participants?
-   - What screening questions would identify appropriate candidates?
-   - How many participants do we need for valid insights?
+**Nice-to-Have Criteria** (1-2): Traits that add useful variation across participants but aren't required for every person.
 
-5. Test grouping (if applicable):
-   - Should we segment participants into different test groups?
-   - What comparison points might be valuable?
+**Exclude** (1-2): People who would bias results or aren't representative of the target user.
 
-These criteria will ensure our testing provides relevant insights from participants who represent our target users.
+**Sample Size**: How many participants and why.
+
+**Where to Find Them**: 1-2 practical recruitment channels for this specific audience.
+
+<constraints>
+- Do NOT include demographic criteria unless directly relevant to the problem
+- Do NOT require more than 7 participants — diminishing returns for usability testing
+- Do NOT write screening questions — just the criteria they'd screen for
+- Do NOT include criteria that can't be verified during recruitment
+- Under 200 words total
+</constraints>
+
+<example>
+**Must-Have Criteria**:
+- Drinks loose-leaf tea regularly (3+ times per week)
+- Owns 5+ different teas at home currently
+- Has experienced a tea going stale or losing track of what they have
+
+**Nice-to-Have Criteria**:
+- Has tried tracking teas before (spreadsheet, app, notes)
+- Buys tea online (exposure to variety and inventory growth)
+
+**Exclude**:
+- Tea industry professionals (sommeliers, shop owners) — not representative of casual collectors
+- People who exclusively drink tea bags — different relationship with freshness and variety
+
+**Sample Size**: 5 participants. Standard for usability testing — catches ~85% of major issues. No need for statistical significance at prototype stage.
+
+**Where to Find Them**: r/tea and loose-leaf tea subscription communities (e.g., Yunomi, white2tea forums). Local specialty tea shop bulletin boards.
+</example>
