@@ -28,7 +28,7 @@ Also read if available: `screen_inventory`, `prototype_scope`, `hypothesis_state
 
 Always spawn the **Tech Spec Writer** subagent (`plugin/agents/tech-spec-writer.md`). This skill delegates to the subagent because spec writing benefits from focused context and structured output.
 
-The subagent runs the tech requirements prompt sequence from `prompts/dev/01_product_dev/01_pre_dev/02_tech_requirements/`:
+The subagent runs the tech requirements prompt sequence from `${CLAUDE_PLUGIN_ROOT}/prompts/02_tech_requirements/`:
 
 ### Tier 1 Sequence
 
@@ -69,7 +69,7 @@ After the tech spec sequence completes, offer to compile the spec package:
 
 > "Technical specs are complete. Ready to compile the spec package? This assembles all artifacts into a validated, agent-consumable package. Run `/compile` to proceed."
 
-The `/compile` command runs `scripts/compile_spec.py`, which assembles the context layer (prose), spec layer (YAML), governance layer (PRD + ADRs), and runs 20 cross-reference validation checks.
+The `/compile` command runs `${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py`, which assembles the context layer (prose), spec layer (YAML), governance layer (PRD + ADRs), and runs 20 cross-reference validation checks.
 
 ## Handoff
 

@@ -20,7 +20,7 @@ Start a product ideation session using the `product-ideation` skill.
    - If `$ARGUMENTS` describes a domain interest (e.g., "problems in specialty tea") → use `explore_problem` prompt
    - If no arguments provided → ask: "What's on your mind? Tell me about the idea, problem, or space you're interested in."
 
-3. Read the selected prompt from `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/00_fuzzy_front_end/` and execute it.
+3. Read the selected prompt from `${CLAUDE_PLUGIN_ROOT}/prompts/01_ux_research/00_fuzzy_front_end/` and execute it.
 
 4. After producing output, write the artifact to `.product-dev/artifacts/initial_concept.md` and update the registry.
 

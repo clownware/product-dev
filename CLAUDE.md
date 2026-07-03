@@ -4,8 +4,12 @@ AI-assisted product development from vague idea to technical spec. Guides users 
 
 ## Repo Structure
 
+The framework prompts are bundled inside the plugin at `plugin/prompts/` so the
+plugin is self-contained and distributable. Skills, commands, and the subagent
+reference them via `${CLAUDE_PLUGIN_ROOT}/prompts/...` (ADR 0011).
+
 ```
-prompts/dev/01_product_dev/01_pre_dev/
+plugin/prompts/
 ├── 01_ux_research/
 │   ├── 00_fuzzy_front_end/    # Phase 00: Idea capture + exploration
 │   ├── 01_define_problem/     # Phase 01: Problem statement + persona
@@ -19,6 +23,9 @@ prompts/dev/01_product_dev/01_pre_dev/
 ├── 04_bridge_to_architecture/ # Architecture transition prompts (Tier 3)
 └── 05_implementation_docs/    # Implementation planning (Tier 3)
 ```
+
+Non-framework reference material (build guides, IDE rules, portfolio prompts)
+remains at repo root under `prompts/dev/` and is not part of the plugin bundle.
 
 **Frontmatter schema** (each prompt file):
 ```yaml
@@ -264,7 +271,7 @@ When `.product-dev/context.json` exists and the user is continuing (not starting
 5. Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk — never from conversation history (which is empty in a new session)
 
 3. **Execute prompt**:
-   - Read the prompt file from `prompts/dev/01_product_dev/01_pre_dev/...`
+   - Read the prompt file from `${CLAUDE_PLUGIN_ROOT}/prompts/...`
    - Resolve `{{variables}}` from the context registry
    - Present the prompt's output to the user conversationally — not as a formatted dump
    - Write the artifact via `setArtifact()`
@@ -323,15 +330,26 @@ plugin/
 │   ├── product-flow/SKILL.md
 │   ├── tech-spec/SKILL.md
 │   └── status/SKILL.md
-└── agents/                      # 1 subagent
-    └── tech-spec-writer.md
+├── agents/                      # 1 subagent
+│   └── tech-spec-writer.md
+├── prompts/                     # Bundled prompt library (framework workflow)
+│   ├── 01_ux_research/
+│   ├── 02_tech_requirements/
+│   ├── 03_tool_selection_setup/
+│   ├── 04_bridge_to_architecture/
+│   └── 05_implementation_docs/
+└── scripts/                     # Bundled compile pipeline
+    ├── compile_spec.py
+    ├── validate_spec.py
+    ├── generate_handoff.py
+    └── requirements.txt
 ```
 
 **Commands** are entry points — `/idea`, `/problem`, `/spec` dispatch to workflow skills. `/compile` assembles artifacts into a validated spec package. `/summary` assembles a consolidated project brief.
 **Skills** own the conversational UX — prompt sequencing, tier escalation, registry operations, checkpoints. Also accessible as `/product-dev:product-ideation`, `/product-dev:product-flow`, `/product-dev:tech-spec`, `/product-dev:status`.
 **Agents** are isolated workers — the tech-spec-writer takes design artifacts and produces structured specs.
 
-The plugin references prompts by path from `prompts/dev/` — it does not embed prompt content. The context registry (`.product-dev/`) lives in the user's project directory, not in the plugin.
+The plugin bundles its prompt library and compile scripts under `plugin/prompts/` and `plugin/scripts/`, referenced via `${CLAUDE_PLUGIN_ROOT}` so the bundle is self-contained and resolves regardless of the user's working directory (ADR 0011). The context registry (`.product-dev/`) lives in the user's project directory, not in the plugin.
 
 ### Deliverables
 
@@ -354,3 +372,4 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Plugin architecture: ADR 0008
 - Prompt enhancement pattern: ADR 0009
 - Spec package as compilation target: ADR 0010
+- Plugin self-containment (bundled prompts/scripts via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011

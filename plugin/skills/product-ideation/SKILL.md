@@ -15,7 +15,7 @@ Be curious and encouraging. Ask questions that help the user think more clearly.
 
 ## Prompt Library
 
-All prompts are in `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/`. Read prompts from disk before executing — do not paraphrase or summarize them. Resolve `{{variable}}` placeholders from the context registry before execution.
+All prompts are in `${CLAUDE_PLUGIN_ROOT}/prompts/01_ux_research/`. Read prompts from disk before executing — do not paraphrase or summarize them. Resolve `{{variable}}` placeholders from the context registry before execution.
 
 ### Tier 1 Prompt Sequence
 

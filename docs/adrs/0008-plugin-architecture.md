@@ -5,6 +5,8 @@
 Accepted (Amended 2026-06-06)
 
 > **Amendment Note (2026-06-06):** Updated plugin structure and component mapping to reflect 5 shipped commands (added `compile.md` and `summary.md`). Original decision text preserved below.
+>
+> **Amendment Note (2026-07-03):** The prompt library and compile scripts are now bundled inside the plugin (`plugin/prompts/`, `plugin/scripts/`) and referenced via `${CLAUDE_PLUGIN_ROOT}` instead of working-directory-relative paths. This makes the plugin self-contained for cross-project and Cowork use. See ADR 0011, which supersedes the path-resolution approach described below.
 
 ## Context
 
@@ -36,8 +38,10 @@ product-dev/
 │   ├── product-flow/SKILL.md        # Phases 04-06 (user-invocable + auto-invocable)
 │   ├── tech-spec/SKILL.md           # Tech requirements (user-invocable + auto-invocable)
 │   └── status/SKILL.md             # Project status display (read-only)
-└── agents/
-    └── tech-spec-writer.md          # Subagent for structured spec generation
+├── agents/
+│   └── tech-spec-writer.md          # Subagent for structured spec generation
+├── prompts/                         # Bundled prompt library (ADR 0011)
+└── scripts/                         # Bundled compile pipeline (ADR 0011)
 ```
 
 Commands provide short entry points (`/idea`, `/problem`, `/spec`). Skills are also accessible as `/product-dev:product-ideation`, `/product-dev:product-flow`, `/product-dev:tech-spec`, `/product-dev:status`.
@@ -49,8 +53,10 @@ Commands provide short entry points (`/idea`, `/problem`, `/spec`). Skills are a
 | 5 entry-point commands | `commands/*.md` | ADR 0004 |
 | 4 skills (3 workflows + status) | `skills/*/SKILL.md` | ADR 0004 |
 | 1 subagent (Tech Spec Writer) | `agents/tech-spec-writer.md` | ADR 0004 |
+| Bundled prompt library | `prompts/` (via `${CLAUDE_PLUGIN_ROOT}`) | ADR 0011 |
+| Bundled compile pipeline | `scripts/` (via `${CLAUDE_PLUGIN_ROOT}`) | ADR 0011 |
 | MCP prompt tools | `.mcp.json` (deferred) | ADR 0002 |
-| Prompt library | Referenced from skills, not bundled | ADR 0001 |
+| Prompt library | Bundled in `plugin/prompts/`, read by skills via `${CLAUDE_PLUGIN_ROOT}` | ADR 0001, ADR 0011 |
 | Context registry | `.product-dev/context.json` in user's project | ADR 0003 |
 
 ### Skill Frontmatter

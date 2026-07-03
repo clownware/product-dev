@@ -29,8 +29,8 @@ A validation pipeline checks referential integrity across all spec files before 
 ## Prerequisites
 
 - **Claude Code** — CLI, Desktop app, or VS Code extension
-- **Python 3.9+** — required for `/compile` (runs `scripts/compile_spec.py`)
-- **pyyaml** — `pip install -r scripts/requirements.txt`
+- **Python 3.9+** — required for `/compile` (runs the bundled `plugin/scripts/compile_spec.py`)
+- **pyyaml** — `pip install -r plugin/scripts/requirements.txt` (the `/compile` command installs this automatically)
 - **Node.js 18+** — only if using the MCP prompt server directly
 
 ## Install
@@ -79,21 +79,30 @@ Default is **Tier 1** (quick exploration, ~60 min total). The framework escalate
 ## Repository Structure
 
 ```
-├── plugin/                            # Claude Code plugin (installable)
+├── plugin/                            # Claude Code plugin (self-contained, installable)
 │   ├── .claude-plugin/plugin.json     # Plugin manifest
 │   ├── commands/                      # 5 commands (/idea, /problem, /spec, /compile, /summary)
 │   ├── skills/                        # 4 skills (3 workflows + status)
-│   └── agents/                        # 1 subagent (tech-spec-writer)
+│   ├── agents/                        # 1 subagent (tech-spec-writer)
+│   ├── prompts/                       # Bundled prompt library
+│   │   ├── 01_ux_research/            # Prompts: phases 00-06
+│   │   ├── 02_tech_requirements/      # Tech spec prompts: 4 areas + consolidation
+│   │   └── 03-05_*/                   # Tool setup, architecture bridge, impl docs
+│   └── scripts/                       # Bundled compile pipeline
+│       ├── compile_spec.py            # Spec package compiler
+│       ├── validate_spec.py           # 20-check cross-reference validator
+│       ├── generate_handoff.py        # CLAUDE.md handoff generator
+│       └── requirements.txt           # Python deps (pyyaml)
 │
-├── prompts/dev/01_product_dev/01_pre_dev/
-│   ├── 01_ux_research/                # Tier 1 prompts: phases 00-06
-│   └── 02_tech_requirements/          # Tech spec prompts: 4 areas
+├── prompts/dev/                       # Non-framework reference material (not bundled)
+│   ├── build guides/                  # Stack starter guides
+│   ├── ide_rules/                     # IDE configuration prompts
+│   └── portfolio/                     # Portfolio case-study prompts
 │
-├── scripts/
-│   ├── compile_spec.py                # Spec package compiler
-│   ├── validate_spec.py               # 20-check cross-reference validator
-│   ├── generate_handoff.py            # CLAUDE.md handoff generator
-│   └── archive/                       # One-time migration utilities
+├── scripts/                           # Dev/test material (not bundled)
+│   ├── archive/                       # One-time migration utilities
+│   ├── test-chain.md                  # End-to-end test doc
+│   └── test-registry.md               # Registry test doc
 │
 ├── examples/tea-tracker/              # Reference spec package (test fixture)
 │   ├── context.json                   # Sample registry

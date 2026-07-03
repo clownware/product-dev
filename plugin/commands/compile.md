@@ -32,8 +32,8 @@ Compile the current project's artifacts into a spec package.
 
 5. Ensure Python dependencies are installed, then run the compilation script:
    ```
-   pip install -r scripts/requirements.txt -q
-   python scripts/compile_spec.py <project-dir>
+   pip install -r "${CLAUDE_PLUGIN_ROOT}/scripts/requirements.txt" -q
+   python "${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py" <project-dir>
    ```
    The script handles:
    - Copying prose artifacts to `spec-package/context/`
