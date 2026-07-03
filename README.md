@@ -29,8 +29,8 @@ A validation pipeline checks referential integrity across all spec files before 
 ## Prerequisites
 
 - **Claude Code** — CLI, Desktop app, or VS Code extension
-- **Python 3.9+** — required for `/compile` (runs the bundled `plugin/scripts/compile_spec.py`)
-- **pyyaml** — `pip install -r plugin/scripts/requirements.txt` (the `/compile` command installs this automatically)
+- **Python 3.9+** — optional; only `/compile` uses it (to run the bundled `plugin/scripts/compile_spec.py`). The ideation/flow/spec workflow and `/summary` brief work without it. If Python is absent, `/compile` explains and points you to `/summary` and the raw artifacts instead of failing with a traceback.
+- **pyyaml** — auto-installed by `/compile` from `plugin/scripts/requirements.txt` when Python is present
 - **Node.js 18+** — only if using the MCP prompt server directly
 
 ## Install

@@ -30,10 +30,21 @@ Compile the current project's artifacts into a spec package.
 
 ## Execution
 
-5. Ensure Python dependencies are installed, then run the compilation script:
+5. **Preflight — Python is required and not guaranteed to be present.** The compile pipeline is a Python script. Before running it, check the environment:
    ```
-   pip install -r "${CLAUDE_PLUGIN_ROOT}/scripts/requirements.txt" -q
-   python "${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py" <project-dir>
+   python3 --version && python3 -c "import yaml" 2>/dev/null && echo PYYAML_OK
+   ```
+   - If `python3` is missing, do NOT proceed. Tell the user:
+     > "Compiling the spec package requires Python 3, which isn't available in this environment. Your working artifacts in `.product-dev/artifacts/` are complete and usable as-is, and `/summary` produces a consolidated prose brief without Python. Install Python 3 to enable the full validated spec package."
+   - If `python3` exists but `PYYAML_OK` did not print, install the dependency:
+     ```
+     pip install -r "${CLAUDE_PLUGIN_ROOT}/scripts/requirements.txt" -q
+     ```
+     If that install fails (no `pip`, no network), fall back to the same graceful message above — do not leave the user with a raw traceback.
+
+6. Run the compilation script:
+   ```
+   python3 "${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py" <project-dir>
    ```
    The script handles:
    - Copying prose artifacts to `spec-package/context/`
@@ -44,14 +55,14 @@ Compile the current project's artifacts into a spec package.
    - Running validation (20 cross-reference checks) and writing `validation-report.yaml`
    - Generating a `CLAUDE.md` handoff instruction for the implementation agent
 
-6. After compilation, present results:
+7. After compilation, present results:
    - Number of artifacts compiled vs. missing
    - Validation summary (pass/fail/warn counts)
    - If any checks **failed**: show the specific failures and suggest fixes
    - If only **warnings**: note them but confirm the package is ready
    - If all **passed**: confirm the package is ready for handoff
 
-7. Update `context.json` to record that compilation ran:
+8. Update `context.json` to record that compilation ran:
    ```json
    {
      "last_compilation": "ISO 8601 timestamp",
