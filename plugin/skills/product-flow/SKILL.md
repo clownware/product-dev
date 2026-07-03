@@ -23,7 +23,7 @@ Also read if available: `user_flow` (if resuming mid-flow), `screen_inventory`, 
 
 ## Prompt Library
 
-All prompts are in `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/`. Read from disk, resolve `{{variables}}` from registry.
+All prompts are in `${CLAUDE_PLUGIN_ROOT}/prompts/01_ux_research/`. Read from disk, resolve `{{variables}}` from registry.
 
 ### Tier 1 Prompt Sequence
 

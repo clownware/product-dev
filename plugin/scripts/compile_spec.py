@@ -8,8 +8,8 @@ prose artifacts to context/, extracts YAML from spec artifacts to spec/,
 compiles a PRD, extracts ADRs, generates a manifest, and runs validation.
 
 Usage:
-    python scripts/compile_spec.py <project-dir>
-    python scripts/compile_spec.py examples/tea-tracker
+    python "${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py" <project-dir>
+    python "${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py" .product-dev
 
 The project directory must contain:
     - context.json  (registry with artifact index)

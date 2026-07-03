@@ -17,7 +17,7 @@ Start a problem definition session using the `product-ideation` skill, entering 
 
 2. If `$ARGUMENTS` provided, use it as the starting context alongside any existing `initial_concept`.
 
-3. Read `prompts/dev/01_product_dev/01_pre_dev/01_ux_research/01_define_problem/01_create_problem_statement.md`.
+3. Read `${CLAUDE_PLUGIN_ROOT}/prompts/01_ux_research/01_define_problem/01_create_problem_statement.md`.
 
 4. Resolve `{{initial_concept}}` from the registry or from user input.
 
