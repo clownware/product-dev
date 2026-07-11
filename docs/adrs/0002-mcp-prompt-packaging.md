@@ -1,9 +1,11 @@
 # ADR 0002: MCP Packaging for Prompt Library
 
 ## Status
-Accepted (Amended 2026-04-04)
+Superseded by ADR 0008 (2026-07-11)
 
-> **Amendment Note:** MCP server development is deferred in favor of plugin-first delivery (see ADR 0008). The existing `list_prompts` and `get_prompt` tools remain functional. Context management tools (ADR 0003) and prompt enhancement tools are deferred until the plugin validates the workflow and multi-client consumption justifies MCP investment.
+> **Supersession Note (2026-07-11):** The MCP server (`mcp/prompt-server/`) has been removed and issue #13 closed. Neither revisit trigger from the 2026-04-04 amendment fired (multi-client consumption, registry outgrowing JSON), and ADR 0011 moved the framework prompt library to `plugin/prompts/`, leaving the server pointed at a directory that no longer holds it. The plugin (ADR 0008, ADR 0011) is the sole delivery mechanism. If editor-agnostic prompt access becomes a real need, build a new server against `plugin/prompts/` under a fresh ADR.
+
+> **Amendment Note (2026-04-04):** MCP server development is deferred in favor of plugin-first delivery (see ADR 0008). The existing `list_prompts` and `get_prompt` tools remain functional. Context management tools (ADR 0003) and prompt enhancement tools are deferred until the plugin validates the workflow and multi-client consumption justifies MCP investment.
 
 ## Context
 We want the prompt library to be consumable by tools via the Model Context Protocol (MCP). Prompts currently live as Markdown + JSON. ADR 0001 defines frontmatter as the canonical metadata store.

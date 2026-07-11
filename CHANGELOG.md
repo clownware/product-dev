@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `skills-claude-ai/` — Claude.ai Agent Skill ports of product-ideation and product-flow (issue #12): bundled prompts with skill-relative paths, conversation-scoped artifact ledger with `product-dev-artifacts.md` export replacing the `.product-dev/` registry
+
+### Changed
+- ADR 0002: Superseded — MCP server removed; plugin is the sole delivery mechanism
+
+### Removed
+- `mcp/prompt-server/` — MCP server (issue #13 closed as superseded; revisit triggers never fired, and ADR 0011 left it pointing at a prompt directory that no longer holds the framework library)
+
 ## [0.1.0] - 2026-04-06
 
 Version reset with the plugin architecture rewrite (ADR 0008). Prior 1.x/2.x versions

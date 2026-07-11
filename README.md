@@ -32,7 +32,6 @@ A validation pipeline checks referential integrity across all spec files before 
 - **Claude Code** — CLI, Desktop app, or VS Code extension
 - **Python 3.9+** — optional; only `/compile` uses it (to run the bundled `plugin/scripts/compile_spec.py`). The ideation/flow/spec workflow and `/summary` brief work without it. If Python is absent, `/compile` explains and points you to `/summary` and the raw artifacts instead of failing with a traceback.
 - **pyyaml** — auto-installed by `/compile` from `plugin/scripts/requirements.txt` when Python is present
-- **Node.js 18+** — only if using the MCP prompt server directly
 
 ## Install
 
@@ -111,12 +110,14 @@ Default is **Tier 1** (quick exploration, ~60 min total). The framework escalate
 │   ├── spec-package/                  # Compiled output (16 files)
 │   └── CLAUDE.md                      # Generated handoff instruction
 │
-├── docs/
-│   ├── spec-package-schema.md         # Spec package YAML schema (v1.0.0)
-│   ├── adrs/                          # 10 Architecture Decision Records
-│   └── updates/                       # PRD v3, refactor roadmap, enhancement guides
+├── skills-claude-ai/                  # Claude.ai Agent Skill ports (ideation + flow)
+│   ├── product-ideation/              # SKILL.md + bundled prompts (phases 00-03)
+│   └── product-flow/                  # SKILL.md + bundled prompts (phases 04-06)
 │
-└── mcp/prompt-server/                 # MCP server (deferred, optional)
+└── docs/
+    ├── spec-package-schema.md         # Spec package YAML schema (v1.0.0)
+    ├── adrs/                          # 11 Architecture Decision Records
+    └── updates/                       # PRD v3, refactor roadmap, enhancement guides
 ```
 
 ## Spec Package Schema
