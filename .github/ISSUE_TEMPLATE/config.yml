@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation
-    url: https://github.com/clownware/tool-mcp-ux-prototyping#readme
+    url: https://github.com/clownware/product_dev#readme
     about: README, install instructions, usage examples
   - name: Architecture Decision Records
-    url: https://github.com/clownware/tool-mcp-ux-prototyping/tree/main/docs/adrs
+    url: https://github.com/clownware/product_dev/tree/main/docs/adrs
     about: Why the framework is shaped the way it is — read these before proposing structural changes
   - name: Spec package schema
-    url: https://github.com/clownware/tool-mcp-ux-prototyping/blob/main/docs/spec-package-schema.md
+    url: https://github.com/clownware/product_dev/blob/main/docs/spec-package-schema.md
     about: YAML schema for compiled spec packages
