@@ -4,7 +4,7 @@
 
 [![Framework Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Apache_2.0-yellow.svg)](LICENSE)
-[![validate](https://github.com/clownware/product_dev/actions/workflows/validate.yml/badge.svg)](https://github.com/clownware/product_dev/actions/workflows/validate.yml)
+[![validate](https://github.com/clownware/product-dev/actions/workflows/validate.yml/badge.svg)](https://github.com/clownware/product-dev/actions/workflows/validate.yml)
 
 ## What It Does
 
