@@ -1,0 +1,20 @@
+{
+  "$schema": "enforcement-config-v1",
+  "exclude": [],
+  "checks": [
+    { "id": "frontmatter-v2", "adr": "0001, 0003, 0006, 0009", "tc": "0001:TC-1; 0003:TC-1; 0006:TC-1,TC-2,TC-3; 0009:TC-1", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "name-uniqueness", "adr": "0009", "tc": "0009:TC-6", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "body-structure", "adr": "0009", "tc": "0009:TC-2,TC-3", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "placeholder-syntax", "adr": "0003, 0009", "tc": "0003:TC-2; 0009:TC-4", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "placeholder-resolvability", "adr": "0003", "tc": "0003:TC-3", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "dependency-graph", "adr": "0003", "tc": "0003:TC-4", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "word-limit", "adr": "0009", "tc": "0009:TC-5", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "manifest", "adr": "0008", "tc": "0008:TC-1,TC-3", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "component-census", "adr": "0004, 0008", "tc": "0004:TC-1,TC-2,TC-3,TC-4; 0008:TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "no-legacy", "adr": "0001, 0002, 0005, 0007", "tc": "0001:TC-2; 0002:TC-1; 0005:TC-1; 0007:TC-1,TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "self-containment", "adr": "0011", "tc": "0011:TC-1,TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "spec-fixture", "adr": "0010", "tc": "0010:TC-1,TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "adr-status", "adr": "0002, process", "tc": "0002:TC-2; process:adr-status", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "filename-convention", "adr": "CONTRIBUTING", "tc": "CONTRIBUTING:naming-convention", "status": "warn", "added": "2026-07-12", "graduated": null }
+  ]
+}

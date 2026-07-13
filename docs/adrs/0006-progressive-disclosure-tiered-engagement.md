@@ -116,3 +116,16 @@ In addition to the tier system (which controls depth), prompts now have a **cond
 - Skills can accept explicit `--mode quick|deep|full` flag to bypass detection
 - Tier assignments can be overridden per-project in context registry
 - User can always request any specific prompt regardless of tier
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: Every prompt's `tier` is 1, 2, or 3.
+  - TC-2: Every prompt's `run` is `always`, `context_gated`, or `entry_point`.
+  - TC-3: `run_when` is present exactly when `run` is `context_gated` or `entry_point`, and absent otherwise.
+- **Checks:**
+  - TC-1, TC-2, TC-3 → `checks/run_checks.py :: frontmatter-v2` (status: **warn**)
+- **Not machine-checkable:** Escalation/de-escalation signal detection quality and the subjective correctness of individual tier assignments. Note: this ADR's illustrative Tier 1 tables have drifted from the files (18 tier-1 prompts on disk vs 14 listed here; some artifact names differ) — the prompt files are authoritative; a table refresh is pending owner review.
+- **Graduation log:** _(empty)_

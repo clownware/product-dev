@@ -78,3 +78,15 @@ Before deleting any source file, verify:
 - Strict sequencing: migrate first, verify, then delete
 - Generated index provides equivalent JSON for external consumers
 - Archive preserves historical reference
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: No `prompts.json` files exist anywhere in the repository.
+  - TC-2: `ux_framework_prompts.md` does not exist in the repository.
+- **Checks:**
+  - TC-1, TC-2 → `checks/run_checks.py :: no-legacy` (status: **warn**)
+- **Not machine-checkable:** None — this decision is fully structural.
+- **Graduation log:** _(empty)_

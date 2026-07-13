@@ -102,3 +102,17 @@ The existing MCP server (`mcp/prompt-server/`) remains functional but is not req
 **Open Questions:**
 - Should the plugin be published to the Anthropic marketplace? Currently scoped as a personal/Clownware org tool.
 - Context registry storage: ADR 0003 proposes `.product-dev/context.json` in the user's project directory. This is correct — state is per-project, not per-plugin.
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: `claude plugin validate --strict ./plugin` exits 0 (official manifest validator, docs verified 2026-07-11, Claude Code v2.1.205).
+  - TC-2: Components live at the decided paths — only `plugin.json` inside `.claude-plugin/`; `commands/`, `skills/`, `agents/` at the plugin root.
+  - TC-3: Skill, command, and agent frontmatter uses only fields documented in the official plugin spec.
+- **Checks:**
+  - TC-1, TC-3 → `checks/run_checks.py :: manifest` (status: **warn**)
+  - TC-2 → `checks/run_checks.py :: component-census` (status: **warn**)
+- **Not machine-checkable:** Whether skills "own the conversational UX" well, and the plugin-over-MCP tradeoff rationale.
+- **Graduation log:** _(empty)_

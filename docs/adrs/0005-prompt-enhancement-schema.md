@@ -149,3 +149,14 @@ mcp:
 - Phase 1 (frontmatter migration): add basic `output` and `tier` fields
 - Phase 2 (content enhancement): populate all dependency fields from the dependency graph
 - Both phases are part of the existing implementation plan
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: While this ADR remains Deferred, no prompt file uses the rich schema's top-level keys (`metadata`, `dependencies`, `validation`, `output`, `modes`, `mcp`) — guarding against accidental re-introduction.
+- **Checks:**
+  - TC-1 → `checks/run_checks.py :: no-legacy` (status: **warn**)
+- **Not machine-checkable:** The deferred design itself — nothing here is operative until an MCP server revives it under a status change.
+- **Graduation log:** _(empty)_

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- ADR 0012: ADR Enforcement Architecture — classification buckets, warn-only launch, two-hook blocking core, per-check graduation (warn → block after 7 clean days or one real catch), deltas from the Astro-starter implementation
+- `checks/` — warn-only enforcement suite (14 checks: frontmatter, body structure, placeholders, dependency graph, word limits, manifest via `claude plugin validate --strict`, component census, legacy guards, self-containment, spec fixture, ADR status, filename convention); config `checks/enforcement.config.json`, CI job in `validate.yml`
+- Enforcement sections appended to all 11 prior ADRs: testable consequences, check mappings, honest not-machine-checkable lines, empty graduation logs
+- Two blocking hooks in checked-in `.claude/settings.json`: Stop-gate (suite BLOCKERs bounce the turn) and PreToolUse guard (existing ADRs append-only, Pattern Guide requires an ADR); kill-switches `PRODUCT_DEV_SKIP_STOP_GATE=1` / `PRODUCT_DEV_SKIP_ADR_GUARD=1`
 - `skills-claude-ai/` — Claude.ai Agent Skill ports of product-ideation and product-flow (issue #12): bundled prompts with skill-relative paths, conversation-scoped artifact ledger with `product-dev-artifacts.md` export replacing the `.product-dev/` registry
 
 ### Changed

@@ -80,3 +80,15 @@ Non-framework material stays at the repo root and is **not** bundled:
 **Supersedes:** the path-resolution approach in ADR 0008. The ADR 0008 plugin
 structure diagram and component mapping are updated to include `prompts/` and
 `scripts/` as bundled components.
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: No file under `plugin/` references the repo-root `prompts/dev/` tree.
+  - TC-2: Every prompt-library or compile-script path referenced in skill, command, and agent bodies is prefixed with `${CLAUDE_PLUGIN_ROOT}`.
+- **Checks:**
+  - TC-1, TC-2 → `checks/run_checks.py :: self-containment` (status: **warn**)
+- **Not machine-checkable:** Actual Cowork-bundle runtime behavior — verifying the installed bundle resolves paths correctly requires installing it, not inspecting the repo.
+- **Graduation log:** _(empty)_
