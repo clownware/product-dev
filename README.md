@@ -149,6 +149,20 @@ Key decisions are documented as ADRs in `docs/adrs/`:
 | [0008](docs/adrs/0008-plugin-architecture.md) | Plugin as delivery vehicle |
 | [0009](docs/adrs/0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 |
 | [0010](docs/adrs/0010-spec-package-compilation-target.md) | Spec package as compilation target |
+| [0012](docs/adrs/0012-adr-enforcement-architecture.md) | ADR enforcement architecture |
+
+## ADR Enforcement
+
+Every ADR declares its testable consequences in an appended `## Enforcement`
+section, verified by a warn-only check suite:
+
+```bash
+python checks/run_checks.py
+```
+
+Warnings report; only graduated (`block`) checks fail CI or block a session.
+See [checks/README.md](checks/README.md) for graduation and exclusions, and
+[ADR 0012](docs/adrs/0012-adr-enforcement-architecture.md) for the architecture.
 
 ## Contributing
 
