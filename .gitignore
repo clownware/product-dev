@@ -21,3 +21,6 @@ __pycache__/
 # Product dev project artifacts — per-project state, not framework code.
 # The examples/tea-tracker/ directory has reference fixtures for testing.
 .product-dev/
+
+# Claude Code per-user local settings (never commit; shared config is .claude/settings.json)
+.claude/settings.local.json
