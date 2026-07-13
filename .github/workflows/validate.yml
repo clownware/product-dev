@@ -27,3 +27,19 @@ jobs:
 
       - name: Smoke-test compile_spec CLI
         run: python plugin/scripts/compile_spec.py --help
+
+  enforcement:
+    name: ADR enforcement checks (warn = report only, block = fail)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r plugin/scripts/requirements.txt
+
+      - name: Run enforcement suite
+        run: python checks/run_checks.py --ci
