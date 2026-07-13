@@ -110,3 +110,17 @@ User invokes command (e.g., /idea)
 - New structured document generation → add a subagent
 - New deterministic operations → add an MCP tool
 - Default: if it benefits from conversation, it's a skill; if it's structured output from established inputs, it's a subagent
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: Exactly the 5 decided commands exist: `plugin/commands/{idea,problem,spec,compile,summary}.md`.
+  - TC-2: Exactly the 4 decided skills exist: `plugin/skills/{product-ideation,product-flow,tech-spec,status}/SKILL.md`.
+  - TC-3: Exactly 1 subagent exists: `plugin/agents/tech-spec-writer.md`.
+  - TC-4: The status skill remains read-only (`allowed-tools: "Read Glob"`).
+- **Checks:**
+  - TC-1, TC-2, TC-3, TC-4 → `checks/run_checks.py :: component-census` (status: **warn**)
+- **Not machine-checkable:** The planning-in-chat principle, and whether future features land in the correct mechanism (skill vs command vs subagent vs MCP tool), are design judgments.
+- **Graduation log:** _(empty)_

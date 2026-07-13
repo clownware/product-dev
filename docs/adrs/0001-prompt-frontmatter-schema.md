@@ -99,3 +99,16 @@ We want a single, canonical source of truth for prompt metadata that is:
 This schema has been extended by:
 - **ADR 0005**: Adds `tier`, `output`, `modes`, and `optional` dependency fields
 - **ADR 0007**: Formally deprecates the `prompts.json` indices that this ADR noted as derived artifacts
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: Every file under `plugin/prompts/**/*.md` begins with parseable YAML frontmatter.
+  - TC-2: No `prompts.json` index files exist under `plugin/prompts/` — JSON indices are derived artifacts (removed by ADR 0007), never sources.
+- **Checks:**
+  - TC-1 → `checks/run_checks.py :: frontmatter-v2` (status: **warn**)
+  - TC-2 → `checks/run_checks.py :: no-legacy` (status: **warn**)
+- **Not machine-checkable:** The rich frontmatter schema in Decision §1 is superseded in practice by ADR 0009's minimal 7-field format — all 91 prompts use the minimal format, so enforcement validates the ADR 0009 schema, not the schema as written above. A formal amendment note to this ADR is pending owner review. Decision §2's "frontmatter is authoritative over JSON where conflicts exist" is moot while no JSON indices exist.
+- **Graduation log:** _(empty)_

@@ -105,3 +105,20 @@ All operations are deterministic (no LLM):
 - Context file is self-contained and deletable without consequence
 - Artifact naming enforced by frontmatter validation
 - Timestamps enable staleness detection
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: Every `produces` value in prompt frontmatter is `snake_case`, matching the artifact naming convention.
+  - TC-2: Template placeholders in prompt bodies use well-formed `{{snake_case}}` syntax.
+  - TC-3: Every `{{placeholder}}` in a prompt body names an artifact in that prompt's `requires` array (or `user_input` for entry points), so registry injection can always resolve.
+  - TC-4: Every artifact named in any prompt's `requires` is produced by at least one prompt in the library (closed dependency graph).
+- **Checks:**
+  - TC-1 → `checks/run_checks.py :: frontmatter-v2` (status: **warn**)
+  - TC-2 → `checks/run_checks.py :: placeholder-syntax` (status: **warn**)
+  - TC-3 → `checks/run_checks.py :: placeholder-resolvability` (status: **warn**)
+  - TC-4 → `checks/run_checks.py :: dependency-graph` (status: **warn**)
+- **Not machine-checkable:** Runtime registry behavior (`createProject`, `setArtifact`, `getArtifact`, timestamps, staleness detection) happens in end-user project directories, outside this repository.
+- **Graduation log:** _(empty)_

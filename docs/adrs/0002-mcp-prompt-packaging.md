@@ -67,3 +67,16 @@ Separate CLI tools (not MCP):
 - `list_prompts` and `get_prompt` tools: implemented and functional
 - All 90 prompt files have frontmatter and are discoverable (as of 2026-04-03)
 - Context management tools: specified in ADR 0003, not yet implemented
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: `mcp/prompt-server/` does not exist in the repository (removed at supersession).
+  - TC-2: This ADR's Status section reads "Superseded" and names the superseding ADR (0008).
+- **Checks:**
+  - TC-1 → `checks/run_checks.py :: no-legacy` (status: **warn**)
+  - TC-2 → `checks/run_checks.py :: adr-status` (status: **warn**)
+- **Not machine-checkable:** The revisit trigger in the supersession note (editor-agnostic prompt access becoming a real need) is a judgment call, not a repo state.
+- **Graduation log:** _(empty)_
