@@ -107,3 +107,23 @@ All Tier 1 prompts use a tea collection tracker as the example domain. This prov
 - Phase 1 (current): 14 Tier 1 prompts rewritten using v2 pattern
 - Phase 2 (future): Remaining Tier 2/3 prompts, triggered by real usage of Tier 1
 - Old frontmatter format remains valid for non-Tier-1 prompts until they're rewritten
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: Every prompt uses exactly the 7-field minimal frontmatter (`name`, `description`, `run`, `run_when`, `produces`, `requires`, `tier`) — required fields present, no extra keys.
+  - TC-2: Every prompt body contains `<system_context>`, `<constraints>`, and `<example>` blocks.
+  - TC-3: Each `<constraints>` block contains 3–5 rules.
+  - TC-4: Zero legacy `[insert X]` placeholders; template variables use `{{snake_case}}` syntax.
+  - TC-5: Prompt body word count — **excluding the `<example>` block** (counting rule fixed 2026-07-12; the ADR text does not define one) — stays within the per-prompt limit declared in `checks/word_limits.json`, sourced from the Pattern Guide's Tier 1 table. Prompts without a declared limit are reported as uncovered, not guessed.
+  - TC-6: `name` values are unique across the library; `produces` values are unique except the entry-point pair (both entry points produce `initial_concept` by design).
+- **Checks:**
+  - TC-1 → `checks/run_checks.py :: frontmatter-v2` (status: **warn**)
+  - TC-2, TC-3 → `checks/run_checks.py :: body-structure` (status: **warn**)
+  - TC-4 → `checks/run_checks.py :: placeholder-syntax` (status: **warn**)
+  - TC-5 → `checks/run_checks.py :: word-limit` (status: **warn**)
+  - TC-6 → `checks/run_checks.py :: name-uniqueness` (status: **warn**)
+- **Not machine-checkable:** "Direct instructions" tone, example quality, and tea-tracker continuity are semantic. Note: the Migration section above is stale — all 91 prompts (not only Tier 1) now use the v2 pattern; noted for owner review, prose preserved.
+- **Graduation log:** _(empty)_

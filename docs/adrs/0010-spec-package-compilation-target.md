@@ -80,3 +80,15 @@ The manifest declares defaults for decisions the builder didn't explicitly make:
 - Builds on ADR 0009 (prompt enhancement pattern) — enhanced prompts with XML tags and concrete examples are prerequisites for reliable YAML output
 - The compilation pipeline replaces the current `consolidate-spec` prompt (LLM-based assembly) with deterministic file operations + validation
 - Roadmap: `docs/updates/refactor-roadmap.md` (M0-M5)
+
+## Enforcement
+
+<!-- added 2026-07-12, see ADR 0012 (Enforcement Architecture) -->
+
+- **Testable consequences:**
+  - TC-1: `python plugin/scripts/validate_spec.py examples/tea-tracker/spec-package` passes — the reference package stays valid against the 20-check pipeline.
+  - TC-2: The schema definition exists at `docs/spec-package-schema.md`.
+- **Checks:**
+  - TC-1, TC-2 → `checks/run_checks.py :: spec-fixture` (status: **warn**; adopts the existing CI job rather than duplicating it)
+- **Not machine-checkable:** Whether the three-layer package actually reduces implementation-agent hallucination — measurable only through use.
+- **Graduation log:** _(empty)_
