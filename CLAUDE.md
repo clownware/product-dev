@@ -19,6 +19,7 @@ plugin/prompts/
 │   ├── 05_prototype/          # Phase 05: Prototype scoping + test design
 │   └── 06_post_test_synthesis/# Phase 06: Test analysis + evaluation
 ├── 02_tech_requirements/      # Tech spec: data models, APIs, business rules, NFRs
+├── 07_ux_optimization/        # Reverse pass: extract artifacts from an existing product (ADR 0013)
 ├── 03_tool_selection_setup/   # Environment and tooling (Tier 3, not in active workflow)
 ├── 04_bridge_to_architecture/ # Architecture transition prompts (Tier 3)
 └── 05_implementation_docs/    # Implementation planning (Tier 3)
@@ -41,7 +42,7 @@ tier: 1 | 2
 
 ## Workflow Paths
 
-Three skills (ADR 0004), each covering a contiguous set of phases:
+Four skills (ADR 0004, amended by ADR 0013), each covering a contiguous set of phases:
 
 ### product-ideation (Phases 00-03)
 
@@ -71,6 +72,23 @@ Entry points: `/idea`, `/problem`
 ### tech-spec (Tech Requirements)
 
 Entry point: `/spec`. Spawns the Tech Spec Writer subagent (`plugin/agents/tech-spec-writer.md`). Requires design artifacts: `solution_concept`, `user_flow`.
+
+### ux-optimization (Reverse Pass, ADR 0013)
+
+Entry point: `/optimize`. Audits an **existing** product: extracts artifacts from its repository (via the read-only `ux-extractor` subagent), validates them with the owner, then gap-analyzes into a prioritized optimization spec. Extracted artifacts carry `mode`/`provenance`/`confidence`/`validation_status` frontmatter; `context.json` carries `"mode": "reverse"`.
+
+| Prompt | Run | Produces | Requires |
+|--------|-----|----------|----------|
+| `07_ux_optimization/01_product_archaeology` | entry_point | `initial_concept` | — |
+| `07_ux_optimization/02_evidence_mining` | context_gated (research/marketing material exists) | `problem_statement` | `initial_concept` |
+| `07_ux_optimization/03_journey_tracing` | always | `user_flow` | `initial_concept` |
+| `07_ux_optimization/04_persona_extraction` | always | `proto_persona` | `initial_concept`, `user_flow` |
+| `07_ux_optimization/05_value_prop_synthesis` | always | `value_prop_inventory` | `initial_concept` |
+| `07_ux_optimization/06_validation_checkpoint` | always | `validation_log` | all extracted artifacts |
+| `07_ux_optimization/07_gap_analysis` | always | `hypothesis_backlog` | `user_flow`, `proto_persona`, `value_prop_inventory` |
+| `07_ux_optimization/08_optimization_spec` | always | `optimization_spec` | `hypothesis_backlog` |
+
+After validation, the registry matches forward-pass Phases 00-04 and the standard downstream (product-flow, tech-spec, `/compile`) applies unchanged. Visual-layer defects are handed off to a design-system audit, not itemized in the spec.
 
 ## Run Conditionality (ADR 0006)
 
@@ -319,19 +337,22 @@ The framework is packaged as a Claude Code plugin at `plugin/`. Structure follow
 ```
 plugin/
 ├── .claude-plugin/plugin.json   # Manifest: name, description, version, author
-├── commands/                    # 5 commands (/idea, /problem, /spec, /compile, /summary)
+├── commands/                    # 6 commands (/idea, /problem, /spec, /compile, /summary, /optimize)
 │   ├── idea.md
 │   ├── problem.md
 │   ├── spec.md
 │   ├── compile.md
-│   └── summary.md
-├── skills/                      # 4 skills (3 workflows + status)
+│   ├── summary.md
+│   └── optimize.md
+├── skills/                      # 5 skills (4 workflows + status)
 │   ├── product-ideation/SKILL.md
 │   ├── product-flow/SKILL.md
 │   ├── tech-spec/SKILL.md
+│   ├── ux-optimization/SKILL.md
 │   └── status/SKILL.md
-├── agents/                      # 1 subagent
-│   └── tech-spec-writer.md
+├── agents/                      # 2 subagents
+│   ├── tech-spec-writer.md
+│   └── ux-extractor.md
 ├── prompts/                     # Bundled prompt library (framework workflow)
 │   ├── 01_ux_research/
 │   ├── 02_tech_requirements/
@@ -373,3 +394,4 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Prompt enhancement pattern: ADR 0009
 - Spec package as compilation target: ADR 0010
 - Plugin self-containment (bundled prompts/scripts via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011
+- UX optimization reverse pass (ux-optimization skill, /optimize): ADR 0013

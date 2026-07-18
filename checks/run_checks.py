@@ -146,8 +146,14 @@ def check_name_uniqueness(ctx):
             out.append(finding("0009", "TC-6", f"duplicate name {name!r} in: {files}", ps[0]["path"]))
     for prod, ps in by_produces.items():
         if prod and len(ps) > 1 and not all(x["fm"].get("run") == "entry_point" for x in ps):
+            # ADR 0013 convergence rule: reverse-pass prompts (07_ux_optimization)
+            # deliberately shadow forward-pass artifact names. Cross-mode sharing
+            # is legal when at most one producer is outside the reverse pass.
+            fwd = [x for x in ps if "07_ux_optimization" not in x["path"]]
+            if len(fwd) <= 1:
+                continue
             files = ", ".join(x["path"] for x in ps)
-            out.append(finding("0009", "TC-6", f"artifact {prod!r} produced by {len(ps)} prompts (only entry-point pairs may share): {files}", ps[0]["path"]))
+            out.append(finding("0009", "TC-6", f"artifact {prod!r} produced by {len(ps)} prompts (only entry-point pairs or ADR 0013 cross-mode pairs may share): {files}", ps[0]["path"]))
     return out
 
 
@@ -260,8 +266,9 @@ def check_manifest(ctx):
 
 def check_component_census(ctx):
     out = []
-    commands = {"idea", "problem", "spec", "compile", "summary"}
-    skills = {"product-ideation", "product-flow", "tech-spec", "status"}
+    # Census per ADR 0004 as amended by ADR 0013 (adds ux-optimization /optimize /ux-extractor)
+    commands = {"idea", "problem", "spec", "compile", "summary", "optimize"}
+    skills = {"product-ideation", "product-flow", "tech-spec", "status", "ux-optimization"}
     actual_cmds = {f.stem for f in PLUGIN.glob("commands/*.md")}
     actual_skills = {d.name for d in PLUGIN.glob("skills/*") if (d / "SKILL.md").exists()}
     actual_agents = {f.stem for f in PLUGIN.glob("agents/*.md")}
@@ -273,8 +280,8 @@ def check_component_census(ctx):
         out.append(finding("0004", "TC-2", f"decided skill missing: plugin/skills/{missing}/SKILL.md"))
     for extra in sorted(actual_skills - skills):
         out.append(finding("0004", "TC-2", f"undocumented skill: plugin/skills/{extra}/ — amend ADR 0004 or remove", f"plugin/skills/{extra}/SKILL.md"))
-    if actual_agents != {"tech-spec-writer"}:
-        out.append(finding("0004", "TC-3", f"agents present: {sorted(actual_agents)} — ADR 0004 decides exactly one (tech-spec-writer)"))
+    if actual_agents != {"tech-spec-writer", "ux-extractor"}:
+        out.append(finding("0004", "TC-3", f"agents present: {sorted(actual_agents)} — ADR 0004 (as amended by ADR 0013) decides exactly two (tech-spec-writer, ux-extractor)"))
     status_skill = PLUGIN / "skills" / "status" / "SKILL.md"
     if status_skill.exists():
         fm, _ = component_frontmatter(status_skill)
