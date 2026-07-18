@@ -71,6 +71,39 @@ reading each surface's shared nav template to catch walled gardens.
 **Remaining pre-ship test:** docs-sparse repo (degradation behavior) — the
 ux-extractor's degraded-artifact rule is written but unexercised.
 
+## Docs-sparse degradation test (2026-07-18 addendum) — PASS
+
+Target: `gittunes-app` (7-commit React prototype; 43-line dev README, no docs/
+tests/research/CI — evidence-elsewhere scenario: product plan lives in an
+unread sibling repo). Prompts 01, 02 (force-run past its gate), and 03 via
+fresh agents:
+
+- **01 archaeology:** owner marked "unknown" rather than guessed; positioning
+  pulled verbatim from in-app copy (the only place it exists); marketed
+  capability ("splits route themselves") correctly separated from implemented
+  reality (seeded demo simulator); stayed inside the repo and named the
+  unread sibling as the confidence-downgrade reason.
+- **02 evidence mining (forced):** zero hallucinated research. Every pain
+  classified *imputed* from the team's own copy; `user_evidence_files: none
+  found` stated explicitly; confidence low with reasoning. Added an
+  unprompted nuance worth keeping: "voice imbalance, not contradiction — the
+  missing user voice means there's nothing to disagree with; the risk is
+  untested assumption, not conflict." Note: the degraded artifact was fuller
+  than the rule's "short" wording implies because in-code marketing copy
+  legitimately supported partial extraction — degrade-to-available-evidence
+  is the observed (and correct) behavior.
+- **03 journey tracing:** the nav-template instruction added after the
+  quill-router eval paid off immediately — it read `__root.tsx` and caught
+  the one-link walled nav. Zero-test coverage reported as a finding ("intent
+  survives only in code comments, not executable checks"); make-or-break
+  journey identified from a code comment naming the Versions timeline "the
+  spine"; per-section confidence grades.
+
+**Verdict:** graceful degradation confirmed on both axes (missing evidence →
+honest gaps + lowered confidence; forced past a gate → no guesswork). No
+prompt changes needed from this round. All pre-ship tests are complete;
+remaining steps are ADR 0013 acceptance and merge.
+
 ## Open questions for the ADR
 
 1. Naming: `optimize-ux` (Chris's working name) vs `product-audit`; command `/audit` vs `/optimize`.
