@@ -20,7 +20,7 @@ your most valuable findings. You grade evidence; you do not launder it.
 Extracted concept:
 {{initial_concept}}
 
-Mine the repo's docs, interviews, marketing material, outreach files, and any user-feedback traces. Produce an extracted problem statement:
+Mine the repo's docs, interviews, marketing material, outreach files, and any user-feedback traces — including CRM or lead-research exports, run/output directories, issue trackers, and support archives; real prospect traces often hide beside an empty schema file. Produce an extracted problem statement:
 
 **Stated problem**: The problem the product believes it solves, with verbatim quotes and file references.
 

@@ -50,6 +50,27 @@ Ran `clownware-code-tools:design-audit` on the same pilot target and compared co
 - **Design decision for the skill (learning #10):** the `08_optimization_spec` prompt should NOT itemize visual-layer defects; it should emit a "run design-audit" handoff line for the visual layer and keep its own findings user-outward. Cross-plugin handoff, not duplication. The pilot spec's P1.4/P3 items would collapse into that handoff.
 - **Eval-harness note:** the pilot artifacts now serve as golden files. Test sequence for shipping: implement skill → run on quill-router → diff vs. pilot artifacts (extraction fidelity) → run on a docs-sparse repo (degradation) → compare optimization_spec's visual-layer handling against the design-audit report (boundary discipline).
 
+## Golden-file eval of the implemented prompts (2026-07-18 addendum)
+
+Ran implemented prompts 01/02/03 through fresh read-only agents (zero pilot
+knowledge) against the quill-router clone, chained end-to-end (01's real
+output fed 02/03), and scored against the pilot artifacts as golden files.
+
+| Prompt | Score | Reproduced | Missed | Novel (not in golden) |
+|--------|-------|-----------|--------|----------------------|
+| 01 archaeology | 5/5 | identity, verbatim positioning, billing-as-implemented, surfaces | — | honest confidence downgrade on shallow clone (refused to guess commit volume) |
+| 02 evidence mining | 4/5 | founder-only evidence base, three-voice split, low confidence | the 6 real leads in `docs/runs/` (read only the empty CRM schema) → lost the observed-pain-divergence finding | "self-referential citation loop" framing (outreach/blogs re-citing the same founder excerpts) |
+| 03 journey tracing | 4/5 | $0 activation wall + card-gated trial, make-or-break = activation, e2e-encoded intent | console walled-garden nav (despite prompt naming "missing navigation paths"); the auth-chrome Gabriella band-aid | a SECOND Gabriella scar (webhook 500 dropped her payment); attestation endpoint lives in a different repo; zero e2e coverage on the exact activation surface |
+
+**Verdict:** extraction fidelity is high — every load-bearing strategic
+finding reproduced from the prompt files alone, and the union of eval + pilot
+found more than either pass did. Two prompt fixes applied from the misses:
+02 now directs agents to CRM/lead-research/run directories; 03 now requires
+reading each surface's shared nav template to catch walled gardens.
+
+**Remaining pre-ship test:** docs-sparse repo (degradation behavior) — the
+ux-extractor's degraded-artifact rule is written but unexercised.
+
 ## Open questions for the ADR
 
 1. Naming: `optimize-ux` (Chris's working name) vs `product-audit`; command `/audit` vs `/optimize`.

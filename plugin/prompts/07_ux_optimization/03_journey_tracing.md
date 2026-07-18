@@ -25,7 +25,7 @@ Trace and document the user journeys:
 
 **The make-or-break journey**: Name the single journey the product lives or dies on, and why.
 
-**Walls and dead ends**: Every point where code contradicts the promised experience — payment walls, missing navigation paths, duplicate flows, band-aid fixes whose comments reveal past user pain. Cite each.
+**Walls and dead ends**: Every point where code contradicts the promised experience — payment walls, missing navigation paths, duplicate flows, band-aid fixes whose comments reveal past user pain. For navigation, read each surface's shared layout/nav template and verify it can reach the other surfaces — walled gardens hide there. Cite each.
 
 **Test-encoded intent**: What the e2e/integration suites lock in, and which journeys have no test coverage at all.
 
