@@ -104,6 +104,29 @@ honest gaps + lowered confidence; forced past a gate → no guesswork). No
 prompt changes needed from this round. All pre-ship tests are complete;
 remaining steps are ADR 0013 acceptance and merge.
 
+## Live-site audit + full deliverable pass (2026-07-18 addendum)
+
+The pilot's final phase drove the deployed product in a real browser (desktop
+1600px + mobile 375px, both themes) and produced the complete owner package
+(strategy, spec, live audit, content drafts, refactor plan, manifest+zip).
+Lessons now encoded in ADR 0014 and prompts 07/10:
+
+- **Rendering proves what code predicts** — every code-suspected defect was
+  confirmed with a measurement (86px overflow; 52,583px page; 3-row mobile
+  nav), and an entire render-only class surfaced (chip orphans, theme seam on
+  /synth, 28-pill walls, unlabeled weight numbers) that code review missed.
+- **Tooling-artifact discipline is essential:** blank screenshots after
+  programmatic scroll looked exactly like a broken page; DOM inspection
+  proved the content present. The prompt now requires DOM verification
+  before reporting blank/broken renders.
+- **The strategy layer needed an objective artifact** — packaging exposed
+  that the reverse pass had no `core_objective` producer; prompt 07 fills
+  the hole and gap analysis now anchors on it.
+- **Deliverable packaging shape that worked:** README (human TLDR + reading
+  order) + manifest.yaml (file roles, artifact names, execution map from
+  spec items → fix locations) + numbered docs + strategy dir with
+  provenance frontmatter. Candidate for a future `/package` output mode.
+
 ## Open questions for the ADR
 
 1. Naming: `optimize-ux` (Chris's working name) vs `product-audit`; command `/audit` vs `/optimize`.
