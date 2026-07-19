@@ -5,7 +5,7 @@ description: >
   clustering symptoms under root causes and anchoring on the critical journey.
 run: always
 produces: hypothesis_backlog
-requires: [user_flow, proto_persona, value_prop_inventory]
+requires: [user_flow, proto_persona, value_prop_inventory, core_objective]
 tier: 1
 ---
 
@@ -25,6 +25,9 @@ Extracted personas:
 
 Value-prop analysis:
 {{value_prop_inventory}}
+
+Core objective:
+{{core_objective}}
 
 Produce the hypothesis backlog:
 

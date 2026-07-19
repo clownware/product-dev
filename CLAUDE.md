@@ -85,8 +85,10 @@ Entry point: `/optimize`. Audits an **existing** product: extracts artifacts fro
 | `07_ux_optimization/04_persona_extraction` | always | `proto_persona` | `initial_concept`, `user_flow` |
 | `07_ux_optimization/05_value_prop_synthesis` | always | `value_prop_inventory` | `initial_concept` |
 | `07_ux_optimization/06_validation_checkpoint` | always | `validation_log` | all extracted artifacts |
-| `07_ux_optimization/07_gap_analysis` | always | `hypothesis_backlog` | `user_flow`, `proto_persona`, `value_prop_inventory` |
-| `07_ux_optimization/08_optimization_spec` | always | `optimization_spec` | `hypothesis_backlog` |
+| `07_ux_optimization/07_objective_metrics` | always | `core_objective` | `user_flow`, `proto_persona` |
+| `07_ux_optimization/08_gap_analysis` | always | `hypothesis_backlog` | `user_flow`, `proto_persona`, `value_prop_inventory`, `core_objective` |
+| `07_ux_optimization/09_optimization_spec` | always | `optimization_spec` | `hypothesis_backlog` |
+| `07_ux_optimization/10_live_site_audit` | context_gated (deployed URL + browser; Tier 2) | `live_site_audit` | `user_flow` |
 
 After validation, the registry matches forward-pass Phases 00-04 and the standard downstream (product-flow, tech-spec, `/compile`) applies unchanged. Visual-layer defects are handed off to a design-system audit, not itemized in the spec.
 

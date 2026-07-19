@@ -19,7 +19,7 @@ traces to a journey, a persona, and evidence — a reader should never wonder
 Hypothesis backlog:
 {{hypothesis_backlog}}
 
-Also read from `.product-dev/artifacts/`: `existing_feedback.md` if present (pre-existing tactical feedback from the owner or a reviewer — slot every item into the priority structure rather than appending it as a list), and `validation_log.md` for outstanding unvalidated flags.
+Also read from `.product-dev/artifacts/`: `existing_feedback.md` if present (pre-existing tactical feedback from the owner or a reviewer — slot every item into the priority structure rather than appending it as a list), `live_site_audit.md` if present (browser-verified findings — cite its measurements in item rationales and mark code-only claims as unverified-live), and `validation_log.md` for outstanding unvalidated flags.
 
 Produce the optimization spec:
 

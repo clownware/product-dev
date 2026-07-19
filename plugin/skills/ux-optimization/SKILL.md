@@ -31,8 +31,10 @@ Prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/07_ux_optimization/`:
 | 4 | `04_persona_extraction.md` | always | `proto_persona` |
 | 5 | `05_value_prop_synthesis.md` | always | `value_prop_inventory` |
 | 6 | `06_validation_checkpoint.md` | always | `validation_log` |
-| 7 | `07_gap_analysis.md` | always | `hypothesis_backlog` |
-| 8 | `08_optimization_spec.md` | always | `optimization_spec` |
+| 7 | `07_objective_metrics.md` | always | `core_objective` |
+| 8 | `08_gap_analysis.md` | always | `hypothesis_backlog` |
+| 9 | `09_optimization_spec.md` | always | `optimization_spec` |
+| 10 | `10_live_site_audit.md` | context_gated (Tier 2) | `live_site_audit` |
 
 **Step 2 gate**: "Target repo contains research, interview, marketing, or outreach material." When skipping: "No research or marketing material found — skipping evidence mining. The problem statement will be inferred from code and README only, at reduced confidence. If research exists elsewhere (notes, call transcripts), share it and we'll run this step."
 
@@ -48,7 +50,9 @@ Prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/07_ux_optimization/`:
 
 **Validation (step 6) — in-chat, soft gate.** Present claims lowest-confidence-first; update each artifact's `validation_status`; write `validation_log`. If the user defers or isn't the owner, proceed — but unvalidated flags propagate downstream and must be stated in the final spec.
 
-**Gap analysis and spec (steps 7-8) — in-chat.** The spec integrates `existing_feedback` if present and carries the visual-layer handoff line (design-system defects belong to a design-audit skill, not this spec).
+**Objective, gap analysis, and spec (steps 7-9) — in-chat.** The objective anchors gap-analysis priorities; the spec integrates `existing_feedback` if present and carries the visual-layer handoff line (design-system defects belong to a design-audit skill, not this spec).
+
+**Live-site audit (step 10) — Tier 2, browser required.** When the deployed product is reachable and browser tooling exists, offer it after journey tracing (its findings feed the spec) or after the spec ships (as verification). Run it via a subagent or in-chat with browser tools; it upgrades code-suspected defects into measured, confirmed findings and catches render-only issues (orphans, theme seams, missing responsive collapse) that code review cannot see.
 
 ## Registry
 
