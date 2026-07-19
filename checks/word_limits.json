@@ -2,6 +2,7 @@
   "_comment": "Per-prompt word limits from the Pattern Guide Tier 1 table (docs/updates/00_ENHANCEMENT_PATTERN.md), keyed by frontmatter `name`. Counting rule per ADR 0009 Enforcement: body words excluding the <example> block. Prompts absent here are uncovered, not checked.",
   "analyze-optimization-gaps": 300,
   "audit-live-site": 350,
+  "audit-product-runtime": 400,
   "capture-initial-idea": 250,
   "compose-optimization-spec": 300,
   "create-problem-statement": 200,

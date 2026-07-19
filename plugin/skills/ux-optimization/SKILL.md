@@ -35,6 +35,7 @@ Prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/07_ux_optimization/`:
 | 8 | `08_gap_analysis.md` | always | `hypothesis_backlog` |
 | 9 | `09_optimization_spec.md` | always | `optimization_spec` |
 | 10 | `10_live_site_audit.md` | context_gated (Tier 2) | `live_site_audit` |
+| 11 | `11_runtime_audit.md` | context_gated (Tier 2) | `runtime_audit` |
 
 **Step 2 gate**: "Target repo contains research, interview, marketing, or outreach material." When skipping: "No research or marketing material found — skipping evidence mining. The problem statement will be inferred from code and README only, at reduced confidence. If research exists elsewhere (notes, call transcripts), share it and we'll run this step."
 
@@ -52,7 +53,7 @@ Prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/07_ux_optimization/`:
 
 **Objective, gap analysis, and spec (steps 7-9) — in-chat.** The objective anchors gap-analysis priorities; the spec integrates `existing_feedback` if present and carries the visual-layer handoff line (design-system defects belong to a design-audit skill, not this spec).
 
-**Live-site audit (step 10) — Tier 2, browser required.** When the deployed product is reachable and browser tooling exists, offer it after journey tracing (its findings feed the spec) or after the spec ships (as verification). Run it via a subagent or in-chat with browser tools; it upgrades code-suspected defects into measured, confirmed findings and catches render-only issues (orphans, theme seams, missing responsive collapse) that code review cannot see.
+**Verification modes (steps 10-11) — Tier 2, gated.** Three verification levels exist: code-only (the default pass), **live-site audit** (step 10; deployed URL + browser — measured visual/render findings), and **runtime audit** (step 11; locally runnable CLI/native product + build toolchain — build it, drive the real binaries, grade failure paths against the product's own diagnostics, observe first-launch and state behavior). A product may qualify for both. Offer whichever gates pass after journey tracing, or post-spec as verification; their findings feed `09_optimization_spec`, including `[corrects]` revisions of static recommendations. If a build fails, degrade to code-only without blocking.
 
 ## Registry
 

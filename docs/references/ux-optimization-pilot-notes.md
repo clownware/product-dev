@@ -127,6 +127,33 @@ Lessons now encoded in ADR 0014 and prompts 07/10:
   spec items → fix locations) + numbered docs + strategy dir with
   provenance frontmatter. Candidate for a future `/package` output mode.
 
+## Runtime-audit pass on QuillCode (2026-07-18 addendum) — became ADR 0015
+
+The skill's first production run (QuillCode: Swift desktop app + CLI, no
+deployment — live-site gate correctly skipped) was followed by a manual
+build-and-run pass that defined the third verification mode:
+
+- **Failure-path grading against the product's own diagnostics** found the
+  single best item in the spec: primary command dies with a raw NSError
+  while `doctor` explains the exact fix. New finding class: "knowledge
+  present, unwired."
+- **`[corrects]` matters:** runtime evidence overturned a static
+  recommendation (mock mode is a 24ms canned fixture, not a demo — the
+  "market the mock as a demo" advice was wrong). The tag set became
+  confirms/NEW/corrects.
+- **Placeholder-credential delta** exposed misdiagnosis at activation
+  (invalid key → "Balance unavailable" chip, reads as outage).
+- **State observation** caught silent project adoption of the launch
+  directory and one surface ignoring config isolation (`QUILLCODE_HOME`).
+- **Permission honesty:** screen recording enabled window-scoped native
+  captures; accessibility remained absent so the settings sheet stayed
+  unphotographed — documented as a boundary, not worked around.
+- **Proxy-vs-product:** driving the product's own JS test harness alongside
+  the real app proved the harness lacks the activation surface entirely —
+  only observable by running both.
+
+All encoded in `11_runtime_audit.md` (ADR 0015).
+
 ## Open questions for the ADR
 
 1. Naming: `optimize-ux` (Chris's working name) vs `product-audit`; command `/audit` vs `/optimize`.
