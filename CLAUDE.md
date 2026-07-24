@@ -168,7 +168,8 @@ All project state persists in `.product-dev/` in the working directory. This ena
       "updated": "ISO 8601",
       "path": "artifacts/artifact_name.md",
       "source_prompt": "prompt slug",
-      "version": 1
+      "version": 1,
+      "inputs": { "required_artifact_name": 1 }
     }
   },
   "prompts_executed": [
@@ -195,8 +196,9 @@ When the user starts a new product development conversation and no `.product-dev
 After executing a prompt that has a `produces` field in its frontmatter:
 1. Write the artifact content to `.product-dev/artifacts/{name}.md`
 2. Add or update the entry in `context.json` `artifacts` with `path`, `source_prompt`, `created`/`updated`, `version` (increment if updating)
-3. Append to `prompts_executed` with slug, phase, timestamp, artifact name
-4. Update `context.json` `updated` timestamp and `current_phase`
+3. Record `inputs`: for each artifact in the source prompt's `requires`, store its current `version` at generation time (`{}` for entry points). This is what makes staleness computable.
+4. Append to `prompts_executed` with slug, phase, timestamp, artifact name
+5. Update `context.json` `updated` timestamp and `current_phase`
 
 **getArtifact(name)**
 When resolving a `{{variable}}` placeholder or when the user asks about a previous artifact:
@@ -248,7 +250,7 @@ Phase Progress:
   06 Post-Test Synthesis   [{n}/{total}] ...
 
 Artifacts:
-  {name}  (from {source_prompt}, {date})
+  {name}  (from {source_prompt}, {date}){staleness}
   ...
 
 Suggested Next:
@@ -256,6 +258,8 @@ Suggested Next:
 ```
 
 Count only Tier 1 prompts for progress at Tier 1. Include Tier 2 prompts in count when operating at Tier 2+.
+
+`{staleness}`: an artifact is **stale** when any entry in its `inputs` map is lower than that input artifact's current `version`. Annotate stale artifacts with ` [stale: {input} v{recorded} → v{current}]`; omit for fresh artifacts and for entries without an `inputs` map (pre-provenance projects).
 
 ---
 
@@ -313,9 +317,9 @@ After every 2-3 prompts, offer navigation:
 
 ### Re-entry and Iteration
 
-- If the user wants to revise a previous artifact, update it in the registry and note downstream impacts
-- Downstream artifacts may need regeneration if their inputs changed
-- Ask before regenerating: "The problem statement changed — should I update the persona and objective too?"
+- If the user wants to revise a previous artifact, update it in the registry (incrementing `version`) and note downstream impacts
+- Staleness is computable, not guessed: any downstream artifact whose `inputs` map records an older version of the revised artifact is stale. List the stale artifacts by name.
+- Ask before regenerating: "The problem statement is now v2 — persona and objective were built from v1. Regenerate them?"
 
 ---
 
@@ -398,3 +402,4 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Spec package as compilation target: ADR 0010
 - Plugin self-containment (bundled prompts/scripts via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011
 - UX optimization reverse pass (ux-optimization skill, /optimize): ADR 0013
+- gstack-derived patterns (interrogation gates, candidate directions, input provenance): ADR 0016
