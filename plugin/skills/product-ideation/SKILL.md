@@ -119,6 +119,7 @@ When escalating, insert the relevant Tier 2 prompts at the current phase positio
 
 - **On start**: Read `.product-dev/context.json`. If it doesn't exist, create the project. If it does exist and `prompts_executed` contains prompts from this skill's sequence, resume at the next unexecuted prompt (see CLAUDE.md Session Resume Algorithm). Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk.
 - **After each prompt**: `setArtifact(name, content, sourcePrompt)` — write `.md` file + update registry, recording `inputs` (the current `version` of each `requires` artifact consumed) for staleness detection
+- **Learnings**: on start, read `.product-dev/learnings.jsonl` if present and apply (latest entry per `key` wins — they modulate style and depth, never skip gates). Append new user-stated process preferences as they surface.
 - **Before each prompt**: `getArtifact(name)` — resolve `{{variables}}` from `.product-dev/artifacts/`
 - **On tier change**: Update `tier` field in registry
 

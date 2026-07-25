@@ -53,11 +53,13 @@ Prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/07_ux_optimization/`:
 
 **Objective, gap analysis, and spec (steps 7-9) — in-chat.** The objective anchors gap-analysis priorities; the spec integrates `existing_feedback` if present and carries the visual-layer handoff line (design-system defects belong to a design-audit skill, not this spec).
 
+**Scope walk (between steps 8 and 9).** Before composing the spec, walk the hypothesis backlog with the owner and get a disposition for every item: **ACCEPTED** (goes in the P-tables), **DEFERRED** (right idea, not now), or **SKIPPED** (rejected, with reasoning). Present P0/P1 items one at a time with your recommendation; batch P2/P3. Save the dispositions as a `scope_decisions` artifact (same verbatim-save pattern as `existing_feedback`) — step 9 reads it and renders the Scope Decisions table so nothing is silently dropped. For DEFERRED items, offer to file them as GitHub issues in the target repo (`gh issue create`, one per item, labeled from the backlog's hypothesis ID) — deferred work belongs in the tracker, not in documents. Fail soft if `gh` is missing or unauthenticated: keep the table as the record and note the issues weren't filed. Skip the walk only if the user isn't the owner and can't decide — then every item enters the spec as ACCEPTED-pending-owner and the spec says so.
+
 **Verification modes (steps 10-11) — Tier 2, gated.** Three verification levels exist: code-only (the default pass), **live-site audit** (step 10; deployed URL + browser — measured visual/render findings), and **runtime audit** (step 11; locally runnable CLI/native product + build toolchain — build it, drive the real binaries, grade failure paths against the product's own diagnostics, observe first-launch and state behavior). A product may qualify for both. Offer whichever gates pass after journey tracing, or post-spec as verification; their findings feed `09_optimization_spec`, including `[corrects]` revisions of static recommendations. If a build fails, degrade to code-only without blocking.
 
 ## Registry
 
-Standard operations (CLAUDE.md), plus the reverse-pass extensions (ADR 0013): `context.json` carries `"mode": "reverse"`; every extracted artifact keeps `mode`, `provenance`, `confidence`, and `validation_status` frontmatter. Registry-write conventions are otherwise identical to the forward pass.
+Standard operations (CLAUDE.md), plus the reverse-pass extensions (ADR 0013): `context.json` carries `"mode": "reverse"`; every extracted artifact keeps `mode`, `provenance`, `confidence`, and `validation_status` frontmatter. Registry-write conventions are otherwise identical to the forward pass. On start, read `.product-dev/learnings.jsonl` if present and apply (latest entry per `key` wins); append new user-stated process preferences as they surface.
 
 ## Tier Behavior
 

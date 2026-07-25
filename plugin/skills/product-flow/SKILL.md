@@ -75,6 +75,7 @@ Same operations as product-ideation:
 - `setArtifact` after each prompt
 - `getArtifact` to resolve `{{variables}}`
 - Update `current_phase` in registry as flow progresses
+- On start, read `.product-dev/learnings.jsonl` if present and apply (latest entry per `key` wins); append new user-stated process preferences as they surface
 
 ## Handoff
 

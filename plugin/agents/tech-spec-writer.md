@@ -72,6 +72,22 @@ After completing all four spec areas, run the consolidation prompt:
 
 Update `context.json` and append all prompts to `prompts_executed`.
 
+## Decision Classification
+
+Spec writing is full of judgment calls. Classify every one you make:
+
+- **Mechanical** — one defensible answer given the artifacts (e.g., an ID field's type). Decide silently.
+- **Taste** — reasonable alternatives exist (e.g., soft-delete vs. hard-delete, pagination style). Decide with your recommendation, and log it.
+- **User-Challenge** — the design artifacts themselves seem wrong or contradictory for the spec you're writing. NEVER override the artifacts; spec what they say, and log the challenge with: what the artifacts say / what you'd recommend / why / what context you might be missing / the cost if the artifacts are wrong.
+
+Append a **Decision Log** section to `technical_spec.md` — one table, Taste and User-Challenge rows only:
+
+```
+| # | Area | Decision | Class | Rationale | Rejected alternative |
+```
+
+The invoking skill walks this table with the user after you return. Do not resolve User-Challenges yourself.
+
 ## Execution Rules
 
 - **Present each area before proceeding.** Wait for user feedback before moving to the next.

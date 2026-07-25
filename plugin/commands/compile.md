@@ -62,7 +62,11 @@ Compile the current project's artifacts into a spec package.
    - If only **warnings**: note them but confirm the package is ready
    - If all **passed**: confirm the package is ready for handoff
 
-8. Update `context.json` to record that compilation ran:
+8. **Package quality review** (after the script validation passes or warns): read the compiled package as its consumer would — `manifest.yaml` reading order first — and score it 1-10 on five dimensions: Completeness, Consistency, Clarity, Scope, Feasibility. The script's 20 checks catch broken cross-references; this pass catches what's mechanically valid but unbuildable (an entity no flow touches, a rule contradicting the concept, an NFR with no measurable target).
+   - Any dimension below 7: name the gap concretely ("Consistency 5/10 — `rules.yaml` R3 references an endpoint that was skipped"), offer to fix the source artifacts and recompile. **One recompile round maximum** — if concerns remain after it, list them under a "Reviewer Concerns" heading in the results presentation rather than looping.
+   - All dimensions 7+: report the scores in one line and move on.
+
+9. Update `context.json` to record that compilation ran:
    ```json
    {
      "last_compilation": "ISO 8601 timestamp",

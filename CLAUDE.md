@@ -140,6 +140,7 @@ All project state persists in `.product-dev/` in the working directory. This ena
 ```
 .product-dev/
 ├── context.json              # Registry: metadata, artifact index, execution log
+├── learnings.jsonl           # Process learnings: user preferences, recurring corrections
 ├── artifacts/                # One .md file per artifact (working outputs)
 │   ├── initial_concept.md
 │   ├── problem_statement.md
@@ -216,6 +217,19 @@ When transitioning between workflow paths:
 1. List all Tier 1 `always` prompts for the phase
 2. Check which have entries in `prompts_executed`
 3. Report pass/fail with list of missing artifacts
+
+### Process Learnings
+
+`.product-dev/learnings.jsonl` captures how this user wants the *process* run — the things conversation history would carry if sessions didn't reset. Append-only, one JSON object per line:
+
+```json
+{"type": "preference|pattern|pitfall", "key": "short-kebab-slug", "insight": "one sentence", "source": "user-stated|observed", "ts": "ISO 8601"}
+```
+
+- **Write** when the user states a process preference ("keep personas terse"), corrects the framework's behavior, or the same workflow friction appears twice. Do not log one-time events or facts the artifacts already record.
+- **Dedup** by `key`: never edit lines in place — append a corrected entry; the latest entry per key wins.
+- **Recall**: at session start (all workflow skills), read the file if present and apply the surviving entries. Learnings modulate style, depth, and defaults — they never skip gates, artifacts, or validation steps.
+- **Prune** only on user request: show entries, remove stale or contradicted ones.
 
 ### Template Variable Resolution
 
@@ -333,7 +347,7 @@ After every 2-3 prompts, offer navigation:
 
 **How:** Spawn `plugin/agents/tech-spec-writer.md` with the Agent tool. The subagent reads artifacts from `.product-dev/artifacts/` directly and writes specs back to the registry.
 
-**After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs). Let the user review and iterate on each.
+**After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs), rating each 0-10 and naming what a 10 would contain. Walk the Decision Log the subagent appended to `technical_spec` (Taste decisions as a batch, User-Challenges one at a time — the design artifacts are the default). Then run the adversarial review loop (5 dimensions, max 3 iterations, convergence guard) per the tech-spec skill.
 
 ---
 
@@ -403,3 +417,4 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Plugin self-containment (bundled prompts/scripts via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011
 - UX optimization reverse pass (ux-optimization skill, /optimize): ADR 0013
 - gstack-derived patterns (interrogation gates, candidate directions, input provenance): ADR 0016
+- gstack-derived patterns, second wave (quality loops, decision classification, scope walk, learnings): ADR 0017
