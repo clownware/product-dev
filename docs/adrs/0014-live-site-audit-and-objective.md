@@ -79,3 +79,22 @@ remains valid; the browser pass is offered whenever its gate is satisfied.
   ADR 0001 (frontmatter), ADR 0012 (enforcement).
 - Pilot evidence: `docs/references/ux-optimization-pilot-notes.md` (live-site
   addendum forthcoming with this change).
+
+---
+
+## Amendment (2026-07-25): Parity check and coverage line landed
+
+Two consequences deferred at acceptance are now implemented (issues #42, #40,
+owner-directed):
+
+- **TC-parity**: forward (`02_objectives/01_identify_core_objective`) and
+  reverse (`07_ux_optimization/07_objective_metrics`) prompts both produce
+  `core_objective` and each carries an objective-statement, measurable-success,
+  and guardrail element. Enforced warn-only by
+  `checks/run_checks.py :: objective-parity`. The contract is structural
+  substitutability, not identical headers — the passes elicit vs. derive.
+- `09_optimization_spec` now emits a **Verification coverage** line naming
+  which modes ran (code-only / live-site / runtime) and why absent modes
+  didn't, so headless runs can't silently read as fully verified. Its word
+  budget was raised 300 → 350 to hold the new element (decision recorded here
+  per the word-limits policy).

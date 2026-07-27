@@ -33,6 +33,8 @@ Produce the optimization spec:
 
 **Found Work**: Discoveries outside UX scope (evidence gaps, compliance placeholders, stale claims) listed for the owner's triage — never silently fixed or dropped.
 
+**Verification coverage**: One line naming which verification modes informed this spec — code-only (always), live-site (`live_site_audit.md` present), runtime (`runtime_audit.md` present) — and why absent modes didn't run (no deployed URL, no browser, no build toolchain). Headless environments must not silently read as fully verified.
+
 Close with provenance frontmatter (`mode: gap-analysis`, `requires:`, `validation_status` inherited — state plainly if the spec rests on unvalidated artifacts).
 
 <constraints>
@@ -56,4 +58,6 @@ Close with provenance frontmatter (`mode: gap-analysis`, `requires:`, `validatio
 **Visual layer**: run a design-system audit — findings fold in as a class-fix.
 
 **Found Work**: No external user research exists; freshness wedge unvalidated (owner-confirmed bet).
+
+**Verification coverage**: code-only + runtime; live-site skipped (no deployed URL in this environment).
 </example>

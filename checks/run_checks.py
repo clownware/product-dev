@@ -376,6 +376,37 @@ def check_adr_status(ctx):
     return out
 
 
+def check_objective_parity(ctx):
+    """ADR 0014: forward (02_objectives) and reverse (07_objective_metrics) passes
+    both produce `core_objective`. Downstream consumers must be able to substitute
+    either, so the parity contract is structural, not header-identical: same
+    `produces`, plus one element from each of three roles — an objective
+    statement, a measurable-success element, and a guardrail element."""
+    ROLES = {
+        "objective statement": ("**Core Objective**", "**Objective**"),
+        "measurable success": ("**Success Looks Like**", "**Primary metric**"),
+        "guardrails": ("**Design Guardrails**", "**Guardrail metrics**"),
+    }
+    out = []
+    prompts = {}
+    for p in ctx["prompts"]:
+        if "02_objectives/01_identify_core_objective" in p["path"]:
+            prompts["forward"] = p
+        elif "07_ux_optimization/07_objective_metrics" in p["path"]:
+            prompts["reverse"] = p
+    if len(prompts) < 2:
+        missing = {"forward", "reverse"} - set(prompts)
+        out.append(finding("0014", "TC-parity", f"objective prompt(s) missing: {sorted(missing)} — parity check cannot run"))
+        return out
+    for side, p in prompts.items():
+        if p["fm"].get("produces") != "core_objective":
+            out.append(finding("0014", "TC-parity", f"{side} objective prompt produces {p['fm'].get('produces')!r} — both passes must produce core_objective", p["path"]))
+        for role, headers in ROLES.items():
+            if not any(h in p["body"] for h in headers):
+                out.append(finding("0014", "TC-parity", f"{side} objective prompt lacks a {role} element (expected one of {headers}) — keep forward/reverse core_objective substitutable", p["path"]))
+    return out
+
+
 def check_filename_convention(ctx):
     out = []
     pattern = re.compile(r"^\d{2}_[a-z0-9_]+$")
@@ -403,6 +434,7 @@ CHECK_FUNCS = {
     "spec-fixture": check_spec_fixture,
     "adr-status": check_adr_status,
     "filename-convention": check_filename_convention,
+    "objective-parity": check_objective_parity,
 }
 
 
