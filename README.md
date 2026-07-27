@@ -174,6 +174,12 @@ See [checks/README.md](checks/README.md) for graduation and exclusions, and
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for prompt authoring standards, plugin development, and the ADR process.
 
+## Acknowledgments
+
+The interrogation, premise-challenge, quality-loop, decision-classification,
+scope-walk, and process-learnings patterns (ADRs 0016–0017) were adapted from
+Garry Tan's [gstack](https://github.com/garrytan/gstack) (MIT).
+
 ## License
 
 Apache 2.0. See [LICENSE](LICENSE).
