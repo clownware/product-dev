@@ -54,7 +54,23 @@ The subagent runs the tech requirements prompt sequence from `${CLAUDE_PLUGIN_RO
 
 ## Output
 
-The subagent presents each spec area one at a time for review, then produces a consolidated `technical_spec` artifact. All intermediate and final artifacts are written to the registry.
+The subagent produces the four spec areas plus a consolidated `technical_spec` artifact, all written to the registry. Present each area to the user one at a time. When presenting, rate the area 0-10 and name the gap concretely: "Data models: 6/10 — it's a 6 because retention and deletion behavior are unspecified; a 10 would state per-entity lifecycle rules." Offer to fix, re-rate after fixing, and move on when the user says it's good enough. Zero findings is a valid outcome — say so and move on.
+
+## Decision Log Walk
+
+The subagent appends a Decision Log (Taste and User-Challenge rows) to `technical_spec`. After it returns, before compilation:
+
+- **Taste decisions**: present as a batch with the subagent's recommendations. The user can accept all or override individual rows; apply overrides to the affected artifacts.
+- **User-Challenges**: resolve one at a time — these are places the spec writer thinks the design artifacts are wrong. The artifacts are the default; the challenge must earn the change. If the user sides with the challenge, the upstream design artifact is revised (bump its `version`), which makes the spec artifacts stale via their `inputs` maps — regenerate the affected areas.
+
+## Adversarial Review
+
+After the user has seen all areas and the Decision Log is resolved, spawn one independent reviewer subagent (general-purpose, read-only instructions) on `technical_spec.md`:
+
+1. The reviewer scores five dimensions 1-10 — Completeness, Consistency, Clarity, Scope, Feasibility — and lists concrete issues with locations. It has not seen this conversation; it judges only what's on the page.
+2. Fix the issues in the artifacts, then re-dispatch. Maximum 3 iterations.
+3. **Convergence guard**: if the same issue recurs across iterations or dimensions stop improving, stop looping and persist the remainder as a `## Reviewer Concerns` section in `technical_spec.md` — visible downstream instead of endlessly polished.
+4. Report final scores to the user in one line.
 
 ## Context Registry
 
@@ -62,6 +78,8 @@ The subagent handles all registry operations:
 - Reads design artifacts from `.product-dev/artifacts/`
 - Writes `data_models`, `api_contracts`, `business_rules`, `nfr`, `technical_spec` to artifacts directory
 - Updates `context.json` with all artifact entries and execution log
+
+This skill reads `.product-dev/learnings.jsonl` on start if present and applies it (latest entry per `key` wins); append new user-stated process preferences as they surface.
 
 ## Compilation
 

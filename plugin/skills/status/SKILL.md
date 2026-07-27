@@ -35,12 +35,14 @@ Phase Progress:
   Tech Requirements        [{completed}/{total}] {progress_bar}
 
 Artifacts:
-  {name}  (from {source_prompt}, {date})
+  {name}  (from {source_prompt}, {date}){staleness}
   ...
 
 Suggested Next:
   {list prompts whose `requires` are all satisfied by existing artifacts}
 ```
+
+`{staleness}`: compare each artifact's `inputs` map (input artifact name → version recorded at generation) against those artifacts' current `version` fields. If any recorded version is lower, append ` [stale: {input} v{recorded} → v{current}]`. Omit for fresh artifacts and for entries with no `inputs` map (pre-provenance projects). If any artifact is stale, add one line after the artifact list: "Stale artifacts were built from older inputs — regenerate via their source prompts."
 
 4. Tier labels: 1 = "Quick Exploration", 2 = "Structured Discovery", 3 = "Full Framework".
 

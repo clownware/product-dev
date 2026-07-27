@@ -140,6 +140,7 @@ All project state persists in `.product-dev/` in the working directory. This ena
 ```
 .product-dev/
 ├── context.json              # Registry: metadata, artifact index, execution log
+├── learnings.jsonl           # Process learnings: user preferences, recurring corrections
 ├── artifacts/                # One .md file per artifact (working outputs)
 │   ├── initial_concept.md
 │   ├── problem_statement.md
@@ -168,7 +169,8 @@ All project state persists in `.product-dev/` in the working directory. This ena
       "updated": "ISO 8601",
       "path": "artifacts/artifact_name.md",
       "source_prompt": "prompt slug",
-      "version": 1
+      "version": 1,
+      "inputs": { "required_artifact_name": 1 }
     }
   },
   "prompts_executed": [
@@ -195,8 +197,9 @@ When the user starts a new product development conversation and no `.product-dev
 After executing a prompt that has a `produces` field in its frontmatter:
 1. Write the artifact content to `.product-dev/artifacts/{name}.md`
 2. Add or update the entry in `context.json` `artifacts` with `path`, `source_prompt`, `created`/`updated`, `version` (increment if updating)
-3. Append to `prompts_executed` with slug, phase, timestamp, artifact name
-4. Update `context.json` `updated` timestamp and `current_phase`
+3. Record `inputs`: for each artifact in the source prompt's `requires`, store its current `version` at generation time (`{}` for entry points). This is what makes staleness computable.
+4. Append to `prompts_executed` with slug, phase, timestamp, artifact name
+5. Update `context.json` `updated` timestamp and `current_phase`
 
 **getArtifact(name)**
 When resolving a `{{variable}}` placeholder or when the user asks about a previous artifact:
@@ -214,6 +217,19 @@ When transitioning between workflow paths:
 1. List all Tier 1 `always` prompts for the phase
 2. Check which have entries in `prompts_executed`
 3. Report pass/fail with list of missing artifacts
+
+### Process Learnings
+
+`.product-dev/learnings.jsonl` captures how this user wants the *process* run — the things conversation history would carry if sessions didn't reset. Append-only, one JSON object per line:
+
+```json
+{"type": "preference|pattern|pitfall", "key": "short-kebab-slug", "insight": "one sentence", "source": "user-stated|observed", "ts": "ISO 8601"}
+```
+
+- **Write** when the user states a process preference ("keep personas terse"), corrects the framework's behavior, or the same workflow friction appears twice. Do not log one-time events or facts the artifacts already record.
+- **Dedup** by `key`: never edit lines in place — append a corrected entry; the latest entry per key wins.
+- **Recall**: at session start (all workflow skills), read the file if present and apply the surviving entries. Learnings modulate style, depth, and defaults — they never skip gates, artifacts, or validation steps.
+- **Prune** only on user request: show entries, remove stale or contradicted ones.
 
 ### Template Variable Resolution
 
@@ -248,7 +264,7 @@ Phase Progress:
   06 Post-Test Synthesis   [{n}/{total}] ...
 
 Artifacts:
-  {name}  (from {source_prompt}, {date})
+  {name}  (from {source_prompt}, {date}){staleness}
   ...
 
 Suggested Next:
@@ -256,6 +272,8 @@ Suggested Next:
 ```
 
 Count only Tier 1 prompts for progress at Tier 1. Include Tier 2 prompts in count when operating at Tier 2+.
+
+`{staleness}`: an artifact is **stale** when any entry in its `inputs` map is lower than that input artifact's current `version`. Annotate stale artifacts with ` [stale: {input} v{recorded} → v{current}]`; omit for fresh artifacts and for entries without an `inputs` map (pre-provenance projects).
 
 ---
 
@@ -313,9 +331,9 @@ After every 2-3 prompts, offer navigation:
 
 ### Re-entry and Iteration
 
-- If the user wants to revise a previous artifact, update it in the registry and note downstream impacts
-- Downstream artifacts may need regeneration if their inputs changed
-- Ask before regenerating: "The problem statement changed — should I update the persona and objective too?"
+- If the user wants to revise a previous artifact, update it in the registry (incrementing `version`) and note downstream impacts
+- Staleness is computable, not guessed: any downstream artifact whose `inputs` map records an older version of the revised artifact is stale. List the stale artifacts by name.
+- Ask before regenerating: "The problem statement is now v2 — persona and objective were built from v1. Regenerate them?"
 
 ---
 
@@ -329,7 +347,7 @@ After every 2-3 prompts, offer navigation:
 
 **How:** Spawn `plugin/agents/tech-spec-writer.md` with the Agent tool. The subagent reads artifacts from `.product-dev/artifacts/` directly and writes specs back to the registry.
 
-**After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs). Let the user review and iterate on each.
+**After return:** Present specs one area at a time (data models, API contracts, business rules, NFRs), rating each 0-10 and naming what a 10 would contain. Walk the Decision Log the subagent appended to `technical_spec` (Taste decisions as a batch, User-Challenges one at a time — the design artifacts are the default). Then run the adversarial review loop (5 dimensions, max 3 iterations, convergence guard) per the tech-spec skill.
 
 ---
 
@@ -398,3 +416,5 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Spec package as compilation target: ADR 0010
 - Plugin self-containment (bundled prompts/scripts via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011
 - UX optimization reverse pass (ux-optimization skill, /optimize): ADR 0013
+- gstack-derived patterns (interrogation gates, candidate directions, input provenance): ADR 0016
+- gstack-derived patterns, second wave (quality loops, decision classification, scope walk, learnings): ADR 0017
