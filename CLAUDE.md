@@ -257,7 +257,10 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Plugin architecture: ADR 0008
 - Prompt enhancement pattern: ADR 0009
 - Spec package as compilation target: ADR 0010
-- Plugin self-containment (bundled prompts/scripts via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011
+- Plugin self-containment (bundled prompts/scripts/registry canon via `${CLAUDE_PLUGIN_ROOT}`): ADR 0011
+- ADR enforcement architecture (checks/run_checks.py, guard hooks): ADR 0012
 - UX optimization reverse pass (ux-optimization skill, /optimize): ADR 0013
+- Live-site audit mode + objective metrics prompt: ADR 0014
+- Runtime audit mode (locally runnable products): ADR 0015
 - gstack-derived patterns (interrogation gates, candidate directions, input provenance): ADR 0016
 - gstack-derived patterns, second wave (quality loops, decision classification, scope walk, learnings): ADR 0017

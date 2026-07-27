@@ -88,3 +88,14 @@ Shows exact output format. Brief but complete.
 | 12 | test_patterns_insights | context_gated | User has completed testing | test_insights | [] | 350 |
 | 13 | evaluate_hypothesis | context_gated | test_insights exists | hypothesis_evaluation | [hypothesis_statement, test_insights] | 300 |
 | 14 | define_api_endpoints | context_gated | Software with client-server architecture | api_contracts | [data_models, user_flow] | 500 |
+
+---
+
+## Amendment (2026-07-25): Word-limit source of record
+
+The Tier 1 table above remains the design rationale for those prompts'
+budgets, but the operative check input is `checks/word_limits.json`, which
+now covers every prompt (issue #31: undeclared prompts ratcheted at current
+size + 10% headroom, floor 150). Constraint-rule count is 3-6 per the ADR 0009
+amendment (issue #30). On-disk prompt files are authoritative over any table
+in this guide.

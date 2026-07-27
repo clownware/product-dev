@@ -11,7 +11,7 @@
 
 ### Frontmatter
 
-Every prompt file uses this single YAML frontmatter schema (ADR 0001, ADR 0009). All 90 prompts have been migrated to this format — there is no legacy/nested schema.
+Every prompt file uses this single YAML frontmatter schema (ADR 0001, ADR 0009). All prompts (101 at this writing) use this format — there is no legacy/nested schema.
 
 ```yaml
 ---
@@ -156,7 +156,7 @@ claude --plugin-dir ./plugin
 
 When making architectural decisions:
 
-1. Create `docs/adrs/NNNN-short-title.md` (next available number is 0010)
+1. Create `docs/adrs/NNNN-short-title.md` (next number = highest existing + 1; check `ls docs/adrs/`)
 2. Use the existing format: Status, Context, Decision, Consequences
 3. Set status to "Proposed"
 4. Update status to "Accepted" after review

@@ -112,3 +112,15 @@ This schema has been extended by:
   - TC-2 → `checks/run_checks.py :: no-legacy` (status: **warn**)
 - **Not machine-checkable:** The rich frontmatter schema in Decision §1 is superseded in practice by ADR 0009's minimal 7-field format — all 91 prompts use the minimal format, so enforcement validates the ADR 0009 schema, not the schema as written above. A formal amendment note to this ADR is pending owner review. Decision §2's "frontmatter is authoritative over JSON where conflicts exist" is moot while no JSON indices exist.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-07-25): Rich schema superseded by ADR 0009 minimal frontmatter
+
+Issue #28 (sanctioned amendment). Decision §1's rich nested frontmatter
+(`metadata`/`dependencies`/`validation`/`mcp`) is **superseded in practice**:
+every prompt in the library uses ADR 0009's minimal 7-field format
+(`name`, `description`, `run`, `run_when`, `produces`, `requires`, `tier`),
+enforced by the `frontmatter-v2` check. The still-operative core of this ADR
+is unchanged: frontmatter is the canonical prompt metadata and the JSON
+indices stay dead (ADR 0007). For the plugin runtime schema, ADR 0009 governs.
