@@ -15,6 +15,7 @@
     { "id": "self-containment", "adr": "0011", "tc": "0011:TC-1,TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "spec-fixture", "adr": "0010", "tc": "0010:TC-1,TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "adr-status", "adr": "0002, process", "tc": "0002:TC-2; process:adr-status", "status": "warn", "added": "2026-07-12", "graduated": null },
-    { "id": "filename-convention", "adr": "CONTRIBUTING", "tc": "CONTRIBUTING:naming-convention", "status": "warn", "added": "2026-07-12", "graduated": null }
+    { "id": "filename-convention", "adr": "CONTRIBUTING", "tc": "CONTRIBUTING:naming-convention", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "objective-parity", "adr": "0014", "tc": "0014:TC-parity", "status": "warn", "added": "2026-07-25", "graduated": null }
   ]
 }
