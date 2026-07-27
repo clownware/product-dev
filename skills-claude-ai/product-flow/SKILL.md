@@ -22,7 +22,7 @@ Also use if present in the bundle: `user_flow` (if resuming mid-flow), `screen_i
 
 ## Prompt Library
 
-All prompts are bundled with this skill under `prompts/`. Read each prompt file before executing — do not paraphrase or summarize from memory. Resolve `{{variable}}` placeholders from the artifact ledger before execution.
+All prompts are bundled with this skill under `prompts/`. Read each prompt file before executing — do not paraphrase or summarize from memory. Resolve `{{variable}}` placeholders from the artifact ledger before execution. A trailing `?` marks a placeholder optional (`{{name?}}`): inject the artifact if the ledger has it, otherwise substitute `(not available)` and continue — never block on an optional input.
 
 ### Tier 1 Prompt Sequence
 
@@ -50,7 +50,7 @@ When skipping a context-gated prompt, explain what the prompt would have covered
 When escalation signals are detected, offer these as optional branches — let the user pick, do not run all automatically:
 
 - Phase 04: `03_identify_decision_points`, `04_error_handling`, `05_user_entry_exit_points`, `06_validate_flow`
-- Phase 05: `02_fidelity_choice`, `03_identify_interactions`, `05_test_participant_goals`, `06_test_script`
+- Phase 05: `02_fidelity_choice`, `03_identify_interactions`, `05_test_participant_goals`, `09_test_script`
 - Phase 06: `03_iteration_plan`, `04_pivot_options`, `05_refine_problem_statement`
 
 ## Artifact Ledger (conversation-scoped state)
@@ -63,7 +63,7 @@ This skill runs in a chat conversation with no persistent project directory. Sta
 
 ### Export
 
-At each natural stopping point — after prototype scope + test questions, and after post-test synthesis — produce an updated `product-dev-artifacts.md` containing every artifact (including those carried in from ideation) under `## artifact_name` headings. Tell the user to save it: it's how they resume in a future conversation, and if they use Claude Code, the sections drop into `.product-dev/artifacts/` to continue with the product-dev plugin (e.g. `/spec` for technical specs).
+At each natural stopping point — after prototype scope + test questions, and after post-test synthesis — produce an updated `product-dev-artifacts.md` containing every artifact (including those carried in from ideation) under `## artifact_name` headings, plus a `## process-learnings` section listing any process preferences the user stated (one bullet each, e.g. "keep personas terse"). Tell the user to save it: it's how they resume in a future conversation, and if they use Claude Code, the sections drop into `.product-dev/artifacts/` to continue with the product-dev plugin (e.g. `/spec` for technical specs). On resume, apply the `## process-learnings` section from a pasted bundle.
 
 ## Execution Flow
 

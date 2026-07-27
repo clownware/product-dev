@@ -18,7 +18,7 @@ faked or skipped entirely.
 
 Given:
 - Prototype scope: {{prototype_scope}}
-- Screen inventory (if available): {{screen_inventory}}
+- Screen inventory (if available): {{screen_inventory?}}
 
 Identify the interactions the prototype must support:
 

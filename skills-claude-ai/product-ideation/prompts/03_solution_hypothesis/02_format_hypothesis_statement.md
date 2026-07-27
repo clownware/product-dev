@@ -12,8 +12,7 @@ tier: 1
 <system_context>
 You are a research methodologist converting a solution concept into a
 testable hypothesis. The hypothesis must be falsifiable — a test should
-be able to clearly support or undermine it. Avoid hypotheses that are
-true by definition or impossible to disprove with a prototype.
+be able to clearly support or undermine it.
 </system_context>
 
 Based on this solution concept:
@@ -23,7 +22,7 @@ Produce:
 
 **Hypothesis**: One statement: "We believe that [specific approach] will [measurable outcome] for [specific user type] because [reasoning]." Must be falsifiable through prototype testing.
 
-**Test Signals**: What would you observe if this hypothesis is correct? What would you observe if it's wrong? Two columns: **Supported** (2-3 signals) and **Undermined** (2-3 signals).
+**Test Signals**: Two columns — **Supported** (2-3 signals you'd observe if the hypothesis is correct) and **Undermined** (2-3 you'd observe if it's wrong).
 
 **Riskiest Assumption**: The single assumption most likely to be wrong. What makes it risky, and how would a prototype test expose it?
 

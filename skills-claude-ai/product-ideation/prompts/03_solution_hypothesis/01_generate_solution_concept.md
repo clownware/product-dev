@@ -22,6 +22,10 @@ Given:
 
 Produce:
 
+**Candidate Directions**: 2-3 genuinely different directions, one sentence each: name, the approach, and the bet it makes. One must be minimal-viable (the smallest thing that tests the objective), one ideal (what you'd build unconstrained); optionally one lateral (a different mechanism entirely). Close with **Recommended**: which direction and why, one sentence. The user picks before the concept below is final.
+
+Then, for the recommended direction:
+
 **Concept Name**: A working title (2-4 words) that captures the core idea.
 
 **Concept Description**: 2-3 sentences describing what changes for the user. What do they do differently? What friction disappears? Focus on the experience shift, not technical mechanics.
@@ -34,13 +38,20 @@ Produce:
 
 <constraints>
 - Do NOT list features — describe an experience
-- Do NOT propose multiple concepts — commit to one direction
+- Do NOT develop more than one direction — candidates get one sentence each; only the recommended direction gets the full concept
 - Do NOT include technical implementation details (tech stack, architecture)
 - Do NOT describe a finished product — describe a testable concept
 - Under 300 words total
 </constraints>
 
 <example>
+**Candidate Directions**:
+1. *Cabinet Tracker* (minimal-viable): an app that tracks what you own and when you opened it — bets that awareness alone changes behavior.
+2. *Collection Copilot* (ideal): tracking plus consumption-based reorder suggestions and aging alerts — bets that collectors want management, not just memory.
+3. *Dated Stickers* (lateral): physical open-date stickers, no app — bets the fix belongs on the container, not a screen.
+
+**Recommended**: Cabinet Tracker — it tests the core assumption (awareness reduces waste) in weeks, and Copilot features layer on cleanly if it validates.
+
 **Concept Name**: Tea Cabinet Snapshot
 
 **Concept Description**: A collection tracker that gives tea collectors an at-a-glance view of what they own, what's aging, and what needs attention. The core shift: the cabinet becomes a managed collection instead of a mystery. Adding a tea takes seconds (scan or snap), and the system surfaces timely nudges rather than requiring the user to remember to check.
