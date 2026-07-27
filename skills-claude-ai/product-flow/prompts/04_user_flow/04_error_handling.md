@@ -20,7 +20,7 @@ Based on this user flow:
 {{user_flow}}
 
 If a screen inventory exists, also reference it for context:
-{{screen_inventory}}
+{{screen_inventory?}}
 
 Identify the critical errors that could occur during the primary user
 flow. Present your reasoning conversationally first (which errors are

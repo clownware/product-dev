@@ -46,10 +46,8 @@ For each screen, specify:
 - Do NOT add screens that exist "for completeness" but aren't referenced by any flow step
 - Do NOT design visual layout — this is a structural inventory, not a wireframe
 - Do NOT exceed 6 screens — if more than 6, justify why fewer won't work
-- Every screen must be referenced by at least one flow step
-- Every flow step's screen reference must appear in this inventory
-- Content element `field` bindings use entity.field_name format (e.g., tea.name)
-- `data_source` references endpoint IDs that will be defined in endpoints.yaml
+- Screen ↔ flow references must be bidirectionally complete: every screen referenced by at least one flow step, and every flow step's screen reference present in this inventory
+- Content element `field` bindings use entity.field_name format (e.g., tea.name); `data_source` references endpoint IDs that will be defined in endpoints.yaml
 </constraints>
 
 <example>

@@ -18,7 +18,7 @@ the builder's likely skills.
 
 Given:
 - Prototype scope: {{prototype_scope}}
-- Fidelity choice (if available): {{fidelity_choice}}
+- Fidelity choice (if available): {{fidelity_choice?}}
 
 Recommend a prototyping approach:
 
