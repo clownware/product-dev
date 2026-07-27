@@ -133,149 +133,9 @@ Never auto-escalate to Tier 3. Only run all prompts in a phase when explicitly r
 
 ## Context Registry
 
-All project state persists in `.product-dev/` in the working directory. This enables cross-session continuity and programmatic artifact resolution.
+All project state persists in `.product-dev/` in the working directory (`context.json` registry + `artifacts/*.md` + `learnings.jsonl` + compiled `spec-package/`).
 
-### Directory Layout
-
-```
-.product-dev/
-├── context.json              # Registry: metadata, artifact index, execution log
-├── learnings.jsonl           # Process learnings: user preferences, recurring corrections
-├── artifacts/                # One .md file per artifact (working outputs)
-│   ├── initial_concept.md
-│   ├── problem_statement.md
-│   └── ...
-└── spec-package/             # Compiled output (created by /compile)
-    ├── manifest.yaml         # Entry point — reading order + defaults
-    ├── context/              # Prose: problem, persona, hypothesis, concept
-    ├── spec/                 # YAML: entities, flows, screens, endpoints, rules, constraints
-    ├── docs/                 # Governance: compiled PRD + extracted ADRs
-    └── validation-report.yaml
-```
-
-### context.json Schema
-
-```json
-{
-  "$schema": "context-registry-v1",
-  "project_name": "string",
-  "created": "ISO 8601",
-  "updated": "ISO 8601",
-  "tier": 1,
-  "current_phase": "phase folder id",
-  "artifacts": {
-    "artifact_name": {
-      "created": "ISO 8601",
-      "updated": "ISO 8601",
-      "path": "artifacts/artifact_name.md",
-      "source_prompt": "prompt slug",
-      "version": 1,
-      "inputs": { "required_artifact_name": 1 }
-    }
-  },
-  "prompts_executed": [
-    {
-      "slug": "prompt-name",
-      "phase": "phase folder id",
-      "timestamp": "ISO 8601",
-      "artifact_produced": "artifact_name or null"
-    }
-  ]
-}
-```
-
-### Registry Operations
-
-Perform these operations using file read/write. No MCP tools needed.
-
-**createProject(name)**
-When the user starts a new product development conversation and no `.product-dev/context.json` exists:
-1. Create `.product-dev/` directory and `artifacts/` subdirectory
-2. Write `context.json` with `project_name`, `created`/`updated` timestamps, `tier: 1`, empty `artifacts` and `prompts_executed`
-
-**setArtifact(name, content, sourcePrompt)**
-After executing a prompt that has a `produces` field in its frontmatter:
-1. Write the artifact content to `.product-dev/artifacts/{name}.md`
-2. Add or update the entry in `context.json` `artifacts` with `path`, `source_prompt`, `created`/`updated`, `version` (increment if updating)
-3. Record `inputs`: for each artifact in the source prompt's `requires`, store its current `version` at generation time (`{}` for entry points). This is what makes staleness computable.
-4. Append to `prompts_executed` with slug, phase, timestamp, artifact name
-5. Update `context.json` `updated` timestamp and `current_phase`
-
-**getArtifact(name)**
-When resolving a `{{variable}}` placeholder or when the user asks about a previous artifact:
-1. Look up `name` in `context.json` `artifacts`
-2. Read the file at the registered `path`
-3. Return the content
-
-**getStatus()**
-When the user asks "status", "where are we", "what's next":
-1. Read `context.json`
-2. Format the display (see Status Display below)
-
-**checkGate(phase)**
-When transitioning between workflow paths:
-1. List all Tier 1 `always` prompts for the phase
-2. Check which have entries in `prompts_executed`
-3. Report pass/fail with list of missing artifacts
-
-### Process Learnings
-
-`.product-dev/learnings.jsonl` captures how this user wants the *process* run — the things conversation history would carry if sessions didn't reset. Append-only, one JSON object per line:
-
-```json
-{"type": "preference|pattern|pitfall", "key": "short-kebab-slug", "insight": "one sentence", "source": "user-stated|observed", "ts": "ISO 8601"}
-```
-
-- **Write** when the user states a process preference ("keep personas terse"), corrects the framework's behavior, or the same workflow friction appears twice. Do not log one-time events or facts the artifacts already record.
-- **Dedup** by `key`: never edit lines in place — append a corrected entry; the latest entry per key wins.
-- **Recall**: at session start (all workflow skills), read the file if present and apply the surviving entries. Learnings modulate style, depth, and defaults — they never skip gates, artifacts, or validation steps.
-- **Prune** only on user request: show entries, remove stale or contradicted ones.
-
-### Template Variable Resolution
-
-Before running any prompt from the library:
-
-1. Read the prompt file from disk
-2. Scan the prompt body for `{{variable_name}}` placeholders
-3. For each placeholder:
-   - Call `getArtifact(variable_name)`
-   - If found: replace `{{variable_name}}` with the artifact content
-   - If not found: ask the user to provide the missing context, or suggest running the prerequisite prompt first
-4. **Special case:** Entry point prompts use `{{user_input}}` — bind this to the user's most recent message, not a stored artifact
-5. Execute the resolved prompt: adopt the role from `<system_context>`, respect `<constraints>`, use `<example>` as quality reference
-6. After the prompt produces output, call `setArtifact()` with the `produces` name from frontmatter
-
-### Status Display
-
-When the user asks for status, display in this format:
-
-```
-Project: {project_name}
-Tier: {tier}
-Phase: {current_phase}
-
-Phase Progress:
-  00 Fuzzy Front End       [{n}/{total}] {"#" * n}{"." * (total-n)}
-  01 Define Problem        [{n}/{total}] ...
-  02 Objectives            [{n}/{total}] ...
-  03 Solution Hypothesis   [{n}/{total}] ...
-  04 User Flow             [{n}/{total}] ...
-  05 Prototype             [{n}/{total}] ...
-  06 Post-Test Synthesis   [{n}/{total}] ...
-
-Artifacts:
-  {name}  (from {source_prompt}, {date}){staleness}
-  ...
-
-Suggested Next:
-  {list unblocked prompts whose `requires` are all satisfied}
-```
-
-Count only Tier 1 prompts for progress at Tier 1. Include Tier 2 prompts in count when operating at Tier 2+.
-
-`{staleness}`: an artifact is **stale** when any entry in its `inputs` map is lower than that input artifact's current `version`. Annotate stale artifacts with ` [stale: {input} v{recorded} → v{current}]`; omit for fresh artifacts and for entries without an `inputs` map (pre-provenance projects).
-
----
+**The canonical operations reference is bundled with the plugin: [`plugin/docs/registry-operations.md`](plugin/docs/registry-operations.md)** — directory layout, `context.json` schema (including `inputs` provenance), the five operations (`createProject`, `setArtifact`, `getArtifact`, `getStatus`, `checkGate`), process learnings, template variable resolution (including the `{{name?}}` optional-placeholder syntax), status display with staleness annotation, the Session Resume Algorithm, and re-entry rules. Skills reference it via `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` so it resolves in consumer projects (ADR 0011). Read that file before performing registry operations; do not work from memory of it.
 
 ## Prompt Execution Flow
 
@@ -292,22 +152,7 @@ When the user starts a conversation or continues an existing project:
 
 ### Session Resume Algorithm
 
-When `.product-dev/context.json` exists and the user is continuing (not starting fresh):
-
-1. Read `context.json` and display a brief status summary (project name, tier, current phase, artifact count)
-2. Determine the **active skill** from `current_phase`:
-   - `00_fuzzy_front_end` through `03_solution_hypothesis` → product-ideation
-   - `04_user_flow` through `06_post_test_synthesis` → product-flow
-   - `tech_requirements` → tech-spec
-3. Find the **next unblocked prompt** within that skill's Tier 1 sequence:
-   - For each prompt in sequence order, check if its `slug` appears in `prompts_executed`
-   - Skip any already-executed prompts
-   - For the first unexecuted prompt, check if ALL items in its `requires` array exist as keys in `context.json.artifacts`
-   - If requirements are met → this is the next prompt to run
-   - If requirements are NOT met → report the missing artifacts and suggest running prerequisites
-   - For `context_gated` prompts, also evaluate the `run_when` condition before offering
-4. If all prompts in the current skill are complete, suggest the next skill in the workflow
-5. Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk — never from conversation history (which is empty in a new session)
+Canonical algorithm: `plugin/docs/registry-operations.md` § Session Resume Algorithm. Summary: read `context.json`, determine the active skill from `current_phase`, find the next unexecuted prompt whose `requires` are all satisfied (evaluating `run_when` gates), and resolve `{{variables}}` from disk — never from conversation history.
 
 3. **Execute prompt**:
    - Read the prompt file from `${CLAUDE_PLUGIN_ROOT}/prompts/...`
@@ -331,9 +176,7 @@ After every 2-3 prompts, offer navigation:
 
 ### Re-entry and Iteration
 
-- If the user wants to revise a previous artifact, update it in the registry (incrementing `version`) and note downstream impacts
-- Staleness is computable, not guessed: any downstream artifact whose `inputs` map records an older version of the revised artifact is stale. List the stale artifacts by name.
-- Ask before regenerating: "The problem statement is now v2 — persona and objective were built from v1. Regenerate them?"
+Canonical rules: `plugin/docs/registry-operations.md` § Re-entry and Staleness. Summary: revisions increment `version`; staleness is computed from `inputs` maps, not guessed; always ask before regenerating downstream artifacts.
 
 ---
 

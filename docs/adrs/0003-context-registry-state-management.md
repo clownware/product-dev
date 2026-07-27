@@ -122,3 +122,21 @@ All operations are deterministic (no LLM):
   - TC-4 → `checks/run_checks.py :: dependency-graph` (status: **warn**)
 - **Not machine-checkable:** Runtime registry behavior (`createProject`, `setArtifact`, `getArtifact`, timestamps, staleness detection) happens in end-user project directories, outside this repository.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-07-25): Optional placeholder syntax `{{name?}}`
+
+Issue #27 exposed a gap: prompts referencing artifacts from `context_gated` or
+higher-tier prompts (e.g. `{{screen_inventory}}` in error-handling) could not
+declare them in `requires` without changing gating behavior, so dependency
+gating passed while template injection failed.
+
+**Decision:** a trailing `?` marks a placeholder optional — `{{name?}}`.
+Resolution: inject the artifact if present, else substitute `(not available)`
+and continue; never block. Optional placeholders are intentionally NOT listed
+in `requires`. The `placeholder-resolvability` check verifies optional names
+against the set of artifacts some prompt produces (typo guard) and rejects
+placeholders that are simultaneously optional and required. Canonical
+resolution rules: `plugin/docs/registry-operations.md` § Template Variable
+Resolution. (Owner-directed, part of the issue-backlog cleanup wave.)

@@ -7,7 +7,7 @@ user-invocable: true
 allowed-tools: "Read Glob"
 ---
 
-Display the current product development project status. This is primarily deterministic — no LLM generation needed for core display.
+Display the current product development project status. This is primarily deterministic — no LLM generation needed for core display. Canonical display format and staleness rule: `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` § Status Display.
 
 ## Execution
 

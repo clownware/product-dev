@@ -74,7 +74,7 @@ After the user has seen all areas and the Decision Log is resolved, spawn one in
 
 ## Context Registry
 
-The subagent handles all registry operations:
+Canonical operations reference: `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md`. The subagent handles all registry operations:
 - Reads design artifacts from `.product-dev/artifacts/`
 - Writes `data_models`, `api_contracts`, `business_rules`, `nfr`, `technical_spec` to artifacts directory
 - Updates `context.json` with all artifact entries and execution log
