@@ -116,7 +116,7 @@ Default is **Tier 1** (quick exploration, ~60 min total). The framework escalate
 │
 └── docs/
     ├── spec-package-schema.md         # Spec package YAML schema (v1.0.0)
-    ├── adrs/                          # 11 Architecture Decision Records
+    ├── adrs/                          # 17 Architecture Decision Records
     └── updates/                       # PRD v3, refactor roadmap, enhancement guides
 ```
 
@@ -149,7 +149,13 @@ Key decisions are documented as ADRs in `docs/adrs/`:
 | [0008](docs/adrs/0008-plugin-architecture.md) | Plugin as delivery vehicle |
 | [0009](docs/adrs/0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 |
 | [0010](docs/adrs/0010-spec-package-compilation-target.md) | Spec package as compilation target |
+| [0011](docs/adrs/0011-plugin-self-containment.md) | Plugin self-containment via `${CLAUDE_PLUGIN_ROOT}` |
 | [0012](docs/adrs/0012-adr-enforcement-architecture.md) | ADR enforcement architecture |
+| [0013](docs/adrs/0013-ux-optimization-reverse-pass.md) | UX optimization reverse pass (`/optimize`) |
+| [0014](docs/adrs/0014-live-site-audit-and-objective.md) | Live-site audit mode + objective metrics |
+| [0015](docs/adrs/0015-runtime-audit-mode.md) | Runtime audit mode for locally runnable products |
+| [0016](docs/adrs/0016-gstack-derived-patterns.md) | gstack patterns: interrogation, candidate directions, provenance |
+| [0017](docs/adrs/0017-gstack-derived-patterns-second-wave.md) | gstack patterns: quality loops, decision classification, scope walk, learnings |
 
 ## ADR Enforcement
 

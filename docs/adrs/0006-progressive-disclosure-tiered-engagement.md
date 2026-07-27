@@ -129,3 +129,21 @@ In addition to the tier system (which controls depth), prompts now have a **cond
   - TC-1, TC-2, TC-3 → `checks/run_checks.py :: frontmatter-v2` (status: **warn**)
 - **Not machine-checkable:** Escalation/de-escalation signal detection quality and the subjective correctness of individual tier assignments. Note: this ADR's illustrative Tier 1 tables have drifted from the files (18 tier-1 prompts on disk vs 14 listed here; some artifact names differ) — the prompt files are authoritative; a table refresh is pending owner review.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-07-25): Tier tables are illustrative; frontmatter is authoritative
+
+Issue #29 (owner-directed refresh of the drift note above). The Tier 1 tables
+in this ADR's Decision section reflect the library at acceptance time and have
+drifted; **the on-disk `tier`/`run`/`produces` frontmatter is authoritative**,
+enforced by the `frontmatter-v2` and `dependency-graph` checks.
+
+Corrections of record:
+- `explore_problem` produces `initial_concept` (not `problem_space_map` — that
+  artifact never shipped).
+- `define_metrics` is `tier: 2`; Phase 02's only Tier 1 prompt is
+  `identify_core_objective` (produces `core_objective`, not `success_metrics`).
+- Tier 1 count at this writing: **27 prompts** — 13 forward-pass UX research,
+  5 tech requirements, 9 reverse-pass (ADR 0013). The "14" in the status note
+  predates the tech-requirements tagging and the reverse pass.
