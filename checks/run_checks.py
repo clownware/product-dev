@@ -179,13 +179,15 @@ def check_placeholder_syntax(ctx):
         for m in re.finditer(r"\[insert [^\]]*\]", body, re.IGNORECASE):
             out.append(finding("0009", "TC-4", f"legacy placeholder {m.group(0)!r} — migrate to {{{{artifact_name}}}}", rel))
         for m in re.finditer(r"\{\{\s*([^}]*?)\s*\}\}", body):
-            if not SNAKE.fullmatch(m.group(1)):
-                out.append(finding("0003", "TC-2", f"malformed placeholder {{{{{m.group(1)}}}}} — must be {{{{snake_case}}}}", rel))
+            # Optional placeholders use a trailing '?' ({{name?}}, ADR 0003 amendment)
+            if not SNAKE.fullmatch(m.group(1).rstrip("?")):
+                out.append(finding("0003", "TC-2", f"malformed placeholder {{{{{m.group(1)}}}}} — must be {{{{snake_case}}}} or {{{{snake_case?}}}}", rel))
     return out
 
 
 def check_placeholder_resolvability(ctx):
     out = []
+    produced = {p["fm"].get("produces") for p in ctx["prompts"] if p["fm"]} | {"user_input", "existing_feedback", "scope_decisions"}
     for p in ctx["prompts"]:
         if not p["fm"]:
             continue
@@ -193,7 +195,15 @@ def check_placeholder_resolvability(ctx):
         allowed = requires | {"user_input"}
         used = set(re.findall(r"\{\{(\w+)\}\}", p["body"]))
         for var in sorted(used - allowed):
-            out.append(finding("0003", "TC-3", f"{{{{{var}}}}} not in requires {sorted(requires)} — gating can pass while injection fails; add to requires or drop the placeholder", p["path"]))
+            out.append(finding("0003", "TC-3", f"{{{{{var}}}}} not in requires {sorted(requires)} — gating can pass while injection fails; add to requires, or mark optional with {{{{{var}?}}}}", p["path"]))
+        # Optional placeholders ({{name?}}) bypass requires-gating by design, but must
+        # still name an artifact some prompt produces — otherwise it's a typo that
+        # silently resolves to "(not available)" forever (ADR 0003 amendment).
+        optional = set(re.findall(r"\{\{(\w+)\?\}\}", p["body"]))
+        for var in sorted(optional - produced):
+            out.append(finding("0003", "TC-3", f"optional {{{{{var}?}}}} names an artifact no prompt produces — typo or stale reference", p["path"]))
+        for var in sorted(optional & requires):
+            out.append(finding("0003", "TC-3", f"{{{{{var}?}}}} is marked optional but listed in requires — pick one", p["path"]))
     return out
 
 

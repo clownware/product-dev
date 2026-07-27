@@ -71,7 +71,7 @@ When skipping a context-gated prompt, explain what the prompt would have covered
 ## Context Registry
 
 Same operations as product-ideation:
-- **On start**: Read `.product-dev/context.json`. If `prompts_executed` contains prompts from this skill's sequence, resume at the next unexecuted prompt (see CLAUDE.md Session Resume Algorithm). Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk.
+- **On start**: Read `.product-dev/context.json`. If `prompts_executed` contains prompts from this skill's sequence, resume at the next unexecuted prompt (per `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` — the canonical registry reference; read it before performing registry operations). Resolve all `{{variables}}` from `.product-dev/artifacts/` on disk.
 - `setArtifact` after each prompt
 - `getArtifact` to resolve `{{variables}}`
 - Update `current_phase` in registry as flow progresses

@@ -59,7 +59,7 @@ Prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/07_ux_optimization/`:
 
 ## Registry
 
-Standard operations (CLAUDE.md), plus the reverse-pass extensions (ADR 0013): `context.json` carries `"mode": "reverse"`; every extracted artifact keeps `mode`, `provenance`, `confidence`, and `validation_status` frontmatter. Registry-write conventions are otherwise identical to the forward pass. On start, read `.product-dev/learnings.jsonl` if present and apply (latest entry per `key` wins); append new user-stated process preferences as they surface.
+Standard operations (`${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` — read it before performing registry operations), plus the reverse-pass extensions (ADR 0013): `context.json` carries `"mode": "reverse"`; every extracted artifact keeps `mode`, `provenance`, `confidence`, and `validation_status` frontmatter. Registry-write conventions are otherwise identical to the forward pass. On start, read `.product-dev/learnings.jsonl` if present and apply (latest entry per `key` wins); append new user-stated process preferences as they surface.
 
 ## Tier Behavior
 

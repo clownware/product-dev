@@ -6,7 +6,7 @@ description: >
   technical_spec artifact.
 run: always
 produces: technical_spec
-requires: [solution_concept, data_models, business_rules]
+requires: [solution_concept, data_models, business_rules, nfr]
 tier: 1
 ---
 
@@ -23,9 +23,10 @@ Given the spec artifacts produced so far:
 - Data models: {{data_models}}
 - Business rules: {{business_rules}}
 
-And if available (context-gated — skip references to these if absent):
-- API contracts: {{api_contracts}}
 - Non-functional requirements: {{nfr}}
+
+And if available (context-gated — skip references to it if absent):
+- API contracts: {{api_contracts?}}
 
 Produce a consolidated `technical_spec` artifact with these sections:
 

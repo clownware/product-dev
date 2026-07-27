@@ -92,3 +92,18 @@ structure diagram and component mapping are updated to include `prompts/` and
   - TC-1, TC-2 → `checks/run_checks.py :: self-containment` (status: **warn**)
 - **Not machine-checkable:** Actual Cowork-bundle runtime behavior — verifying the installed bundle resolves paths correctly requires installing it, not inspecting the repo.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-07-25): Registry operations canon bundled
+
+Issue #45: skills deferred to "CLAUDE.md" for registry operations, the Session
+Resume Algorithm, and (later) process-learnings rules — but consumer projects
+never have this repo's CLAUDE.md, so the plugin was not self-contained for
+exactly the operations that make it stateful.
+
+**Decision:** the canonical operations reference now ships in the bundle at
+`plugin/docs/registry-operations.md`, referenced by skills and agents via
+`${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md`. The dev repo's CLAUDE.md
+retains a summary plus pointer only — no inline copy, so there is nothing to
+drift. (Owner-directed, part of the issue-backlog cleanup wave.)

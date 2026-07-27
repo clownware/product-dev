@@ -29,7 +29,7 @@ If either required artifact is missing, report which are missing and what they'r
 
 ## Prompt Library
 
-Tech requirements prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/02_tech_requirements/`.
+Tech requirements prompts live in `${CLAUDE_PLUGIN_ROOT}/prompts/02_tech_requirements/`. Registry operations (setArtifact with `inputs` provenance, template resolution including `{{name?}}` optional placeholders) follow `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` — read it before writing artifacts.
 
 ### Execution Sequence
 
@@ -66,7 +66,7 @@ After completing all four spec areas, run the consolidation prompt:
 
 **5. Consolidation** (`05_consolidate_spec.md`)
 - Read the prompt from `${CLAUDE_PLUGIN_ROOT}/prompts/02_tech_requirements/05_consolidate_spec.md`
-- Resolve `{{data_models}}`, `{{api_contracts}}`, `{{business_rules}}`, `{{nfr}}`, `{{solution_concept}}` from `.product-dev/artifacts/`
+- Resolve `{{data_models}}`, `{{business_rules}}`, `{{nfr}}`, `{{solution_concept}}`, and optional `{{api_contracts?}}` from `.product-dev/artifacts/`
 - Write output to `.product-dev/artifacts/technical_spec.md`
 - Update `context.json`: add `technical_spec` artifact entry with `source_prompt: "consolidate-technical-spec"`
 
