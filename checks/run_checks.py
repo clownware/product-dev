@@ -167,8 +167,9 @@ def check_body_structure(ctx):
         m = re.search(r"<constraints>(.*?)</constraints>", body, re.DOTALL)
         if m:
             rules = [l for l in m.group(1).splitlines() if re.match(r"^\s*[-*]\s+\S", l)]
-            if not 3 <= len(rules) <= 5:
-                out.append(finding("0009", "TC-3", f"<constraints> has {len(rules)} rules — pattern requires 3-5", rel))
+            # 3-6 per ADR 0009 amendment (2026-07-25) — was 3-5
+            if not 3 <= len(rules) <= 6:
+                out.append(finding("0009", "TC-3", f"<constraints> has {len(rules)} rules — pattern requires 3-6", rel))
     return out
 
 

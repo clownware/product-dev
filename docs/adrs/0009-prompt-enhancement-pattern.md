@@ -127,3 +127,16 @@ All Tier 1 prompts use a tea collection tracker as the example domain. This prov
   - TC-6 → `checks/run_checks.py :: name-uniqueness` (status: **warn**)
 - **Not machine-checkable:** "Direct instructions" tone, example quality, and tea-tracker continuity are semantic. Note: the Migration section above is stale — all 91 prompts (not only Tier 1) now use the v2 pattern; noted for owner review, prose preserved.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-07-25): Constraint-rule count relaxed to 3-6
+
+Issue #30: the enforcement suite found 20 of 91 prompts carrying 6 constraint
+rules (one had 8) against the specified "3-5". That distribution says the spec
+undershot real prompt needs rather than that 20 migrations overshot.
+
+**Decision (owner-directed):** the `<constraints>` block allows **3-6** rules.
+The `body-structure` check bound is updated to match; the one 8-rule prompt
+(`02_identify_screens_states.md`) was consolidated to 6 by merging paired
+invariants. Counting rule unchanged: list items inside `<constraints>`.
