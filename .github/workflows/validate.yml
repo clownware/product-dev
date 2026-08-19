@@ -5,10 +5,17 @@ on:
   push:
     branches: [main]
 
+# Cancel superseded runs on the same PR; never cancel default-branch pushes.
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   python-pipeline:
     name: Python pipeline (validate spec, generate handoff)
     runs-on: ubuntu-latest
+    # Without a cap a hung step runs to GitHub's 360-minute default.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 
@@ -31,6 +38,7 @@ jobs:
   enforcement:
     name: ADR enforcement checks (warn = report only, block = fail)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 
