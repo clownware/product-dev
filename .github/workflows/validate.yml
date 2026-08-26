@@ -50,4 +50,20 @@ jobs:
         run: pip install -r plugin/scripts/requirements.txt
 
       - name: Run enforcement suite
-        run: python checks/run_checks.py --ci
+        run: python checks/run_checks.py --ci --json enforcement-report.json
+
+      # ADR 0018: push the suite's finding count to the ops dashboard, which
+      # expects `audit.finding_count` from plugin_skill repos. Push-only so a
+      # fork PR can't write to the dashboard; `!cancelled()` so a run with
+      # blockers still reports (with raised severity) rather than vanishing.
+      # Missing OPS_URL / OPS_INGEST_TOKEN fails the step loudly.
+      - name: Report audit.finding_count to ops
+        if: ${{ !cancelled() && github.event_name == 'push' }}
+        run: python checks/report_to_ops.py enforcement-report.json
+        env:
+          OPS_URL: ${{ vars.OPS_URL }}
+          OPS_INGEST_TOKEN: ${{ secrets.OPS_INGEST_TOKEN }}
+          # Only needed while /ingest sits behind Cloudflare Access without a
+          # bypass policy; empty values are ignored by the script.
+          CF_ACCESS_CLIENT_ID: ${{ secrets.OPS_CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.OPS_CF_ACCESS_CLIENT_SECRET }}

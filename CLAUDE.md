@@ -264,3 +264,4 @@ Working artifacts live in `.product-dev/artifacts/`. The compiled spec package l
 - Runtime audit mode (locally runnable products): ADR 0015
 - gstack-derived patterns (interrogation gates, candidate directions, input provenance): ADR 0016
 - gstack-derived patterns, second wave (quality loops, decision classification, scope walk, learnings): ADR 0017
+- Ops dashboard audit signal (CI reports `audit.finding_count`): ADR 0018
