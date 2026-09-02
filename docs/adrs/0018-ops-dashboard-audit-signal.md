@@ -76,6 +76,11 @@ to `main` only.
   fails visibly in Actions. PR runs are unaffected.
 - The enforcement job now writes `enforcement-report.json`; the `--ci`
   exit behavior is unchanged.
+- The reporter must send a descriptive `User-Agent` (2026-09-02): the
+  dashboard's Cloudflare zone runs the Browser Integrity Check, which
+  rejects urllib's default `Python-urllib/x.y` with a text/plain 403
+  (error 1010) before the Worker sees the request. `report_to_ops.py`
+  identifies itself the way the dashboard's own pollers do.
 
 ## Enforcement
 
