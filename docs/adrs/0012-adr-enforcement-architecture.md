@@ -117,7 +117,10 @@ per-check graduation, identical config schema). Differences, with rationale:
   existing toolchain (the compile pipeline and CI are already Python 3.11).
 - **Official validator adopted**: manifest validity wraps
   `claude plugin validate --strict` rather than reimplementing the plugin
-  schema; the check degrades to a warning when the CLI is unavailable (CI).
+  schema; the check degrades to a warning when the CLI is unavailable.
+  CI installs the CLI (pinned) so the official validator actually runs
+  there; the degradation covers local environments without it
+  (2026-09-02).
 - **No migration scoping**: the Astro brief's v1/v2 mechanism was dropped as
   unnecessary (Decision 6).
 
