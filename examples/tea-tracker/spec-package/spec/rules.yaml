@@ -99,3 +99,25 @@ rules:
       All tea queries MUST filter by user_id = authenticated_user.id.
       GET /teas/:id must return 404 (not 403) if tea belongs to another user.
       (Prevents enumeration of other users' tea IDs.)
+
+  - id: user-provisioning
+    name: One User Record per Email
+    trigger: First authenticated request from a JWT whose email has no user record
+    enforced_at: [list-teas, get-tea, update-tea, create-tea]
+    references:
+      entities: [user]
+      fields: [user.email]
+
+    logic: |
+      On every authenticated request, resolve the user by the JWT's email claim:
+        IF a user with that email exists: use it
+        ELSE: insert a user with that email (display_name from the token if present)
+      The unique constraint on user.email guarantees one record per identity;
+      a concurrent first request that hits the constraint MUST retry the lookup
+      rather than fail.
+
+    edge_cases:
+      - condition: Email claim differs only by case from an existing record
+        behavior: Match case-insensitively — one identity, one user record
+      - condition: JWT has no email claim
+        behavior: Reject with 401 (token is valid but unusable for provisioning)
