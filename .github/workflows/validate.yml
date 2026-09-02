@@ -49,7 +49,22 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r plugin/scripts/requirements.txt
 
+      # The manifest check (ADR 0008 TC-1) wraps the official validator,
+      # `claude plugin validate --strict`, and degrades to a warning when the
+      # CLI is absent. Install it so CI runs the real validator instead of
+      # reporting a standing warning. Pinned exactly (no lockfile covers a
+      # global install); bump deliberately, like any other pinned tool.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Install Claude Code CLI (official plugin validator)
+        run: npm install -g @anthropic-ai/claude-code@2.1.258
+
       - name: Run enforcement suite
+        env:
+          # No update checks or telemetry from a CI-only validator run.
+          CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: '1'
         run: python checks/run_checks.py --ci --json enforcement-report.json
 
       # ADR 0018: push the suite's finding count to the ops dashboard, which
