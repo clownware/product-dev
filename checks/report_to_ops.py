@@ -27,6 +27,10 @@ import urllib.error
 import urllib.request
 
 INGEST_TIMEOUT_S = 30
+# Cloudflare's Browser Integrity Check (error 1010) blocks urllib's default
+# `Python-urllib/x.y` User-Agent with a text/plain 403 before the Worker sees
+# the request. Identify the caller the way the dashboard's own pollers do.
+USER_AGENT = "product-dev-ci/report_to_ops (+https://github.com/clownware/product-dev)"
 
 
 def severity_for(blockers, warnings):
@@ -72,13 +76,20 @@ def ingest_outcome(status, content_type, body):
     2xx means Cloudflare Access answered instead of the Worker — the request
     was never ingested even though the status looked fine."""
     if "application/json" not in (content_type or ""):
-        hint = (
-            "Cloudflare Access intercepted the request — add an Access bypass "
-            "policy for /ingest, or set CF_ACCESS_CLIENT_ID / CF_ACCESS_CLIENT_SECRET "
-            "(a service token) for CI"
-            if "cloudflare access" in body.lower()
-            else "expected a JSON acknowledgement"
-        )
+        if "cloudflare access" in body.lower():
+            hint = (
+                "Cloudflare Access intercepted the request — add an Access bypass "
+                "policy for /ingest, or set CF_ACCESS_CLIENT_ID / CF_ACCESS_CLIENT_SECRET "
+                "(a service token) for CI"
+            )
+        elif "error code: 1010" in body.lower():
+            hint = (
+                "Cloudflare's Browser Integrity Check rejected the request's "
+                "User-Agent before it reached the Worker — send a descriptive "
+                f"User-Agent (this script sends '{USER_AGENT}')"
+            )
+        else:
+            hint = "expected a JSON acknowledgement"
         return False, f"ops /ingest responded {status} with {content_type or 'no content-type'} — {hint}"
     if not 200 <= status < 300:
         return False, f"ops /ingest responded {status}: {body}"
@@ -124,6 +135,7 @@ def main():
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
+        "User-Agent": USER_AGENT,
     }
     access_id = os.environ.get("CF_ACCESS_CLIENT_ID")
     access_secret = os.environ.get("CF_ACCESS_CLIENT_SECRET")
