@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `skills-claude-ai/` — Claude.ai Agent Skill ports of product-ideation and product-flow (issue #12): bundled prompts with skill-relative paths, conversation-scoped artifact ledger with `product-dev-artifacts.md` export replacing the `.product-dev/` registry
 
 ### Changed
+- product-ideation: the escape hatch now respects the first explicit request to move on, recording the remaining unvalidated assumptions instead of requiring a second override
 - ADR 0002: Superseded — MCP server removed; plugin is the sole delivery mechanism
 
 ### Removed
