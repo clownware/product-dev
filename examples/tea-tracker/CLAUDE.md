@@ -121,6 +121,7 @@ You will be asked for things this package does not cover. Neither refuse silentl
 3. Ask before building.
 4. Once the builder agrees, do **not** edit anything under `spec-package/`. It is compiled output: `/compile` rebuilds it from the builder's source artifacts, discards hand edits, and is the only step that validates it. Instead, write the agreed change to `spec-change-request.md` next to this file: for each spec file, the exact YAML to add or change, and the source artifact it belongs in (table below). Ask the builder to apply it to those artifacts and re-run `/compile`.
 5. Build the new feature only after the recompiled package is in place, and build it from that package. Until then, keep building what the spec already covers.
+6. When the builder says the package was recompiled, re-read the spec files your request touched before doing anything else. The builder may have applied the change differently from your request — another name, another type, fewer files. The package wins: build what it says, and tell the builder where it differs from what you asked for. Do not search for your own wording and conclude the change is missing.
 
 | Spec file | Source artifact the builder edits |
 |-----------|-----------------------------------|

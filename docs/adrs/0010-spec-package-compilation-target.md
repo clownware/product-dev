@@ -220,3 +220,35 @@ change is validated and survives.
 loop was not closed — no run was given a recompiled package to build from —
 and the request files were not themselves validated; at least one repeats the
 required-versus-optional mismatch, which the compile step exists to catch.
+
+---
+
+## Amendment (2026-10-12): Closed-loop result; re-read after a recompile
+
+The loop left open above was closed the same day (record: issue #71). Six
+isolated three-turn runs: after the agent wrote its request, the change was
+applied to the fixture's source artifacts and compiled with `compile_spec.py`
+(0 failed checks), deliberately naming the field `is_starred` where every
+request said `is_favorite` and omitting the screen changes. The third turn
+said only that the recompile was done.
+
+| | Runs |
+|---|---|
+| Built nothing for the field before the recompile | 6 of 6 |
+| Edited any file under the package, any turn | 0 of 6 |
+| Re-read the package and built `is_starred` | 5 of 6 |
+| Any `is_favorite` left in code | 0 of 6 |
+| Told the builder the name differed from the request | 5 of 6 |
+| Built nothing and asked | 1 of 6 |
+
+The one miss searched the package for its own field name, found nothing,
+concluded the recompile had not been applied, and stopped without re-reading
+`entities.yaml`. Nothing wrong was built.
+
+**Decision (owner-directed):** the handoff gains a sixth step. When the
+builder says the package was recompiled, re-read the spec files the request
+touched; the builder may have applied the change differently; the package
+wins; say where it differs. Plugin version 0.5.4.
+
+**Not measured:** this step itself. It answers one miss in six runs, and that
+miss was induced by the deliberate rename.

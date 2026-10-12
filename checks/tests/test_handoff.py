@@ -20,7 +20,8 @@ class HandoffCase(unittest.TestCase):
         self.assertIn("## When a Request Is Not in the Spec", self.generated)
         section = self.generated.split("## When a Request Is Not in the Spec", 1)[1].split("\n## ", 1)[0]
         for phrase in ("If an ADR excludes it", "propose the smallest spec change", "Ask before building",
-                       "do **not** edit anything under", "spec-change-request.md", "re-run `/compile`"):
+                       "do **not** edit anything under", "spec-change-request.md", "re-run `/compile`",
+                       "re-read the spec files your request touched", "The package wins"):
             self.assertIn(phrase, section)
 
     def test_handoff_never_tells_the_agent_to_edit_the_compiled_package(self):
