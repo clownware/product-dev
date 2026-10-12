@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `skills-claude-ai/` — Claude.ai Agent Skill ports of product-ideation and product-flow (issue #12): bundled prompts with skill-relative paths, conversation-scoped artifact ledger with `product-dev-artifacts.md` export replacing the `.product-dev/` registry
 
 ### Changed
+- Plugin 0.5.1: tier escalation is now offered, not applied, in every workflow skill. Four rules that existed only in this repo's `CLAUDE.md` ship in `plugin/docs/registry-operations.md` § Workflow Rules (offer Tier 2 prompts and let the user pick; never auto-escalate to Tier 3; ask when a gate condition is unclear; entry points are exclusive). `product-ideation` previously inserted Tier 2 prompts on a signal; `product-flow` and `tech-spec` had no escalation procedure (issue #62)
 - `CLAUDE.md` is now the contributor guide (ADR 0019): about 650 words of pointers and change rules, down from about 2,000 that restated the skills, the tier model, the plugin tree, and the ADR list. Four runtime rules that never shipped in the plugin stay in a labelled section pending issue #62
 - PreToolUse guard: an ADR is protected only once it exists in `HEAD`, so a draft can be revised before its first commit
 - README: the hand-kept ADR table is replaced by a pointer to the generated index

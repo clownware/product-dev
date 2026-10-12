@@ -1,7 +1,8 @@
 # Context Registry Operations
 
 Canonical reference for all `.product-dev/` state operations (ADR 0003, ADR 0011,
-ADR 0016, ADR 0017). Skills and agents reference this file via
+ADR 0016, ADR 0017), and for the workflow rules every workflow skill shares
+(§ Workflow Rules; ADR 0006, ADR 0019). Skills and agents reference this file via
 `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` — it ships with the plugin so
 the operations resolve in any consumer project. Perform every operation with
 file read/write; no MCP tools needed.
@@ -94,6 +95,40 @@ When transitioning between workflow paths:
 1. List all Tier 1 `always` prompts for the phase
 2. Check which have entries in `prompts_executed`
 3. Report pass/fail with list of missing artifacts
+
+## Workflow Rules
+
+Shared by all workflow skills (product-ideation, product-flow, tech-spec,
+ux-optimization). A skill's own text adds detail; it does not override these.
+
+**Tier escalation is offered, never applied.** Default to Tier 1. When an
+escalation signal appears (detailed multi-paragraph answers, "go deeper",
+a request for comprehensive analysis):
+
+1. Update `tier` to 2 in `context.json`.
+2. Find the current phase's Tier 2 prompts (the skill lists them; their
+   frontmatter says `tier: 2`).
+3. Present them as optional branches with a one-line description each: "We can
+   go deeper here. Available: [list]. Which would be most useful, or should we
+   continue the main sequence?"
+4. Run only the prompts the user picks. Do not run all of them automatically.
+5. After each picked prompt, return to the Tier 1 sequence where it left off.
+
+On a de-escalation signal ("that's enough", "move on", short confirmations),
+stay at or return to Tier 1.
+
+**Never auto-escalate to Tier 3.** Run every prompt in a phase only when the
+user explicitly asks for the full set.
+
+**When a `context_gated` condition is unclear, ask the user.** Do not guess
+whether a `run_when` condition holds. If it does not hold, skip the prompt and
+say what was skipped and when to revisit it.
+
+**Entry points are exclusive.** Prompts with `run: entry_point` that produce
+the same artifact are alternatives: pick one from the user's starting context
+and never run the other. In the forward pass, `capture_idea` (a specific
+product idea) and `explore_problem` (a domain interest) both produce
+`initial_concept`.
 
 ## Process Learnings
 
