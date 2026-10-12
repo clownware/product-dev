@@ -1,5 +1,7 @@
 # Context Registry Validation Script
 
+> **Historical (2026-10-12):** this document was written when the root `CLAUDE.md` orchestrated the workflow. It is now a contributor guide (ADR 0019) and the skills under `plugin/skills/` are the orchestration. Run these tests with the plugin loaded (`claude --plugin-dir ./plugin`); references to CLAUDE.md instructions below describe the earlier setup.
+
 Manual test plan for Phase 3 context registry. Run in Claude Code from the repo root.
 
 ## Prerequisites

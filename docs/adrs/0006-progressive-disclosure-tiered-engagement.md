@@ -157,3 +157,20 @@ consecutive clean days — zero findings in every CI run since 2026-07-27.
 `checks/enforcement.config.json` is authoritative for current status; the
 "warn" label in the Enforcement section above records the status when it was
 written.
+
+---
+
+## Amendment (2026-10-12): Where the tier model is implemented (ADR 0019)
+
+The status note at the top says the tier model, escalation signals, and run
+conditionality are "implemented in CLAUDE.md". ADR 0019 made CLAUDE.md the
+contributor guide and removed its restatement of this model. The
+implementation is the `tier`, `run`, and `run_when` frontmatter on each prompt
+and the Tier sections of each workflow skill.
+
+One gap is recorded rather than hidden: the escalation procedure in this
+ADR's "Skill Behavior" (offer deeper prompts and let the user choose) is
+stated in full only in CLAUDE.md's "Runtime rules that exist only here"
+section. `product-ideation/SKILL.md` says to insert the Tier 2 prompts, and
+`product-flow` and `tech-spec` carry no escalation procedure. Issue #62 tracks
+moving it into the plugin.

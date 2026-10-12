@@ -1,5 +1,7 @@
 # Test Chain: Tier 1 Artifact Chaining Verification
 
+> **Historical (2026-10-12):** this document was written when the root `CLAUDE.md` orchestrated the workflow. It is now a contributor guide (ADR 0019) and the skills under `plugin/skills/` are the orchestration. Run these tests with the plugin loaded (`claude --plugin-dir ./plugin`); references to CLAUDE.md instructions below describe the earlier setup.
+
 Walks through the complete Tier 1 prompt chain using the tea tracker concept. Validates that CLAUDE.md orchestration works: prompts read from disk, artifacts chain via conversation memory, gates evaluate correctly, and the subagent spawns.
 
 ## Prerequisites

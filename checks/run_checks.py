@@ -403,6 +403,30 @@ def check_adr_amendment_link(ctx):
     return out
 
 
+CLAUDE_MD_WORD_BUDGET = 1000
+
+
+def check_claude_md_scope(ctx):
+    """ADR 0019: CLAUDE.md is a contributor guide made of pointers. Its
+    relative links must resolve (TC-1) and it stays within a word budget so
+    restated product specification does not creep back (TC-2)."""
+    out = []
+    path = ROOT / "CLAUDE.md"
+    if not path.exists():
+        out.append(finding("0019", "TC-1", "CLAUDE.md missing — the contributor guide", "CLAUDE.md"))
+        return out
+    text = path.read_text()
+    for target in re.findall(r"\]\(([^)\s]+)\)", text):
+        if re.match(r"^[a-z][a-z0-9+.-]*:", target) or target.startswith("#"):
+            continue  # external URL or in-page anchor
+        if not (ROOT / target.split("#", 1)[0]).exists():
+            out.append(finding("0019", "TC-1", f"link target {target!r} does not exist — fix the pointer or remove it", "CLAUDE.md"))
+    words = len(text.split())
+    if words > CLAUDE_MD_WORD_BUDGET:
+        out.append(finding("0019", "TC-2", f"CLAUDE.md is {words} words — budget {CLAUDE_MD_WORD_BUDGET}. Replace restated content with a link to its source; raising the budget is an amendment to ADR 0019", "CLAUDE.md"))
+    return out
+
+
 def check_objective_parity(ctx):
     """ADR 0014: forward (02_objectives) and reverse (07_objective_metrics) passes
     both produce `core_objective`. Downstream consumers must be able to substitute
@@ -464,6 +488,7 @@ CHECK_FUNCS = {
     "objective-parity": check_objective_parity,
     "adr-index": check_adr_index,
     "adr-amendment-link": check_adr_amendment_link,
+    "claude-md-scope": check_claude_md_scope,
 }
 
 

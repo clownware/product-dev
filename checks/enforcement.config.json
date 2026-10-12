@@ -18,6 +18,7 @@
     { "id": "filename-convention", "adr": "CONTRIBUTING", "tc": "CONTRIBUTING:naming-convention", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "objective-parity", "adr": "0014", "tc": "0014:TC-parity", "status": "block", "added": "2026-07-25", "graduated": "2026-10-12" },
     { "id": "adr-index", "adr": "0012", "tc": "0012:TC-3", "status": "warn", "added": "2026-10-12", "graduated": null },
-    { "id": "adr-amendment-link", "adr": "0012", "tc": "0012:TC-4", "status": "warn", "added": "2026-10-12", "graduated": null }
+    { "id": "adr-amendment-link", "adr": "0012", "tc": "0012:TC-4", "status": "warn", "added": "2026-10-12", "graduated": null },
+    { "id": "claude-md-scope", "adr": "0019", "tc": "0019:TC-1,TC-2", "status": "warn", "added": "2026-10-12", "graduated": null }
   ]
 }

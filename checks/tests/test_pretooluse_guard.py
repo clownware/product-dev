@@ -157,6 +157,20 @@ class GuardCase(unittest.TestCase):
                    "p.write_text(p.read_text() + 'Create docs/adrs/NNNN-short-title.md; see ls docs/adrs/ and docs/adrs/{name}')\nEOF")
         self.assertAllowed("Bash", {"command": command})
 
+    def test_an_uncommitted_draft_adr_may_be_revised_but_a_committed_one_may_not(self):
+        def git(*args):
+            subprocess.run(["git", "-C", str(self.root), "-c", "user.name=t", "-c", "user.email=t@example.invalid",
+                            "-c", "commit.gpgsign=false", *args], check=True, capture_output=True)
+        git("init", "-q")
+        git("add", "docs/adrs/0001-example.md")
+        git("commit", "-q", "-m", "init")
+        draft = self.root / "docs" / "adrs" / "0002-draft.md"
+        draft.write_text("# ADR 0002: Draft\n\n## Status\nProposed\n")
+        self.assertAllowed("Write", {"file_path": str(draft), "content": "# ADR 0002: Rewritten draft\n"})
+        self.assertAllowed("Bash", {"command": "rm docs/adrs/0002-draft.md"})
+        self.assertBlocked("Write", {"file_path": str(self.adr), "content": "# rewritten\n"})
+        self.assertBlocked("Bash", {"command": "rm docs/adrs/0001-example.md"})
+
     def test_bash_may_create_a_new_adr_file(self):
         self.assertAllowed("Bash", {"command": "cat > docs/adrs/0002-new.md <<'EOF'\n# ADR 0002\nEOF"})
 

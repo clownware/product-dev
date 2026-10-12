@@ -102,3 +102,14 @@ no-unsolicited-improvements rule).
 - Source review: garrytan/gstack `office-hours`, `plan-ceo-review`,
   `autoplan` skills and its per-branch review-log staleness mechanism
   (2026-07-24 session).
+
+---
+
+## Amendment (2026-10-12): TC-3 is read against the bundled registry doc (ADR 0019)
+
+TC-3 expects CLAUDE.md's `context.json` schema to document `inputs`. The
+schema moved to `plugin/docs/registry-operations.md` with the ADR 0011
+amendment of 2026-07-25, and ADR 0019 made CLAUDE.md a contributor guide that
+points there. TC-3 now reads: `plugin/docs/registry-operations.md` documents
+`inputs` on artifact entries, and `status/SKILL.md` documents the staleness
+annotation. Still no dedicated check.
