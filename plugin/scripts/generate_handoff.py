@@ -245,7 +245,20 @@ def generate_handoff(pkg_dir: Path, spec_package_rel: str = "spec-package") -> s
     sections.append("You will be asked for things this package does not cover. Neither refuse silently nor build them unannounced:\n")
     sections.append("1. Check `docs/adrs/`. If an ADR excludes it, say which one and do not build it. Reversing an exclusion is the builder's decision.")
     sections.append("2. If no ADR excludes it and the spec does not include it, say so plainly, then propose the smallest spec change that would add it: which of `entities.yaml`, `screens.yaml`, `endpoints.yaml`, `rules.yaml`, and `flows.yaml` would change, and how.")
-    sections.append("3. Ask before building. Once the builder agrees, update the spec files first, then implement from them, so the spec stays the source of truth.\n")
+    sections.append("3. Ask before building.")
+    # The package is compiled output: /compile deletes and rebuilds it from the
+    # source artifacts, and only a compile re-runs validation. A hand edit here
+    # is unvalidated and is lost on the next compile (issue #71).
+    sections.append(f"4. Once the builder agrees, do **not** edit anything under `{spec_package_rel}/`. It is compiled output: `/compile` rebuilds it from the builder's source artifacts, discards hand edits, and is the only step that validates it. Instead, write the agreed change to `spec-change-request.md` next to this file: for each spec file, the exact YAML to add or change, and the source artifact it belongs in (table below). Ask the builder to apply it to those artifacts and re-run `/compile`.")
+    sections.append("5. Build the new feature only after the recompiled package is in place, and build it from that package. Until then, keep building what the spec already covers.\n")
+    sections.append("| Spec file | Source artifact the builder edits |")
+    sections.append("|-----------|-----------------------------------|")
+    sections.append("| `spec/entities.yaml` | `data_models` |")
+    sections.append("| `spec/endpoints.yaml` | `api_contracts` |")
+    sections.append("| `spec/screens.yaml` | `screen_inventory` |")
+    sections.append("| `spec/rules.yaml` | `business_rules` |")
+    sections.append("| `spec/flows.yaml` | `user_flow` |")
+    sections.append("| `spec/constraints.yaml` | `nfr` |\n")
     sections.append("Small implementation choices the spec leaves open (file layout, naming, library internals) are yours to make and do not need this process.\n")
 
     sections.append("## Do NOT\n")
@@ -254,6 +267,7 @@ def generate_handoff(pkg_dir: Path, spec_package_rel: str = "spec-package") -> s
     sections.append("- Build admin interfaces, settings pages, or onboarding flows unless they're in `screens.yaml`")
     sections.append("- Over-engineer for scale — this is a prototype (see `constraints.yaml` for targets)")
     sections.append("- Guess at field types or API shapes — everything is specified in the YAML files")
+    sections.append(f"- Edit files under `{spec_package_rel}/` — request the change and let the builder recompile")
 
     return "\n".join(sections) + "\n"
 

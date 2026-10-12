@@ -19,8 +19,18 @@ class HandoffCase(unittest.TestCase):
     def test_handoff_names_a_move_for_requests_outside_the_spec(self):
         self.assertIn("## When a Request Is Not in the Spec", self.generated)
         section = self.generated.split("## When a Request Is Not in the Spec", 1)[1].split("\n## ", 1)[0]
-        for phrase in ("If an ADR excludes it", "propose the smallest spec change", "Ask before building"):
+        for phrase in ("If an ADR excludes it", "propose the smallest spec change", "Ask before building",
+                       "do **not** edit anything under", "spec-change-request.md", "re-run `/compile`"):
             self.assertIn(phrase, section)
+
+    def test_handoff_never_tells_the_agent_to_edit_the_compiled_package(self):
+        # Issue #71: /compile rebuilds the package, so hand edits are lost and unvalidated.
+        self.assertNotIn("update the spec files first", self.generated)
+
+    def test_artifact_table_matches_the_compiler(self):
+        from compile_spec import SPEC_ARTIFACTS
+        for artifact, filename in SPEC_ARTIFACTS.items():
+            self.assertIn(f"| `spec/{filename}` | `{artifact}` |", self.generated)
 
     def test_no_instruction_tells_the_agent_only_to_stop(self):
         self.assertNotIn("stop and check the ADRs", self.generated)
