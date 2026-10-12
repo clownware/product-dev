@@ -173,3 +173,50 @@ ADR makes the package the source of truth.
 **Limits.** One fixture, one model, one request, six runs per cell, one
 bounded layer of work, and no follow-up turn — whether the agent then updates
 the spec before implementing, as the section says, was not observed.
+
+---
+
+## Amendment (2026-10-12): The agent requests spec changes; it does not edit the package
+
+Issue #71. This corrects the handoff decision two amendments above, which
+told the agent, once the builder agreed, to "update the spec files first, then
+implement". That contradicted this ADR's own "Compilation over generation":
+`/compile` deletes the package and rebuilds it from the source artifacts, so a
+hand edit to a spec file is never validated and is lost on the next compile.
+
+A follow-up trial showed the cost. Six isolated two-turn runs (same setup as
+above; second turn "Yes, add it. Go ahead."): all six edited the spec before
+any code, and three of the six edited packages failed `validate_spec.py`, each
+on the same required-versus-optional mismatch between the entity and the
+create endpoint.
+
+**Decision:** after the builder agrees, the agent does not edit anything under
+the package directory. It writes the agreed change to `spec-change-request.md`
+beside the handoff — per spec file, the exact YAML and the source artifact it
+belongs in — and asks the builder to apply it to those artifacts and re-run
+`/compile`. It builds the new feature from the recompiled package, and keeps
+building what the spec already covers meanwhile. The handoff carries the
+spec-file-to-artifact table, and a test keeps that table equal to the
+compiler's `SPEC_ARTIFACTS` map. Plugin version 0.5.3.
+
+**Measured the same day,** six isolated two-turn runs with the revised
+handoff:
+
+| | Runs |
+|---|---|
+| Turn 1: withheld the field and asked | 6 of 6 |
+| Turn 2: wrote `spec-change-request.md` and nothing else | 6 of 6 |
+| Edited any file under the package | 0 of 6 |
+| Built the field before a recompile | 0 of 6 |
+| Request names the source artifacts and gives the YAML | 6 of 6 |
+| Final message asks the builder to re-run `/compile` | 6 of 6 |
+
+**What it costs.** A feature outside the spec now needs the builder to edit
+the source artifacts and recompile before the agent builds it. That is slower
+than the agent editing the package, and it is the only path on which the
+change is validated and survives.
+
+**Limits.** Same as above: one fixture, one model, one request, six runs. The
+loop was not closed — no run was given a recompiled package to build from —
+and the request files were not themselves validated; at least one repeats the
+required-versus-optional mismatch, which the compile step exists to catch.

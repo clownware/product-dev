@@ -118,7 +118,18 @@ You will be asked for things this package does not cover. Neither refuse silentl
 
 1. Check `docs/adrs/`. If an ADR excludes it, say which one and do not build it. Reversing an exclusion is the builder's decision.
 2. If no ADR excludes it and the spec does not include it, say so plainly, then propose the smallest spec change that would add it: which of `entities.yaml`, `screens.yaml`, `endpoints.yaml`, `rules.yaml`, and `flows.yaml` would change, and how.
-3. Ask before building. Once the builder agrees, update the spec files first, then implement from them, so the spec stays the source of truth.
+3. Ask before building.
+4. Once the builder agrees, do **not** edit anything under `spec-package/`. It is compiled output: `/compile` rebuilds it from the builder's source artifacts, discards hand edits, and is the only step that validates it. Instead, write the agreed change to `spec-change-request.md` next to this file: for each spec file, the exact YAML to add or change, and the source artifact it belongs in (table below). Ask the builder to apply it to those artifacts and re-run `/compile`.
+5. Build the new feature only after the recompiled package is in place, and build it from that package. Until then, keep building what the spec already covers.
+
+| Spec file | Source artifact the builder edits |
+|-----------|-----------------------------------|
+| `spec/entities.yaml` | `data_models` |
+| `spec/endpoints.yaml` | `api_contracts` |
+| `spec/screens.yaml` | `screen_inventory` |
+| `spec/rules.yaml` | `business_rules` |
+| `spec/flows.yaml` | `user_flow` |
+| `spec/constraints.yaml` | `nfr` |
 
 Small implementation choices the spec leaves open (file layout, naming, library internals) are yours to make and do not need this process.
 
@@ -129,3 +140,4 @@ Small implementation choices the spec leaves open (file layout, naming, library 
 - Build admin interfaces, settings pages, or onboarding flows unless they're in `screens.yaml`
 - Over-engineer for scale — this is a prototype (see `constraints.yaml` for targets)
 - Guess at field types or API shapes — everything is specified in the YAML files
+- Edit files under `spec-package/` — request the change and let the builder recompile
