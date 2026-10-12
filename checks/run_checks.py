@@ -21,6 +21,8 @@ from pathlib import Path
 
 import yaml
 
+import adr_index
+
 ROOT = Path(__file__).resolve().parent.parent
 CHECKS_DIR = Path(__file__).resolve().parent
 PROMPTS = ROOT / "plugin" / "prompts"
@@ -359,7 +361,8 @@ def check_spec_fixture(ctx):
 def check_adr_status(ctx):
     out = []
     valid = re.compile(r"^(Proposed|Accepted|Deferred|Superseded)\b")
-    for f in sorted(ADRS.glob("*.md")):
+    # Numbered ADR files only: the generated index (README.md) is not an ADR.
+    for _, f in adr_index.adr_files(ADRS):
         rel = str(f.relative_to(ROOT))
         text = f.read_text()
         m = re.search(r"^## Status\s*\n+([^\n]+)", text, re.MULTILINE)
@@ -373,6 +376,30 @@ def check_adr_status(ctx):
             out.append(finding("process", "adr-status", "Superseded status must name the superseding ADR", rel))
         if "## Enforcement" not in text:
             out.append(finding("process", "adr-status", "no ## Enforcement section — every ADR carries one (ADR 0012)", rel))
+    return out
+
+
+def check_adr_index(ctx):
+    """ADR 0012 TC-3: the ADR index is generated, so it must equal what the
+    generator renders from the ADR files and the enforcement config."""
+    out = []
+    index = ADRS / adr_index.INDEX_NAME
+    rel = str(index.relative_to(ROOT))
+    if not index.exists():
+        out.append(finding("0012", "TC-3", "ADR index missing — generate it with `python checks/adr_index.py --write`", rel))
+    elif index.read_text() != adr_index.render(ADRS, CHECKS_DIR / "enforcement.config.json"):
+        out.append(finding("0012", "TC-3", "ADR index is stale (an ADR title, status, amendment, or check status changed) — regenerate with `python checks/adr_index.py --write`; never edit it by hand", rel))
+    return out
+
+
+def check_adr_amendment_link(ctx):
+    """ADR 0012 TC-4: when ADR X says it amends ADR Y, Y must name X, so a
+    reader of the amended record learns it was changed."""
+    out = []
+    adrs = [adr_index.parse_adr(n, p) for n, p in adr_index.adr_files(ADRS)]
+    for amender, target in adr_index.missing_backlinks(adrs):
+        target_file = next(a["file"] for a in adrs if a["number"] == target)
+        out.append(finding("0012", "TC-4", f"ADR {amender} says it amends ADR {target}, but ADR {target} never mentions ADR {amender} — append a dated `## Amendment` note to ADR {target} naming ADR {amender} (appends pass the guard)", str((ADRS / target_file).relative_to(ROOT))))
     return out
 
 
@@ -435,6 +462,8 @@ CHECK_FUNCS = {
     "adr-status": check_adr_status,
     "filename-convention": check_filename_convention,
     "objective-parity": check_objective_parity,
+    "adr-index": check_adr_index,
+    "adr-amendment-link": check_adr_amendment_link,
 }
 
 

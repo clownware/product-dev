@@ -161,9 +161,9 @@ When making architectural decisions:
 3. Set status to "Proposed"
 4. The repo owner updates status to "Accepted" after review
 
-Existing ADRs are append-only. To change one, append a dated `## Amendment (YYYY-MM-DD)` section at the end of the file, or write a new ADR that supersedes it. When a new ADR amends an older one, append a note to the older one saying so. In Claude Code sessions a hook (`checks/hooks/pretooluse_guard.py`) blocks rewrites and allows appends.
+Existing ADRs are append-only. To change one, append a dated `## Amendment (YYYY-MM-DD)` section at the end of the file, or write a new ADR that supersedes it. When a new ADR amends an older one, say so in the new one with the words "amends ADR NNNN" and append a note to the older one naming the new one (the `adr-amendment-link` check verifies the pair). In Claude Code sessions a hook (`checks/hooks/pretooluse_guard.py`) blocks rewrites and allows appends.
 
-Run `python checks/run_checks.py --ci` before pushing. Checks at `block` fail CI; see `checks/README.md`.
+After adding or amending an ADR, regenerate the index with `python checks/adr_index.py --write` (never edit the index by hand). Run `python checks/run_checks.py --ci` before pushing. Checks at `block` fail CI; see `checks/README.md`.
 
 ## Code Style
 
