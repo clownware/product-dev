@@ -103,3 +103,34 @@ separate "Python pipeline" CI job already failed the build on an invalid
 fixture; graduation makes the Stop-gate agree with it and makes the failure
 message name this ADR. `checks/enforcement.config.json` is authoritative for
 current status.
+
+---
+
+## Amendment (2026-10-12): The handoff names a move for requests outside the spec
+
+Issue #65. The generated handoff (`CLAUDE.md` for the implementation agent)
+told the agent not to invent requirements and, when building beyond the spec,
+to "stop and check the ADRs". The extracted ADRs list exclusions only, so for
+a request the spec neither includes nor excludes that instruction resolved
+nothing: the agent was left to halt or to build unannounced.
+
+**Decision:** the handoff carries a "When a Request Is Not in the Spec"
+section. If an ADR excludes the request, name it and do not build. Otherwise
+say the spec is silent, propose the smallest spec change that would add it,
+ask, and on agreement update the spec files before implementing — which keeps
+the package the source of truth, the point of this ADR. Implementation
+choices the spec leaves open stay with the agent. Plugin version 0.5.2.
+
+**Evidence and its limit:** the constitution-lift experiment
+(chrispezza/portfolio#106) saw a rule with no compliant path halt a harmless
+feature in 6 of 6 runs, on a different repo. Nothing has measured the
+generated handoff, before or after this change.
+
+**Testable consequence added:** TC-3: `examples/tea-tracker/CLAUDE.md` equals
+what `generate_handoff.py` produces from the reference package, and contains
+the section. Verified by `checks/tests/test_handoff.py` in the enforcement CI
+job; no runner check.
+
+**Still not machine-checkable:** the handoff's prohibitions are not backed by
+any check on the built code — `validate_spec.py` validates the package, not
+the implementation.

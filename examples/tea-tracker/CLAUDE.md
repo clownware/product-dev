@@ -84,7 +84,7 @@ Rules use IF/THEN logic — translate directly to code. Pay attention to `edge_c
 - Import from spreadsheet
 - Image upload for tea packaging
 
-If you find yourself building something not in the spec, stop and check the ADRs in `docs/adrs/`.
+If you find yourself building something not in the spec, follow "When a Request Is Not in the Spec" below.
 
 ## Opinionated Defaults
 
@@ -112,9 +112,19 @@ After building, check:
 - Error responses match what the spec defines (don't add unspecified errors)
 - No features exist that aren't in the spec (check `docs/adrs/` for exclusions)
 
+## When a Request Is Not in the Spec
+
+You will be asked for things this package does not cover. Neither refuse silently nor build them unannounced:
+
+1. Check `docs/adrs/`. If an ADR excludes it, say which one and do not build it. Reversing an exclusion is the builder's decision.
+2. If no ADR excludes it and the spec does not include it, say so plainly, then propose the smallest spec change that would add it: which of `entities.yaml`, `screens.yaml`, `endpoints.yaml`, `rules.yaml`, and `flows.yaml` would change, and how.
+3. Ask before building. Once the builder agrees, update the spec files first, then implement from them, so the spec stays the source of truth.
+
+Small implementation choices the spec leaves open (file layout, naming, library internals) are yours to make and do not need this process.
+
 ## Do NOT
 
-- Add features not in the spec — if it's not specified, it's not in scope
+- Add features not in the spec on your own initiative — if it's not specified, it's not in scope until the spec changes
 - Invent error codes or validation rules beyond what `rules.yaml` defines
 - Build admin interfaces, settings pages, or onboarding flows unless they're in `screens.yaml`
 - Over-engineer for scale — this is a prototype (see `constraints.yaml` for targets)

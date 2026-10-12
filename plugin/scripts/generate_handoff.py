@@ -135,7 +135,7 @@ def generate_handoff(pkg_dir: Path, spec_package_rel: str = "spec-package") -> s
             scope_section += "\n**Do NOT build these** — they are explicitly deferred:\n"
             for d in deferred:
                 scope_section += f"- {d}\n"
-        scope_section += "\nIf you find yourself building something not in the spec, stop and check the ADRs in `docs/adrs/`.\n"
+        scope_section += "\nIf you find yourself building something not in the spec, follow \"When a Request Is Not in the Spec\" below.\n"
 
     # Build defaults section
     defaults_lines = []
@@ -238,8 +238,18 @@ def generate_handoff(pkg_dir: Path, spec_package_rel: str = "spec-package") -> s
     sections.append("- Error responses match what the spec defines (don't add unspecified errors)")
     sections.append("- No features exist that aren't in the spec (check `docs/adrs/` for exclusions)\n")
 
+    # A prohibition with no stated alternative leaves the agent two bad
+    # options when asked for something reasonable the spec is silent on: halt,
+    # or build it unannounced. Name the move instead (issue #65).
+    sections.append("## When a Request Is Not in the Spec\n")
+    sections.append("You will be asked for things this package does not cover. Neither refuse silently nor build them unannounced:\n")
+    sections.append("1. Check `docs/adrs/`. If an ADR excludes it, say which one and do not build it. Reversing an exclusion is the builder's decision.")
+    sections.append("2. If no ADR excludes it and the spec does not include it, say so plainly, then propose the smallest spec change that would add it: which of `entities.yaml`, `screens.yaml`, `endpoints.yaml`, `rules.yaml`, and `flows.yaml` would change, and how.")
+    sections.append("3. Ask before building. Once the builder agrees, update the spec files first, then implement from them, so the spec stays the source of truth.\n")
+    sections.append("Small implementation choices the spec leaves open (file layout, naming, library internals) are yours to make and do not need this process.\n")
+
     sections.append("## Do NOT\n")
-    sections.append("- Add features not in the spec — if it's not specified, it's not in scope")
+    sections.append("- Add features not in the spec on your own initiative — if it's not specified, it's not in scope until the spec changes")
     sections.append("- Invent error codes or validation rules beyond what `rules.yaml` defines")
     sections.append("- Build admin interfaces, settings pages, or onboarding flows unless they're in `screens.yaml`")
     sections.append("- Over-engineer for scale — this is a prototype (see `constraints.yaml` for targets)")
