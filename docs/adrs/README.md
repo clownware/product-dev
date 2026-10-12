@@ -19,7 +19,7 @@ listed under "Amended by" override its earlier text.
 | [0007](0007-json-index-deprecation.md) | Deprecation of JSON Index Files and Stream Deck Document | Accepted | `no-legacy` (block) | — | — |
 | [0008](0008-plugin-architecture.md) | Plugin Architecture | Accepted | `manifest` (block), `component-census` (block) | 0011 | 1, latest 2026-10-12 |
 | [0009](0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 | Accepted | `frontmatter-v2` (block), `name-uniqueness` (block), `body-structure` (block), `placeholder-syntax` (block), `word-limit` (warn) | — | 1, latest 2026-07-25 |
-| [0010](0010-spec-package-compilation-target.md) | Spec Package as Compilation Target | Accepted | `spec-fixture` (block) | — | 1, latest 2026-10-12 |
+| [0010](0010-spec-package-compilation-target.md) | Spec Package as Compilation Target | Accepted | `spec-fixture` (block) | — | 2, latest 2026-10-12 |
 | [0011](0011-plugin-self-containment.md) | Plugin Self-Containment via Bundled Assets | Accepted | `self-containment` (warn) | — | 1, latest 2026-07-25 |
 | [0012](0012-adr-enforcement-architecture.md) | ADR Enforcement Architecture | Accepted | `adr-status` (block), `adr-index` (warn), `adr-amendment-link` (warn) | — | 4, latest 2026-10-12 |
 | [0013](0013-ux-optimization-reverse-pass.md) | UX Optimization Reverse Pass (ux-optimization skill) | Accepted | `component-census` (block) | — | 1, latest 2026-10-12 |

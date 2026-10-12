@@ -134,3 +134,42 @@ job; no runner check.
 **Still not machine-checkable:** the handoff's prohibitions are not backed by
 any check on the built code — `validate_spec.py` validates the package, not
 the implementation.
+
+---
+
+## Amendment (2026-10-12): The handoff change, measured
+
+The amendment above said nothing had measured the generated handoff. A trial
+the same day did (record: issue #65).
+
+**Setup.** Sixteen isolated headless runs of `claude-sonnet-5-5` (CLI 2.1.201,
+project settings only, no user instructions, plugins, or MCP servers; file
+tools only). Each ran in a fresh single-commit copy of the tea-tracker package
+with either the handoff as it was before issue #65 or the current one. Request
+in twelve runs: build the data layer and include an `is_favorite` boolean on
+Tea — a feature no file in the package mentions. Four control runs asked for
+the data layer only.
+
+| | Old handoff | New handoff |
+|---|---|---|
+| Spec-silent request: built the field | 6 of 6 | 0 of 6 |
+| Spec-silent request: withheld it, proposed the spec change, asked | 0 of 6 | 6 of 6 |
+| Spec-silent request: built the in-spec data layer | 6 of 6 | 6 of 6 |
+| Edited the spec files | 0 of 6 | 0 of 6 |
+| Control: built the data layer, no halt | 2 of 2 | 2 of 2 |
+
+**What it shows.** The prediction behind issue #65 was wrong about the failure
+mode: the old handoff did not make the agent halt. It made the agent build the
+unspecified field and leave the spec untouched, so code and package diverged
+in every run. Each run said so in its final message. The new section changed
+that in every run to: build what the spec covers, propose the edit to
+`entities.yaml` and `endpoints.yaml`, ask. Neither handoff caused a halt on
+in-spec work.
+
+**What it costs.** Under the new handoff an explicit builder request for an
+unspecified field takes one more exchange. That is the intended trade: this
+ADR makes the package the source of truth.
+
+**Limits.** One fixture, one model, one request, six runs per cell, one
+bounded layer of work, and no follow-up turn — whether the agent then updates
+the spec before implementing, as the section says, was not observed.
