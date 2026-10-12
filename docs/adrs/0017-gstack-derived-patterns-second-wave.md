@@ -116,3 +116,14 @@ Adopt all four, adapted to this framework:
   (scope-decision tables), `/learn` (learnings store) — 2026-07-24 session.
 - Owner rule: deferred work is tracked as GitHub issues, never in repo
   docs (see issues #37–#43 precedent).
+
+---
+
+## Amendment (2026-10-12): TC-4 is read against the bundled registry doc (ADR 0019)
+
+TC-4 expects CLAUDE.md to document `learnings.jsonl`. That documentation
+lives in `plugin/docs/registry-operations.md` § Process Learnings since the
+ADR 0011 amendment of 2026-07-25, and ADR 0019 made CLAUDE.md a contributor
+guide that points there. TC-4 now reads: `plugin/docs/registry-operations.md`
+documents `learnings.jsonl` (schema, dedup, recall rules), and all four
+workflow skills reference reading it on start. Still no dedicated check.

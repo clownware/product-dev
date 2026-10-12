@@ -304,3 +304,14 @@ call. A regression test covers the false positive.
 **Not machine-checkable:** an amendment that changes another ADR without using
 one of the trigger phrases is invisible to TC-4; and the index says which
 record to open, not what it means.
+
+---
+
+## Amendment (2026-10-12): A draft ADR is free until committed
+
+Writing ADR 0019 showed a third no-legal-move case in the guard: a new ADR
+file became append-only the moment it was first saved, so a draft could not
+be corrected before anyone had reviewed it. The guard now protects an ADR
+only once it exists in `HEAD`. A file new in the working tree is a draft and
+may be revised or removed. Outside a git repository, or on any git error, the
+guard assumes the file is committed and stays closed. Covered by a test.

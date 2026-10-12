@@ -3,7 +3,8 @@
 
 Protected (see ADR 0012 and its 2026-10-12 amendment):
   - docs/adrs/NNNN-*.md that already exist — ADRs are append-only history.
-    * Creating a NEW ADR file is always allowed (the supersession path).
+    * Creating a NEW ADR file is always allowed (the supersession path), and
+      an ADR not yet committed to HEAD is a draft that may be revised freely.
     * APPENDING to an existing ADR is allowed: an Edit/Write/MultiEdit whose
       result keeps every existing character and only adds text after it. That
       is how amendments, graduation-log entries, and supersession notes land.
@@ -24,6 +25,7 @@ import glob
 import json
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -56,6 +58,25 @@ def protected_kind(target, project_dir):
     if rel.parent == ADR_DIR and ADR_FILE.match(rel.name):
         return "adr"
     return None
+
+
+def is_committed(target, project_dir):
+    """True when the file exists in HEAD. An ADR that is new in the working
+    tree is still a draft and may be revised freely; it becomes append-only
+    once committed. Outside a git repository, or on any git error, assume
+    committed — the guard fails closed."""
+    try:
+        rel = target.resolve().relative_to(project_dir).as_posix()
+        git = ["git", "-C", str(project_dir)]
+        head = subprocess.run(git + ["rev-parse", "--verify", "--quiet", "HEAD"],
+                              capture_output=True, timeout=10)
+        if head.returncode != 0:
+            return True
+        found = subprocess.run(git + ["cat-file", "-e", f"HEAD:{rel}"],
+                               capture_output=True, timeout=10)
+        return found.returncode == 0
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return True
 
 
 def is_pure_append(before, after):
@@ -98,8 +119,8 @@ def guard_file_tool(tool_name, tool_input, project_dir):
             "itself is not available to you. " + OWNER_ONLY
         )
 
-    if not target.exists():
-        return 0  # new ADR file: always allowed
+    if not target.exists() or not is_committed(target, project_dir):
+        return 0  # new ADR file, or a draft not yet committed: always allowed
 
     before = target.read_text()
     if tool_name == "Write":
@@ -154,7 +175,8 @@ def existing_protected(token, bases, project_dir):
         candidate = token if os.path.isabs(token) else str(base / token)
         for match in glob.glob(candidate) or [candidate]:
             p = Path(match)
-            if p.is_file() and protected_kind(p, project_dir):
+            kind = protected_kind(p, project_dir) if p.is_file() else None
+            if kind == "guide" or (kind == "adr" and is_committed(p, project_dir)):
                 hits.append(p.resolve().relative_to(project_dir))
     return hits
 

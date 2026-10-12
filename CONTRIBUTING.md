@@ -4,7 +4,7 @@
 
 1. Clone the repository
 2. Review `docs/adrs/` for architectural decisions
-3. Read `CLAUDE.md` for the full workflow specification
+3. Read `CLAUDE.md` for the rules that apply to changes in this repo; the workflow itself is specified by the skills under `plugin/skills/`
 4. Install the plugin locally: `claude --plugin-dir ./plugin`
 
 ## Prompt Authoring
