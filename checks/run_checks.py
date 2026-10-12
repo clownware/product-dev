@@ -258,8 +258,17 @@ def check_manifest(ctx):
         if r.returncode != 0:
             detail = (r.stdout + r.stderr).strip().splitlines()
             out.append(finding("0008", "TC-1", f"claude plugin validate --strict failed: {detail[-1] if detail else 'no output'}", "plugin/.claude-plugin/plugin.json"))
+    elif ctx.get("require_validator"):
+        # CI passes --require-validator: there the CLI is installed on purpose,
+        # so its absence means the official validator silently stopped running.
+        out.append(finding("0008", "TC-1", "claude CLI unavailable but --require-validator is set — the official validator did not run; restore the CLI install step", "plugin/.claude-plugin/plugin.json"))
     else:
-        out.append(finding("0008", "TC-1", "claude CLI unavailable — official validator skipped; run locally with `claude plugin validate --strict ./plugin`", "plugin/.claude-plugin/plugin.json"))
+        # Locally the CLI is optional. Its absence is an environment fact, not
+        # a defect in the plugin, so it is a note and never a finding.
+        ctx["notes"]["manifest"] = (
+            "claude CLI unavailable — official validator skipped (frontmatter fields "
+            "still checked); run `claude plugin validate --strict ./plugin` where the CLI exists"
+        )
     surfaces = (
         [(f, SKILL_FIELDS, "skill") for f in sorted(PLUGIN.glob("skills/*/SKILL.md"))]
         + [(f, COMMAND_FIELDS, "command") for f in sorted(PLUGIN.glob("commands/*.md"))]
@@ -498,6 +507,8 @@ def main():
     ap.add_argument("--check", metavar="ID", help="run a single check by id")
     ap.add_argument("--ci", action="store_true", help="exit 1 iff any BLOCKER")
     ap.add_argument("--list", action="store_true", help="list checks and statuses")
+    ap.add_argument("--require-validator", action="store_true",
+                    help="treat a missing claude CLI as a manifest finding (CI sets this)")
     args = ap.parse_args()
 
     config = load_config()
@@ -514,7 +525,8 @@ def main():
         print(f"config references unknown check(s): {sorted(unknown)}", file=sys.stderr)
         return 2
 
-    ctx = {"prompts": load_prompts(set(config.get("exclude", []))), "notes": {}}
+    ctx = {"prompts": load_prompts(set(config.get("exclude", []))), "notes": {},
+           "require_validator": args.require_validator}
     to_run = [args.check] if args.check else list(CHECK_FUNCS)
     if args.check and args.check not in CHECK_FUNCS:
         print(f"unknown check: {args.check}", file=sys.stderr)

@@ -137,3 +137,18 @@ consecutive clean days — zero findings in every CI run since 2026-07-27.
 `claude` CLI is absent, so at block it would stop every local session on a
 machine without the CLI. `checks/enforcement.config.json` is authoritative for
 current status.
+
+---
+
+## Graduation log entry (2026-10-12, second): `manifest`
+
+`manifest` (TC-1, TC-3): **warn → block** (issue #63). The obstacle recorded
+in the entry above is removed: a missing `claude` CLI is now reported as a
+note, not a finding, so it cannot stop a local session. CI runs the suite
+with `--require-validator`, which turns a missing CLI back into a finding
+there, so the official validator cannot silently stop running. Basis
+(ADR 0012 §5): 7+ consecutive clean days — zero findings from this check in
+every CI run since the CLI was installed in CI on 2026-09-02.
+
+TC-1 now reads: `claude plugin validate --strict ./plugin` exits 0 wherever
+the CLI is available, and it is always available in CI.
