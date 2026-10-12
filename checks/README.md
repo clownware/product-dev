@@ -13,6 +13,7 @@ python checks/run_checks.py --json report.json   # + machine-readable report
 python checks/run_checks.py --check word-limit   # single check
 python checks/run_checks.py --list               # checks, statuses, graduations
 python checks/run_checks.py --ci                 # exit 1 iff BLOCKERs (CI mode)
+python checks/run_checks.py --ci --require-validator  # as CI runs it: a missing claude CLI is a finding
 python checks/adr_index.py --write               # regenerate the ADR index
 ```
 

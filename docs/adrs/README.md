@@ -17,7 +17,7 @@ listed under "Amended by" override its earlier text.
 | [0005](0005-prompt-enhancement-schema.md) | Prompt Enhancement Schema | Deferred | `no-legacy` (block) | — | — |
 | [0006](0006-progressive-disclosure-tiered-engagement.md) | Progressive Disclosure and Tiered Engagement | Accepted | `frontmatter-v2` (block) | 0019 | 3, latest 2026-10-12 |
 | [0007](0007-json-index-deprecation.md) | Deprecation of JSON Index Files and Stream Deck Document | Accepted | `no-legacy` (block) | — | — |
-| [0008](0008-plugin-architecture.md) | Plugin Architecture | Accepted | `manifest` (warn), `component-census` (block) | 0011 | 1, latest 2026-10-12 |
+| [0008](0008-plugin-architecture.md) | Plugin Architecture | Accepted | `manifest` (block), `component-census` (block) | 0011 | 1, latest 2026-10-12 |
 | [0009](0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 | Accepted | `frontmatter-v2` (block), `name-uniqueness` (block), `body-structure` (block), `placeholder-syntax` (block), `word-limit` (warn) | — | 1, latest 2026-07-25 |
 | [0010](0010-spec-package-compilation-target.md) | Spec Package as Compilation Target | Accepted | `spec-fixture` (block) | — | — |
 | [0011](0011-plugin-self-containment.md) | Plugin Self-Containment via Bundled Assets | Accepted | `self-containment` (warn) | — | 1, latest 2026-07-25 |
