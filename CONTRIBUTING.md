@@ -157,9 +157,13 @@ claude --plugin-dir ./plugin
 When making architectural decisions:
 
 1. Create `docs/adrs/NNNN-short-title.md` (next number = highest existing + 1; check `ls docs/adrs/`)
-2. Use the existing format: Status, Context, Decision, Consequences
+2. Use the existing format: Status, Context, Decision, Consequences, Enforcement (testable consequences, the checks that verify them, and what is not machine-checkable — ADR 0012)
 3. Set status to "Proposed"
-4. Update status to "Accepted" after review
+4. The repo owner updates status to "Accepted" after review
+
+Existing ADRs are append-only. To change one, append a dated `## Amendment (YYYY-MM-DD)` section at the end of the file, or write a new ADR that supersedes it. When a new ADR amends an older one, append a note to the older one saying so. In Claude Code sessions a hook (`checks/hooks/pretooluse_guard.py`) blocks rewrites and allows appends.
+
+Run `python checks/run_checks.py --ci` before pushing. Checks at `block` fail CI; see `checks/README.md`.
 
 ## Code Style
 

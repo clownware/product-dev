@@ -92,3 +92,14 @@ The manifest declares defaults for decisions the builder didn't explicitly make:
   - TC-1, TC-2 → `checks/run_checks.py :: spec-fixture` (status: **warn**; adopts the existing CI job rather than duplicating it)
 - **Not machine-checkable:** Whether the three-layer package actually reduces implementation-agent hallucination — measurable only through use.
 - **Graduation log:** _(empty)_
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`spec-fixture` (TC-1, TC-2): **warn → block**. Basis (ADR 0012 §5): 7+
+consecutive clean days — zero findings in every CI run since 2026-07-27. The
+separate "Python pipeline" CI job already failed the build on an invalid
+fixture; graduation makes the Stop-gate agree with it and makes the failure
+message name this ADR. `checks/enforcement.config.json` is authoritative for
+current status.

@@ -170,3 +170,29 @@ whether `02_evidence_mining` gains Tier 2 depth prompts.
   ADR 0004 (skill/subagent decomposition — amended §1, §3), ADR 0006 (tiers),
   ADR 0008 (plugin architecture), ADR 0010 (spec package — possible future
   amendment), ADR 0011 (self-containment), ADR 0012 (enforcement).
+
+---
+
+## Amendment (2026-10-12): Enforcement landed; sequence extended
+
+The Enforcement section above says "Checks: none yet — deferred until
+implementation lands". Implementation landed on 2026-07-18 and the checks
+followed the same day; this note records what the section should now be read
+as saying.
+
+- **TC-1** (skill, command, subagent, and prompt directory exist) →
+  `checks/run_checks.py :: component-census`, which carries the amended census
+  (ADR 0004 amendment, 2026-10-12). Status: **block** as of 2026-10-12.
+- **TC-2** (reverse-pass prompts carry the standard frontmatter; shadowed
+  `produces` names match the forward pass exactly) → `frontmatter-v2`, and the
+  cross-mode rule in `name-uniqueness` that permits a reverse-pass prompt to
+  share a `produces` name with at most one forward-pass prompt. Status:
+  **block** as of 2026-10-12.
+- **TC-3** (plugin-internal references use `${CLAUDE_PLUGIN_ROOT}`) →
+  `self-containment`. Status: **warn**.
+
+The prompt table in Decision §2 is the sequence at acceptance (8 prompts).
+ADR 0014 added `07_objective_metrics` and `10_live_site_audit` and renumbered
+gap analysis and the optimization spec to 08 and 09; ADR 0015 added
+`11_runtime_audit`; ADR 0017 inserted the scope walk between steps 8 and 9.
+The current sequence is the one in `plugin/skills/ux-optimization/SKILL.md`.

@@ -98,3 +98,12 @@ owner-directed):
   didn't, so headless runs can't silently read as fully verified. Its word
   budget was raised 300 → 350 to hold the new element (decision recorded here
   per the word-limits policy).
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`objective-parity` (TC-parity): **warn → block**. Basis (ADR 0012 §5): 7+
+consecutive clean days — zero findings in every CI run since the check was
+added on 2026-07-27. `checks/enforcement.config.json` is authoritative for
+current status.

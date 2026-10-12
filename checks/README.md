@@ -1,7 +1,8 @@
 # ADR Enforcement Checks
 
-Warn-only check suite verifying the testable consequences declared in each
-ADR's `## Enforcement` section. Architecture: [ADR 0012](../docs/adrs/0012-adr-enforcement-architecture.md).
+Check suite verifying the testable consequences declared in each ADR's
+`## Enforcement` section. Each check is `warn` (reported) or `block` (fails CI
+and the Stop-gate); `python checks/run_checks.py --list` shows which. Architecture: [ADR 0012](../docs/adrs/0012-adr-enforcement-architecture.md).
 
 ## Run the checks
 
@@ -43,11 +44,12 @@ Demotion (block → warn) is always allowed; log it the same three ways.
 
 ## Scope and exclusions
 
-All 91 prompts are v2 — there is no legacy scoping (ADR 0012 §6). To exempt a
+All prompts are v2 — there is no legacy scoping (ADR 0012 §6). To exempt a
 file from prompt-content checks, add its repo-relative path to the `exclude`
 array in `enforcement.config.json`. Word limits live in `word_limits.json`,
-keyed by prompt `name`; prompts absent there are reported as uncovered, not
-checked.
+keyed by prompt `name`; a prompt absent there is reported as uncovered, not
+checked. Raising a limit is a decision recorded in the owning ADR, not a
+check tweak.
 
 ## Hooks (the only blocking layer)
 
