@@ -255,3 +255,52 @@ all have declared word limits, so the "77 uncovered" in §7 is resolved).
 
 **Graduation log entry (2026-10-12):** `adr-status` (TC-1) and
 `filename-convention`: warn → block, basis as above.
+
+---
+
+## Amendment (2026-10-12): Generated ADR index and amendment back-links
+
+The same review found that every hand-kept summary of the ADRs had drifted:
+the README table called ADR 0002 "deferred" after it was superseded, ADR 0004
+still stated counts ADR 0013 had amended, and CLAUDE.md repeated them. An
+index is worth having — an agent needs to know which record to open — but
+only one that cannot go stale.
+
+**Decision:**
+
+- **`docs/adrs/README.md` is the ADR index, and it is generated.**
+  `checks/adr_index.py` renders it from each ADR's title and Status line, from
+  `checks/enforcement.config.json` (which checks name the ADR, and at what
+  status), and from the ADR texts (which later ADRs amend it; how many in-file
+  amendments it carries). It is never edited by hand. Regenerate with
+  `python checks/adr_index.py --write`. README.md and CLAUDE.md point at it
+  instead of keeping their own tables.
+- **An amended ADR names its amender.** When an ADR states that it amends or
+  supersedes another ("amends ADR NNNN", "ADR NNNN (… — amended …)",
+  "supersedes ADR NNNN"), the amended ADR must mention the amending ADR's
+  number — normally through an appended, dated amendment note. The trigger
+  phrases are deliberately narrow so that "see ADR NNNN" or "would amend
+  ADR NNNN" are not read as declarations.
+
+**Testable consequences added to this ADR:**
+
+- TC-3: `docs/adrs/README.md` equals the generator's output →
+  `checks/run_checks.py :: adr-index` (status: **warn**, added 2026-10-12).
+- TC-4: for every declared amendment, the amended ADR mentions the amender →
+  `checks/run_checks.py :: adr-amendment-link` (status: **warn**, added
+  2026-10-12).
+
+Both start at warn and graduate under §5. The suite now has 17 checks. Both
+are covered by `checks/tests/test_adr_index.py`, which also fails when the
+committed index is stale.
+
+**Guard refinement, same day.** The Bash rule for inline scripts first blocked
+any script that mentioned `docs/adrs` and contained a write call. Within an
+hour it blocked two legitimate commands that only named the folder in text
+written to other files. It now blocks an inline script only when it names an
+existing protected file or iterates the ADR directory, and contains a write
+call. A regression test covers the false positive.
+
+**Not machine-checkable:** an amendment that changes another ADR without using
+one of the trigger phrases is invisible to TC-4; and the index says which
+record to open, not what it means.

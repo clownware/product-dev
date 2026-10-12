@@ -135,27 +135,9 @@ All IDs are cross-referenced. The validation pipeline checks 20 rules across ref
 
 ## Architecture Decisions
 
-Key decisions are documented as ADRs in `docs/adrs/`:
-
-| ADR | Decision |
-|-----|----------|
-| [0001](docs/adrs/0001-prompt-frontmatter-schema.md) | YAML frontmatter as canonical prompt metadata |
-| [0002](docs/adrs/0002-mcp-prompt-packaging.md) | MCP prompt packaging (superseded by ADR 0008; server removed) |
-| [0003](docs/adrs/0003-context-registry-state-management.md) | File-based context registry at `.product-dev/` |
-| [0004](docs/adrs/0004-skill-subagent-decomposition.md) | Skill / command / subagent decomposition (amended by ADR 0013) |
-| [0005](docs/adrs/0005-prompt-enhancement-schema.md) | Prompt enhancement schema |
-| [0006](docs/adrs/0006-progressive-disclosure-tiered-engagement.md) | Progressive disclosure and tiered engagement |
-| [0007](docs/adrs/0007-json-index-deprecation.md) | JSON index deprecation |
-| [0008](docs/adrs/0008-plugin-architecture.md) | Plugin as delivery vehicle |
-| [0009](docs/adrs/0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 |
-| [0010](docs/adrs/0010-spec-package-compilation-target.md) | Spec package as compilation target |
-| [0011](docs/adrs/0011-plugin-self-containment.md) | Plugin self-containment via `${CLAUDE_PLUGIN_ROOT}` |
-| [0012](docs/adrs/0012-adr-enforcement-architecture.md) | ADR enforcement architecture |
-| [0013](docs/adrs/0013-ux-optimization-reverse-pass.md) | UX optimization reverse pass (`/optimize`) |
-| [0014](docs/adrs/0014-live-site-audit-and-objective.md) | Live-site audit mode + objective metrics |
-| [0015](docs/adrs/0015-runtime-audit-mode.md) | Runtime audit mode for locally runnable products |
-| [0016](docs/adrs/0016-gstack-derived-patterns.md) | gstack patterns: interrogation, candidate directions, provenance |
-| [0017](docs/adrs/0017-gstack-derived-patterns-second-wave.md) | gstack patterns: quality loops, decision classification, scope walk, learnings |
+Decisions are recorded as ADRs. The index — one row per record with its status,
+the checks that enforce it, and what amended it — is generated from the
+records themselves: [docs/adrs/README.md](docs/adrs/README.md).
 
 ## ADR Enforcement
 

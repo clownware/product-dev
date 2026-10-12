@@ -10,12 +10,14 @@
     { "id": "dependency-graph", "adr": "0003", "tc": "0003:TC-4", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "word-limit", "adr": "0009", "tc": "0009:TC-5", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "manifest", "adr": "0008", "tc": "0008:TC-1,TC-3", "status": "warn", "added": "2026-07-12", "graduated": null },
-    { "id": "component-census", "adr": "0004, 0008", "tc": "0004:TC-1,TC-2,TC-3,TC-4; 0008:TC-2", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
+    { "id": "component-census", "adr": "0004, 0008, 0013", "tc": "0004:TC-1,TC-2,TC-3,TC-4; 0008:TC-2", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "no-legacy", "adr": "0001, 0002, 0005, 0007", "tc": "0001:TC-2; 0002:TC-1; 0005:TC-1; 0007:TC-1,TC-2", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "self-containment", "adr": "0011", "tc": "0011:TC-1,TC-2", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "spec-fixture", "adr": "0010", "tc": "0010:TC-1,TC-2", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
-    { "id": "adr-status", "adr": "0002, process", "tc": "0002:TC-2; process:adr-status", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
+    { "id": "adr-status", "adr": "0002, 0012, process", "tc": "0002:TC-2; process:adr-status", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "filename-convention", "adr": "CONTRIBUTING", "tc": "CONTRIBUTING:naming-convention", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
-    { "id": "objective-parity", "adr": "0014", "tc": "0014:TC-parity", "status": "block", "added": "2026-07-25", "graduated": "2026-10-12" }
+    { "id": "objective-parity", "adr": "0014", "tc": "0014:TC-parity", "status": "block", "added": "2026-07-25", "graduated": "2026-10-12" },
+    { "id": "adr-index", "adr": "0012", "tc": "0012:TC-3", "status": "warn", "added": "2026-10-12", "graduated": null },
+    { "id": "adr-amendment-link", "adr": "0012", "tc": "0012:TC-4", "status": "warn", "added": "2026-10-12", "graduated": null }
   ]
 }

@@ -144,6 +144,19 @@ class GuardCase(unittest.TestCase):
             with self.subTest(command=command):
                 self.assertAllowed("Bash", {"command": command})
 
+    def test_inline_script_that_iterates_the_adr_directory_and_writes_is_blocked(self):
+        command = ("python3 - <<'EOF'\nfrom pathlib import Path\n"
+                   "for f in Path('docs/adrs').glob('*.md'):\n    f.write_text(f.read_text().replace('a', 'b'))\nEOF")
+        self.assertBlocked("Bash", {"command": command})
+
+    def test_inline_script_that_only_mentions_the_adr_folder_in_text_is_allowed(self):
+        # Regression: editing CONTRIBUTING.md with a heredoc script whose
+        # replacement text talks about docs/adrs was blocked on day one.
+        command = ("python3 - <<'EOF'\nfrom pathlib import Path\n"
+                   "p = Path('notes.md')\n"
+                   "p.write_text(p.read_text() + 'Create docs/adrs/NNNN-short-title.md; see ls docs/adrs/ and docs/adrs/{name}')\nEOF")
+        self.assertAllowed("Bash", {"command": command})
+
     def test_bash_may_create_a_new_adr_file(self):
         self.assertAllowed("Bash", {"command": "cat > docs/adrs/0002-new.md <<'EOF'\n# ADR 0002\nEOF"})
 

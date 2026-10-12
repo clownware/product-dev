@@ -132,6 +132,11 @@ INLINE_WRITE = re.compile(
     r"|File\.write|os\.remove|os\.rename|os\.replace|shutil\.|\.unlink\("
 )
 PROTECTED_MENTION = re.compile(r"docs/adrs|00_ENHANCEMENT_PATTERN")
+EMBEDDED_PATH = re.compile(r"[\w./~-]*(?:docs/adrs/[\w.*?\[\]-]+|docs/updates/00_ENHANCEMENT_PATTERN\.md)")
+ADR_DIR_ITERATION = re.compile(
+    r"docs/adrs/?[\"'][^\n]{0,80}?(?:glob|iterdir|listdir|scandir|walk|readdir)"
+    r"|(?:glob|iterdir|listdir|scandir|walk|readdir)[^\n]{0,80}?docs/adrs"
+)
 
 
 def strip_quotes(token):
@@ -179,12 +184,17 @@ def bash_violations(command, bases, project_dir):
             for t in tokens:
                 if t.startswith("of="):
                     hits += existing_protected(t[3:], bases, project_dir)
-    # An inline interpreter script (python -c, a heredoc) that names a
-    # protected path and contains a write call. The path sits inside code, so
-    # it cannot be resolved token by token.
+    # An inline interpreter script (python -c, a heredoc) that contains a
+    # write call and either names an existing protected file or iterates the
+    # ADR directory. The path sits inside code, so it is pulled out by pattern
+    # rather than token by token. Merely mentioning docs/adrs in text the
+    # script writes elsewhere is not enough — that was a false positive.
     words = {os.path.basename(strip_quotes(t)) for t in command.split()}
     if not hits and words & INTERPRETERS and INLINE_WRITE.search(command):
-        hits.append(Path("an inline script that names docs/adrs or the Pattern Guide and writes files"))
+        for m in EMBEDDED_PATH.finditer(command):
+            hits += existing_protected(m.group(0), bases, project_dir)
+        if not hits and ADR_DIR_ITERATION.search(command):
+            hits.append(Path("an inline script that iterates docs/adrs and writes files"))
     return sorted(set(hits), key=str)
 
 
