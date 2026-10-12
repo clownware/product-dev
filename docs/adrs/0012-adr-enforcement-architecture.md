@@ -163,3 +163,55 @@ those requires amendment decisions, not check tuning.
 - **Not machine-checkable:** Whether graduation decisions (7 clean days, "real
   catch") are applied honestly — that is a review-time judgment on the log.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-10-12): The guard allows appends and covers Bash
+
+Owner-directed, following a review of this repo's governance against the
+constitution-lift experiment (chrispezza/portfolio#106). Two findings applied
+to the PreToolUse guard in Decision §4:
+
+1. **The guard named a legal move the agent could not take.** Appending to an
+   existing ADR is required by this ADR's own process (Enforcement amendments,
+   graduation-log entries, supersession notes), but the guard blocked every
+   edit and pointed at `PRODUCT_DEV_SKIP_ADR_GUARD=1` — an environment variable
+   of the Claude Code process, which only the person launching the session can
+   set. The only path left to an agent was a tool the guard did not watch.
+2. **The guard watched only Edit and Write.** A shell command (`sed -i`, a
+   redirect, a heredoc) rewrote an ADR without touching the hook.
+
+**Decision:**
+
+- **Appends are allowed.** An Edit, Write, or MultiEdit on an existing
+  `docs/adrs/NNNN-*.md` passes when its result keeps every existing character
+  and only adds text after it. Everything else — rewriting prose, changing a
+  Status line, inserting mid-file — stays blocked. The kill-switch remains,
+  for the owner, for the edits an append cannot express (for example
+  Proposed → Accepted).
+- **Dated entries go at the end of the file.** Graduation-log entries are
+  appended as `## Graduation log entry (YYYY-MM-DD)` sections rather than
+  edited into the Enforcement section's log line, so they are appends too.
+  `checks/enforcement.config.json` is authoritative for a check's current
+  status; the "(status: **warn**)" labels inside older Enforcement sections
+  record the status at the time they were written.
+- **The matcher is `Edit|Write|MultiEdit|Bash`.** For Bash the guard blocks
+  commands that write to an existing protected file: redirection, `tee`,
+  `sed -i`/`perl -i`, `rm`, `mv`, `cp` onto it, `git checkout`/`restore`/`rm`/
+  `mv` of it, and inline interpreter scripts that name a protected path and
+  contain a write call. Reads, and creating a new ADR file, pass. This is a
+  heuristic guard rail, not a security boundary — review of the diff is what
+  catches a determined rewrite.
+- **Only numbered ADR files are protected.** `docs/adrs/README.md` (the
+  generated index) is not.
+- **Rejections name moves the agent can take** — append, or write a new ADR —
+  and say plainly that anything else means stopping to ask the owner.
+- **The guard has tests**: `checks/tests/test_pretooluse_guard.py`, run in the
+  `enforcement` CI job (stdlib `unittest`, under a second).
+
+The Pattern Guide rule is unchanged: no edits, appends included; propose the
+change in a new ADR.
+
+Not tested by the experiment that prompted this: its harness ran with no
+hooks, so it says nothing about whether a hook-based guard holds. The change
+rests on the no-legal-move finding and on reading this guard's own code.
