@@ -215,3 +215,43 @@ change in a new ADR.
 Not tested by the experiment that prompted this: its harness ran with no
 hooks, so it says nothing about whether a hook-based guard holds. The change
 rests on the no-legal-move finding and on reading this guard's own code.
+
+---
+
+## Amendment (2026-10-12): First graduation; the suite is no longer warn-only
+
+Decision §3 calls the suite warn-only and §5 says nothing was promoted at
+launch. That held for three months although §5's rule had been met since late
+July: 14 of the 15 checks reported zero findings in every CI run from
+2026-07-27, and the fifteenth (`manifest`) only ever reported the CLI being
+absent from CI, fixed on 2026-09-02.
+
+At warn, a finding reaches nobody who can act on it: CI stays green, and the
+Stop-gate's passing output goes to the debug log, not to the agent. The
+experiment behind this review (chrispezza/portfolio#106) found that an agent
+with no governing documents still stopped when a check's message named the
+decision — which here only happens at block.
+
+**Graduated to block (12):** `frontmatter-v2`, `name-uniqueness`,
+`body-structure`, `placeholder-syntax`, `placeholder-resolvability`,
+`dependency-graph`, `component-census`, `no-legacy`, `spec-fixture`,
+`adr-status`, `filename-convention`, `objective-parity`. Each owning ADR
+carries a dated graduation log entry. `filename-convention` is owned by
+CONTRIBUTING, not an ADR, so its entry is this one.
+
+**Held at warn (3), with reasons:**
+
+- `manifest` — emits a finding when the `claude` CLI is unavailable. At block
+  that would stop every local session on a machine without the CLI. It can
+  graduate once "validator unavailable" is reported as a note, not a finding.
+- `word-limit` — limits are current size plus 10%, so routine prompt edits are
+  what trips it. One more clean cycle with prompt edits in it first.
+- `self-containment` — its path pattern can match prose that mentions a
+  `prompts/` or `scripts/` path without being a reference.
+
+**Corrections of record:** the suite has 15 checks (§3 says 14;
+`objective-parity` was added 2026-07-27), and 101 prompts (§6 and §7 say 91;
+all have declared word limits, so the "77 uncovered" in §7 is resolved).
+
+**Graduation log entry (2026-10-12):** `adr-status` (TC-1) and
+`filename-convention`: warn → block, basis as above.

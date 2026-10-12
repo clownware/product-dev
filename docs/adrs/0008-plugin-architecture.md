@@ -116,3 +116,24 @@ The existing MCP server (`mcp/prompt-server/`) remains functional but is not req
   - TC-2 → `checks/run_checks.py :: component-census` (status: **warn**)
 - **Not machine-checkable:** Whether skills "own the conversational UX" well, and the plugin-over-MCP tradeoff rationale.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-10-12): Structure as extended by ADR 0013
+
+The Plugin Structure diagram and Component Mapping above show the plugin as of
+2026-07-03. ADR 0013 added `commands/optimize.md`,
+`skills/ux-optimization/SKILL.md`, and `agents/ux-extractor.md`; the
+ADR 0011 amendment added `docs/` (the bundled registry-operations canon). The
+current census is recorded in ADR 0004's 2026-10-12 amendment and enforced by
+`component-census`. The MCP rows are historical: ADR 0002 is superseded and
+`mcp/` no longer exists.
+
+## Graduation log entry (2026-10-12)
+
+`component-census` (TC-2): **warn → block**. Basis (ADR 0012 §5): 7+
+consecutive clean days — zero findings in every CI run since 2026-07-27.
+`manifest` (TC-1, TC-3) stays at **warn**: it reports a finding whenever the
+`claude` CLI is absent, so at block it would stop every local session on a
+machine without the CLI. `checks/enforcement.config.json` is authoritative for
+current status.

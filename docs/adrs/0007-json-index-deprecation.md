@@ -90,3 +90,13 @@ Before deleting any source file, verify:
   - TC-1, TC-2 → `checks/run_checks.py :: no-legacy` (status: **warn**)
 - **Not machine-checkable:** None — this decision is fully structural.
 - **Graduation log:** _(empty)_
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`no-legacy` (TC-1, TC-2): **warn → block**. Basis (ADR 0012 §5): 7+
+consecutive clean days — zero findings in every CI run since 2026-07-27.
+`checks/enforcement.config.json` is authoritative for current status; the
+"warn" label in the Enforcement section above records the status when it was
+written.

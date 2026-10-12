@@ -80,3 +80,13 @@ Separate CLI tools (not MCP):
   - TC-2 → `checks/run_checks.py :: adr-status` (status: **warn**)
 - **Not machine-checkable:** The revisit trigger in the supersession note (editor-agnostic prompt access becoming a real need) is a judgment call, not a repo state.
 - **Graduation log:** _(empty)_
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`no-legacy` (TC-1) and `adr-status` (TC-2): **warn → block**. Basis
+(ADR 0012 §5): 7+ consecutive clean days — zero findings from either check in
+every CI run since 2026-07-27. `checks/enforcement.config.json` is
+authoritative for current status; the "warn" labels in the Enforcement section
+above record the status when it was written.

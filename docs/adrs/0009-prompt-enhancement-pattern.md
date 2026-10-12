@@ -140,3 +140,15 @@ undershot real prompt needs rather than that 20 migrations overshot.
 The `body-structure` check bound is updated to match; the one 8-rule prompt
 (`02_identify_screens_states.md`) was consolidated to 6 by merging paired
 invariants. Counting rule unchanged: list items inside `<constraints>`.
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`frontmatter-v2` (TC-1), `body-structure` (TC-2, TC-3), `placeholder-syntax`
+(TC-4), and `name-uniqueness` (TC-6): **warn → block**. Basis (ADR 0012 §5):
+7+ consecutive clean days — zero findings from any of the four in every CI run
+since 2026-07-27. `word-limit` (TC-5) stays at **warn** for now: the limits
+are a ratchet of current size plus 10%, so ordinary prompt edits are the most
+likely thing to trip it, and a tripped block stops the session.
+`checks/enforcement.config.json` is authoritative for current status.

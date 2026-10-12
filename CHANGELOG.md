@@ -15,11 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `skills-claude-ai/` — Claude.ai Agent Skill ports of product-ideation and product-flow (issue #12): bundled prompts with skill-relative paths, conversation-scoped artifact ledger with `product-dev-artifacts.md` export replacing the `.product-dev/` registry
 
 ### Changed
+- Enforcement suite: first graduation (ADR 0012 amendment, 2026-10-12). Twelve checks moved warn → block after 7+ clean days: `frontmatter-v2`, `name-uniqueness`, `body-structure`, `placeholder-syntax`, `placeholder-resolvability`, `dependency-graph`, `component-census`, `no-legacy`, `spec-fixture`, `adr-status`, `filename-convention`, `objective-parity`. Findings from these now fail CI and bounce the Stop-gate. `manifest`, `word-limit`, and `self-containment` stay at warn, with reasons in the amendment
+- ADRs 0003, 0004, 0008, 0013: appended amendments recording what later ADRs changed (the 6-command / 5-skill / 2-subagent census, registry extensions, the reverse-pass checks that had landed)
+- PR and bug-report templates, README, `scripts/README.md`, CONTRIBUTING: removed references to the deleted MCP server and to script paths that moved into `plugin/scripts/`; corrected component counts
 - PreToolUse guard (ADR 0012 amendment, 2026-10-12): appending to the end of an existing ADR is now allowed, so amendments and graduation-log entries no longer need the kill-switch; the guard also covers MultiEdit and Bash writes; rejections name moves an agent can actually take. Tests in `checks/tests/`, run in CI
 - product-ideation: the escape hatch now respects the first explicit request to move on, recording the remaining unvalidated assumptions instead of requiring a second override
 - ADR 0002: Superseded — MCP server removed; plugin is the sole delivery mechanism
 
 ### Removed
+- `docs/skills/` — eight skill specs for the pre-ADR 0004 eight-skill design, referenced by nothing
 - `mcp/prompt-server/` — MCP server (issue #13 closed as superseded; revisit triggers never fired, and ADR 0011 left it pointing at a prompt directory that no longer holds the framework library)
 
 ## [0.1.0] - 2026-04-06

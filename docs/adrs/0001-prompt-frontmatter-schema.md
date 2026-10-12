@@ -124,3 +124,13 @@ every prompt in the library uses ADR 0009's minimal 7-field format
 enforced by the `frontmatter-v2` check. The still-operative core of this ADR
 is unchanged: frontmatter is the canonical prompt metadata and the JSON
 indices stay dead (ADR 0007). For the plugin runtime schema, ADR 0009 governs.
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`frontmatter-v2` (TC-1) and `no-legacy` (TC-2): **warn → block**. Basis
+(ADR 0012 §5): 7+ consecutive clean days — zero findings from either check in
+every CI run since 2026-07-27. `checks/enforcement.config.json` is
+authoritative for current status; the "warn" labels in the Enforcement section
+above record the status when it was written.

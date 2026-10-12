@@ -124,3 +124,31 @@ User invokes command (e.g., /idea)
   - TC-1, TC-2, TC-3, TC-4 → `checks/run_checks.py :: component-census` (status: **warn**)
 - **Not machine-checkable:** The planning-in-chat principle, and whether future features land in the correct mechanism (skill vs command vs subagent vs MCP tool), are design judgments.
 - **Graduation log:** _(empty)_
+
+---
+
+## Amendment (2026-10-12): Census as amended by ADR 0013
+
+ADR 0013 (2026-07-18) added the reverse pass and amended this ADR's counts,
+but this file was never updated to say so; the `component-census` check has
+enforced the amended set since that day. The census of record is:
+
+- **6 commands**: `plugin/commands/{idea,problem,spec,compile,summary,optimize}.md`
+- **5 skills** — 4 workflows plus status:
+  `plugin/skills/{product-ideation,product-flow,tech-spec,ux-optimization,status}/SKILL.md`
+- **2 subagents**: `plugin/agents/{tech-spec-writer,ux-extractor}.md`
+
+This supersedes the counts in the Decision tables ("Skills (3 total)",
+"Commands (5 total)", "Subagents (1 total)"), in Consequences, and in
+Enforcement TC-1 through TC-3 above. Those counted workflow skills only and
+predate `/optimize`. TC-4 (the status skill stays read-only) is unchanged. The
+assignment principle and the planning-in-chat principle are unchanged, and
+ADR 0013 §3 explains why the extractor subagent is consistent with them.
+
+## Graduation log entry (2026-10-12)
+
+`component-census` (TC-1 to TC-4): **warn → block**. Basis (ADR 0012 §5): 7+
+consecutive clean days — zero findings in every CI run since 2026-07-27.
+`checks/enforcement.config.json` is authoritative for current status; the
+"warn" label in the Enforcement section above records the status when it was
+written.

@@ -147,3 +147,13 @@ Corrections of record:
 - Tier 1 count at this writing: **27 prompts** — 13 forward-pass UX research,
   5 tech requirements, 9 reverse-pass (ADR 0013). The "14" in the status note
   predates the tech-requirements tagging and the reverse pass.
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`frontmatter-v2` (TC-1 to TC-3): **warn → block**. Basis (ADR 0012 §5): 7+
+consecutive clean days — zero findings in every CI run since 2026-07-27.
+`checks/enforcement.config.json` is authoritative for current status; the
+"warn" label in the Enforcement section above records the status when it was
+written.

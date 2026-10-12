@@ -81,9 +81,9 @@ Default is **Tier 1** (quick exploration, ~60 min total). The framework escalate
 ```
 ├── plugin/                            # Claude Code plugin (self-contained, installable)
 │   ├── .claude-plugin/plugin.json     # Plugin manifest
-│   ├── commands/                      # 5 commands (/idea, /problem, /spec, /compile, /summary)
-│   ├── skills/                        # 4 skills (3 workflows + status)
-│   ├── agents/                        # 1 subagent (tech-spec-writer)
+│   ├── commands/                      # 6 commands (/idea, /problem, /spec, /compile, /summary, /optimize)
+│   ├── skills/                        # 5 skills (4 workflows + status)
+│   ├── agents/                        # 2 subagents (tech-spec-writer, ux-extractor)
 │   ├── prompts/                       # Bundled prompt library
 │   │   ├── 01_ux_research/            # Prompts: phases 00-06
 │   │   ├── 02_tech_requirements/      # Tech spec prompts: 4 areas + consolidation
@@ -116,7 +116,7 @@ Default is **Tier 1** (quick exploration, ~60 min total). The framework escalate
 │
 └── docs/
     ├── spec-package-schema.md         # Spec package YAML schema (v1.0.0)
-    ├── adrs/                          # 17 Architecture Decision Records
+    ├── adrs/                          # Architecture Decision Records
     └── updates/                       # PRD v3, refactor roadmap, enhancement guides
 ```
 
@@ -140,9 +140,9 @@ Key decisions are documented as ADRs in `docs/adrs/`:
 | ADR | Decision |
 |-----|----------|
 | [0001](docs/adrs/0001-prompt-frontmatter-schema.md) | YAML frontmatter as canonical prompt metadata |
-| [0002](docs/adrs/0002-mcp-prompt-packaging.md) | MCP prompt packaging (deferred in favor of plugin) |
+| [0002](docs/adrs/0002-mcp-prompt-packaging.md) | MCP prompt packaging (superseded by ADR 0008; server removed) |
 | [0003](docs/adrs/0003-context-registry-state-management.md) | File-based context registry at `.product-dev/` |
-| [0004](docs/adrs/0004-skill-subagent-decomposition.md) | 3 skills + 1 subagent decomposition |
+| [0004](docs/adrs/0004-skill-subagent-decomposition.md) | Skill / command / subagent decomposition (amended by ADR 0013) |
 | [0005](docs/adrs/0005-prompt-enhancement-schema.md) | Prompt enhancement schema |
 | [0006](docs/adrs/0006-progressive-disclosure-tiered-engagement.md) | Progressive disclosure and tiered engagement |
 | [0007](docs/adrs/0007-json-index-deprecation.md) | JSON index deprecation |
@@ -160,7 +160,7 @@ Key decisions are documented as ADRs in `docs/adrs/`:
 ## ADR Enforcement
 
 Every ADR declares its testable consequences in an appended `## Enforcement`
-section, verified by a warn-only check suite:
+section, verified by a check suite:
 
 ```bash
 python checks/run_checks.py

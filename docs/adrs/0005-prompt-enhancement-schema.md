@@ -160,3 +160,13 @@ mcp:
   - TC-1 → `checks/run_checks.py :: no-legacy` (status: **warn**)
 - **Not machine-checkable:** The deferred design itself — nothing here is operative until an MCP server revives it under a status change.
 - **Graduation log:** _(empty)_
+
+---
+
+## Graduation log entry (2026-10-12)
+
+`no-legacy` (TC-1): **warn → block**. Basis (ADR 0012 §5): 7+ consecutive
+clean days — zero findings in every CI run since 2026-07-27.
+`checks/enforcement.config.json` is authoritative for current status; the
+"warn" label in the Enforcement section above records the status when it was
+written.

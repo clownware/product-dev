@@ -140,3 +140,33 @@ against the set of artifacts some prompt produces (typo guard) and rejects
 placeholders that are simultaneously optional and required. Canonical
 resolution rules: `plugin/docs/registry-operations.md` § Template Variable
 Resolution. (Owner-directed, part of the issue-backlog cleanup wave.)
+
+---
+
+## Amendment (2026-10-12): Later ADRs that extended this registry
+
+Recorded here so the amended ADR points at its amenders (previously only the
+amending ADRs said so):
+
+- **ADR 0013 §4** added the optional top-level `"mode"` field to
+  `context.json` (`"forward"` default | `"reverse"`) and four frontmatter
+  fields on extracted artifacts (`mode`, `provenance`, `confidence`,
+  `validation_status`). This re-introduces a `mode` field with a different
+  meaning from the one the 2026-04-04 amendment removed.
+- **ADR 0016 §3** added the `inputs` map on artifact entries (each `requires`
+  artifact name → its `version` at generation time), which makes staleness a
+  registry computation.
+- **ADR 0017 §4** added `.product-dev/learnings.jsonl` beside the registry.
+- **ADR 0011 (amendment 2026-07-25)** moved the canonical operations reference
+  to `plugin/docs/registry-operations.md`. The schema and operations table in
+  the Decision above are the design at acceptance; that file is current.
+
+## Graduation log entry (2026-10-12)
+
+`frontmatter-v2` (TC-1), `placeholder-syntax` (TC-2),
+`placeholder-resolvability` (TC-3), and `dependency-graph` (TC-4):
+**warn → block**. Basis (ADR 0012 §5): 7+ consecutive clean days — zero
+findings from any of the four in every CI run since 2026-07-27.
+`checks/enforcement.config.json` is authoritative for current status; the
+"warn" labels in the Enforcement section above record the status when it was
+written.

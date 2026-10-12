@@ -1,11 +1,16 @@
 # Scripts
 
-Build pipeline for compiling working artifacts into validated spec packages.
+This folder holds dev and test material only (`archive/`, `test-chain.md`,
+`test-registry.md`). The compile pipeline documented below moved into the
+plugin bundle at `plugin/scripts/` (ADR 0011), so it ships with the plugin.
+Inside a plugin session it is invoked as
+`python "${CLAUDE_PLUGIN_ROOT}/scripts/compile_spec.py"`; from a checkout of
+this repo, use the `plugin/scripts/` paths shown here.
 
 ## Prerequisites
 
 ```bash
-pip install -r requirements.txt
+pip install -r plugin/scripts/requirements.txt
 ```
 
 Requires Python 3.9+.
@@ -26,9 +31,9 @@ artifacts/  ──→  compile_spec.py  ──→  spec-package/
 Assembles working artifacts from a project directory into a structured spec package.
 
 ```bash
-python scripts/compile_spec.py <project-dir>
-python scripts/compile_spec.py examples/tea-tracker
-python scripts/compile_spec.py .product-dev
+python plugin/scripts/compile_spec.py <project-dir>
+python plugin/scripts/compile_spec.py examples/tea-tracker
+python plugin/scripts/compile_spec.py .product-dev
 ```
 
 **Input:** A directory containing `context.json` (registry) and `artifacts/` (working outputs from prompt chain).
@@ -53,8 +58,8 @@ Also generates `manifest.yaml`, runs validation, and produces `CLAUDE.md` handof
 Runs 20 cross-reference integrity checks across spec package YAML files.
 
 ```bash
-python scripts/validate_spec.py <spec-package-dir>
-python scripts/validate_spec.py examples/tea-tracker/spec-package
+python plugin/scripts/validate_spec.py <spec-package-dir>
+python plugin/scripts/validate_spec.py examples/tea-tracker/spec-package
 ```
 
 **Checks:** Referential integrity (8), completeness (7), consistency (5). See `docs/spec-package-schema.md` for the full check list.
@@ -73,8 +78,8 @@ python scripts/validate_spec.py examples/tea-tracker/spec-package
 Generates a `CLAUDE.md` implementation instruction from a compiled spec package.
 
 ```bash
-python scripts/generate_handoff.py <spec-package-dir>
-python scripts/generate_handoff.py examples/tea-tracker/spec-package
+python plugin/scripts/generate_handoff.py <spec-package-dir>
+python plugin/scripts/generate_handoff.py examples/tea-tracker/spec-package
 ```
 
 **Flags:**
