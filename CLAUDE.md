@@ -22,7 +22,7 @@ a prompt, or an ADR, delete the restatement and link to the source.
 |-------|-----------------|
 | Decisions, their status, what enforces them | [ADR index](docs/adrs/README.md), then the record itself |
 | Workflow sequences, gates, checkpoints, tier escalation | each skill: [product-ideation](plugin/skills/product-ideation/SKILL.md), [product-flow](plugin/skills/product-flow/SKILL.md), [tech-spec](plugin/skills/tech-spec/SKILL.md), [ux-optimization](plugin/skills/ux-optimization/SKILL.md), [status](plugin/skills/status/SKILL.md) |
-| Context registry, session resume, staleness, learnings | [registry-operations.md](plugin/docs/registry-operations.md) |
+| Context registry, session resume, staleness, learnings, and the workflow rules all skills share (tier escalation, unclear gates, entry points) | [registry-operations.md](plugin/docs/registry-operations.md) |
 | What runs when (`run`, `run_when`, `tier`, `requires`) | each prompt's frontmatter under [plugin/prompts/](plugin/prompts) |
 | Prompt authoring, plugin development, ADR process | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Spec package format | [spec-package-schema.md](docs/spec-package-schema.md) |
@@ -46,7 +46,8 @@ a prompt, or an ADR, delete the restatement and link to the source.
    limit.** Fix the content. If the check is wrong, say so and propose the fix
    as its own change. Demoting a check or raising a word limit is the owner's
    decision and gets logged in the owning ADR.
-5. **The plugin must stand alone.** Anything under `plugin/` references
+5. **The plugin must stand alone.** A rule about how the plugin behaves goes
+   in `plugin/`, never only here. Anything under `plugin/` references
    bundled files through `${CLAUDE_PLUGIN_ROOT}` and never depends on this
    file, on `docs/`, or on repo-root paths.
 6. **The component set is decided.** Adding or removing a command, skill, or
@@ -60,20 +61,3 @@ a prompt, or an ADR, delete the restatement and link to the source.
 9. Deferred work goes to GitHub issues, not into docs. Commits are
    conventional (`type(scope): description`). User-visible changes get a
    CHANGELOG line.
-
-## Runtime rules that exist only here
-
-These govern plugin behaviour but were never moved into `plugin/`, so plugin
-users do not get them. Tracked in
-[issue #62](https://github.com/clownware/product-dev/issues/62); until it
-closes, apply them when running the workflow in this repo.
-
-- **Tier escalation is offered, not applied.** On an escalation signal, set
-  `tier` to 2 in `context.json`, list the current phase's `tier: 2` prompts
-  with one-line descriptions, and let the user pick. After each picked prompt,
-  return to the Tier 1 sequence.
-- **Never auto-escalate to Tier 3.** Run every prompt in a phase only on
-  explicit request.
-- **When a `context_gated` condition is unclear, ask the user.**
-- **Entry points are exclusive.** `capture_idea` and `explore_problem` both
-  produce `initial_concept`; run one, never both.

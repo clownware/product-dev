@@ -174,3 +174,16 @@ stated in full only in CLAUDE.md's "Runtime rules that exist only here"
 section. `product-ideation/SKILL.md` says to insert the Tier 2 prompts, and
 `product-flow` and `tech-spec` carry no escalation procedure. Issue #62 tracks
 moving it into the plugin.
+
+---
+
+## Amendment (2026-10-12): Escalation procedure shipped in the plugin
+
+The gap above is closed (issue #62, owner decision). The procedure — on an
+escalation signal, set `tier` to 2, present the phase's Tier 2 prompts as
+optional branches, run only what the user picks, return to the Tier 1
+sequence; never auto-escalate to Tier 3 — is in
+`plugin/docs/registry-operations.md` § Workflow Rules and referenced by all
+four workflow skills. That section also carries two rules this ADR implied
+but no shipped file stated: ask the user when a `context_gated` condition is
+unclear, and run only one entry point. Plugin version 0.5.1.

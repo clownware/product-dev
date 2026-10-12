@@ -47,6 +47,8 @@ The subagent runs the tech requirements prompt sequence from `${CLAUDE_PLUGIN_RO
 
 ### Tier 2 Additional Prompts
 
+Offered, never applied: on an escalation signal follow `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` § Workflow Rules — present the relevant prompts below as optional branches and run only what the user picks. Never auto-escalate to Tier 3. When a gate condition is unclear, ask the user.
+
 - Data models: `validate-data-model`, `identify-data-access-patterns`, `assess-data-volume-scaling`
 - API: `define-interface-boundaries`, `establish-api-standards`, `define-integration-requirements`
 - Business rules: `map-decision-logic`, `specify-calculations`, `define-authorization-rules`

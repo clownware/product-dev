@@ -139,3 +139,20 @@ operations to everything else the file restated.
   ADR 0008 (component set), ADR 0006, ADR 0016, ADR 0017 (amended as above).
 - Issue #62 (unshipped runtime rules).
 - chrispezza/portfolio#106 (constitution-lift experiment record).
+
+---
+
+## Amendment (2026-10-12): The unshipped rules shipped (issue #62)
+
+Owner decision: move the four rules into the plugin. They now live in
+`plugin/docs/registry-operations.md` § Workflow Rules, which every workflow
+skill references: tier escalation is offered and the user picks; never
+auto-escalate to Tier 3; ask when a `context_gated` condition is unclear;
+entry points are exclusive. `product-ideation` no longer says to insert Tier 2
+prompts, and `product-flow` and `tech-spec` now carry the escalation
+procedure by reference. Plugin version 0.5.1.
+
+CLAUDE.md's "Runtime rules that exist only here" section is removed. Decision
+§3 still stands for the future: a runtime rule may sit in CLAUDE.md only in a
+section that names it as unshipped and links the issue tracking its move. At
+this amendment there are none.

@@ -38,13 +38,13 @@ All prompts are in `${CLAUDE_PLUGIN_ROOT}/prompts/01_ux_research/`. Read prompts
 | 5 | `03_solution_hypothesis/01_generate_solution_concept.md` | always | `solution_concept` | `problem_statement`, `core_objective` |
 | 6 | `03_solution_hypothesis/02_format_hypothesis_statement.md` | always | `hypothesis_statement` | `solution_concept` |
 
-Pick entry point (1a or 1b) based on user input:
+Pick exactly one entry point (1a or 1b) based on user input — never run both:
 - Specific product idea → `capture_idea` (1a)
 - Domain interest, no specific product → `explore_problem` (1b)
 
 ### Tier 2 Additional Prompts
 
-When escalation signals detected, add these from the same phase:
+When escalation signals are detected, offer these from the same phase and let the user pick:
 
 - Phase 00: `industry-analysis`, `competitive-analysis`, `explore-user-segments`
 - Phase 01: `analyze-problem`, `scope-problem`, `qualify-problem`
@@ -113,7 +113,7 @@ De-escalate when:
 - User says "that's enough", "move on", "keep it simple"
 - Short, confirmatory responses
 
-When escalating, insert the relevant Tier 2 prompts at the current phase position. Update `tier` in the registry.
+When escalating, follow the shared procedure in `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` § Workflow Rules: update `tier` in the registry, present the current phase's Tier 2 prompts as optional branches, run only what the user picks, then return to the Tier 1 sequence. Never auto-escalate to Tier 3. When a gate condition is unclear, ask.
 
 ## Context Registry
 

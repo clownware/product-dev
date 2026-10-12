@@ -63,7 +63,7 @@ Standard operations (`${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` — rea
 
 ## Tier Behavior
 
-Default Tier 1 is the sequence above. Escalation signals (ADR 0006) apply; at Tier 2 offer deeper branches per phase (e.g., live-site walkthrough of the deployed product if a browser is available, competitor-surface comparison). Never auto-escalate.
+Default Tier 1 is the sequence above. Escalation signals (ADR 0006) apply, following the shared procedure in `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` § Workflow Rules; at Tier 2 offer deeper branches per phase (e.g., live-site walkthrough of the deployed product if a browser is available, competitor-surface comparison). Never auto-escalate. When a gate condition is unclear, ask the owner.
 
 ## Convergence and Handoff
 

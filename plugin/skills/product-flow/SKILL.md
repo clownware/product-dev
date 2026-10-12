@@ -48,6 +48,8 @@ When skipping a context-gated prompt, explain what the prompt would have covered
 
 ### Tier 2 Additional Prompts
 
+Offered, never applied: on an escalation signal follow `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md` § Workflow Rules — present the current phase's prompts below as optional branches, run only what the user picks, then return to the Tier 1 sequence. Never auto-escalate to Tier 3. When a gate condition is unclear, ask the user.
+
 - Phase 04: `identify-decision-points`, `plan-error-handling`, `user-entry-exit-points`, `validate-flow`
 - Phase 05: `choose-fidelity-level`, `identify-key-interactions`, `test-participant-goals`, `create-test-script`
 - Phase 06: `plan-next-iteration`, `explore-pivot-options`, `post-test-refine-problem`
