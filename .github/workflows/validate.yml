@@ -61,6 +61,11 @@ jobs:
       - name: Install Claude Code CLI (official plugin validator)
         run: npm install -g @anthropic-ai/claude-code@2.1.258
 
+      # Unit tests for the enforcement tooling itself (the PreToolUse guard and
+      # the checks). Stdlib unittest, no extra dependency, about a second.
+      - name: Test enforcement tooling
+        run: python -m unittest discover -s checks/tests
+
       - name: Run enforcement suite
         env:
           # No update checks or telemetry from a CI-only validator run.
