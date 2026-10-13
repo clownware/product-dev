@@ -152,3 +152,31 @@ since 2026-07-27. `word-limit` (TC-5) stays at **warn** for now: the limits
 are a ratchet of current size plus 10%, so ordinary prompt edits are the most
 likely thing to trip it, and a tripped block stops the session.
 `checks/enforcement.config.json` is authoritative for current status.
+
+---
+
+## Graduation log entry (2026-10-13): `word-limit`
+
+`word-limit` (TC-5): **warn → block** (issue #64, owner-directed). Basis
+(ADR 0012 §5): 7+ consecutive clean days — zero findings in every CI run since
+2026-07-27.
+
+The entry above held this check back until a clean cycle that included prompt
+edits. That condition was not met: no file under `plugin/prompts/` has changed
+since 0.5.0. It is replaced by two things measured instead:
+
+- **Unit tests** (`checks/tests/test_word_limit_and_self_containment.py`): an
+  over-limit body is a finding that names this ADR and both counts; a body at
+  its limit passes; the `<example>` block is not counted; a prompt with no
+  declared limit is reported as uncovered, not failed.
+- **Headroom at graduation**, across the 101 prompts: median 41 words under
+  the limit. Five prompts are within 20 words, and two have effectively none:
+  `identify-core-objective` (150 of 150) and `format-hypothesis-statement`
+  (149 of 150).
+
+**What block means here.** Adding words to a prompt past its limit now fails
+CI and bounces the session once. The legal moves are to trim the prompt, or to
+raise the limit in `checks/word_limits.json` as a recorded decision — an
+appended note in this ADR or the ADR that needs the words, as ADR 0014 did.
+The next edit to either of the two prompts named above will need one or the
+other.

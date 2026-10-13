@@ -335,6 +335,17 @@ def check_no_legacy(ctx):
     return out
 
 
+def names_bundled_asset(path):
+    """True when an unprefixed `prompts/...` or `scripts/...` path points into
+    the plugin's own bundle: its first segment under prompts/ or scripts/
+    exists there. Plugin text also talks about other people's repositories
+    ("look at scripts/deploy.sh"), and those are not references to bundled
+    assets. A typo inside a real bundled directory still counts."""
+    # The pattern can swallow sentence punctuation: "see scripts/compile_spec.py."
+    parts = [p for p in path.rstrip(".,;:").removeprefix("plugin/").split("/") if p]
+    return len(parts) >= 2 and (PLUGIN / parts[0] / parts[1]).exists()
+
+
 def check_self_containment(ctx):
     out = []
     component_files = (
@@ -349,6 +360,8 @@ def check_self_containment(ctx):
             if "prompts/dev/" in line:
                 out.append(finding("0011", "TC-1", f"line {n} references repo-root prompts/dev/ — framework prompts live in plugin/prompts (via ${{CLAUDE_PLUGIN_ROOT}})", rel))
             for m in re.finditer(r"(?<![\w}/.])((?:plugin/)?(?:prompts|scripts)/[\w./-]+)", line):
+                if not names_bundled_asset(m.group(1)):
+                    continue  # e.g. "scripts/deploy.sh" in a repo the plugin is auditing
                 out.append(finding("0011", "TC-2", f"line {n}: unprefixed path {m.group(1)!r} — reference bundled assets via ${{CLAUDE_PLUGIN_ROOT}}/...", rel))
     return out
 

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Enforcement suite: `word-limit` and `self-containment` graduate warn → block (issue #64); 15 of 18 checks now block. `self-containment` first stops flagging `prompts/…` and `scripts/…` paths that do not point into the plugin's own bundle, such as a script in a repository the plugin is auditing
+
 ## [0.5.4] - 2026-10-12
 
 ### Changed
