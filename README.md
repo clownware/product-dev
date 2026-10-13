@@ -2,7 +2,7 @@
 
 > A Claude Code plugin that compiles fuzzy product ideas into validated, agent-consumable specification packages.
 
-[![Framework Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
+[![Framework Version](https://img.shields.io/badge/version-0.5.4-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Apache_2.0-yellow.svg)](LICENSE)
 [![validate](https://github.com/clownware/product-dev/actions/workflows/validate.yml/badge.svg)](https://github.com/clownware/product-dev/actions/workflows/validate.yml)
 
@@ -35,8 +35,24 @@ A validation pipeline checks referential integrity across all spec files before 
 
 ## Install
 
+From the Clownware marketplace, inside Claude Code:
+
+```
+/plugin marketplace add clownware/plugins
+/plugin install product-dev@clownware
+```
+
+Or from a terminal:
+
 ```bash
-claude plugin install --plugin-dir ./plugin
+claude plugin marketplace add clownware/plugins
+claude plugin install product-dev@clownware
+```
+
+To run it from a checkout of this repo without installing, for development:
+
+```bash
+claude --plugin-dir ./plugin
 ```
 
 Works in Claude Code CLI, Desktop app, and VS Code extension.
@@ -52,6 +68,7 @@ Works in Claude Code CLI, Desktop app, and VS Code extension.
 | `/spec` | Generate technical specs (data models, API, business rules, NFRs) |
 | `/compile` | Assemble artifacts into a validated spec package + handoff instruction |
 | `/summary` | Generate a consolidated project brief |
+| `/optimize` | Audit an existing product and build a prioritized UX optimization spec |
 | `/product-dev:status` | Show project progress and suggest next steps |
 
 ### Typical Flow
