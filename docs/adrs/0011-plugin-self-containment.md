@@ -107,3 +107,34 @@ exactly the operations that make it stateful.
 `${CLAUDE_PLUGIN_ROOT}/docs/registry-operations.md`. The dev repo's CLAUDE.md
 retains a summary plus pointer only — no inline copy, so there is nothing to
 drift. (Owner-directed, part of the issue-backlog cleanup wave.)
+
+---
+
+## Amendment (2026-10-13): TC-2 covers paths into the bundle only
+
+Issue #64. The `self-containment` check flagged every unprefixed
+`prompts/...` or `scripts/...` path in a skill, command, or agent. Plugin text
+also describes other people's repositories — the reverse pass tells an agent
+what to look for in the product it is auditing — and a sentence such as "look
+at scripts/deploy.sh in the target repo" would have been a finding. None
+existed, so this was a latent false positive, and the reason the check was
+held at warn on 2026-10-12.
+
+**Decision:** an unprefixed path is a TC-2 finding only when it points into
+the plugin's own bundle: its first segment under `prompts/` or `scripts/`
+exists in `plugin/`. A mistyped file name inside a real bundled directory
+still counts. TC-1 (no reference to the repo-root `prompts/dev/` tree) is
+unchanged. An unprefixed reference to a bundled directory that does not exist
+at all is no longer caught; it resolves to nothing either way.
+
+Covered by `checks/tests/test_word_limit_and_self_containment.py`.
+
+## Graduation log entry (2026-10-13)
+
+`self-containment` (TC-1, TC-2): **warn → block** (issue #64, owner-directed).
+Basis (ADR 0012 §5): 7+ consecutive clean days — zero findings in every CI run
+since 2026-07-27. The condition set on 2026-10-12, "confirm on real edits or
+tighten first", is met both ways: the plugin's skills were edited three times
+in that period, including four skills gaining new bundled-doc references on
+2026-10-12, with no finding; and the pattern is tightened as above.
+`checks/enforcement.config.json` is authoritative for current status.
