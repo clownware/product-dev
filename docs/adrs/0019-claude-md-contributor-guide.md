@@ -156,3 +156,13 @@ CLAUDE.md's "Runtime rules that exist only here" section is removed. Decision
 §3 still stands for the future: a runtime rule may sit in CLAUDE.md only in a
 section that names it as unshipped and links the issue tracking its move. At
 this amendment there are none.
+
+---
+
+## Graduation log entry (2026-10-19)
+
+`claude-md-scope` (TC-1, TC-2): **warn → block** (issue #64). Basis (ADR 0012
+§5): 7+ consecutive clean days, 2026-10-12 to 2026-10-19. Zero findings in the
+18 `validate` runs that carried the check (every run from 2026-10-12 18:07 UTC
+through 2026-10-13 00:41 UTC, pull requests and `main` alike); each line read
+`[PASS]`. No real catch occurred. No `validate` run exists after 2026-10-13.
