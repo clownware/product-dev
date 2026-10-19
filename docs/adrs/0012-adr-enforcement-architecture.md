@@ -315,3 +315,14 @@ be corrected before anyone had reviewed it. The guard now protects an ADR
 only once it exists in `HEAD`. A file new in the working tree is a draft and
 may be revised or removed. Outside a git repository, or on any git error, the
 guard assumes the file is committed and stays closed. Covered by a test.
+
+---
+
+## Graduation log entry (2026-10-19)
+
+`adr-index` (TC-3) and `adr-amendment-link` (TC-4): **warn → block** (issue
+#64). Basis (§5): 7+ consecutive clean days, 2026-10-12 to 2026-10-19. Zero
+findings from either check in the 20 `validate` runs that carried them (every
+run from 2026-10-12 18:03 UTC through 2026-10-13 00:41 UTC, pull requests and
+`main` alike); each line read `[PASS]`. No real catch occurred, so the clean
+days are the whole basis. No `validate` run exists after 2026-10-13.

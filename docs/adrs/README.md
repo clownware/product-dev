@@ -21,14 +21,14 @@ listed under "Amended by" override its earlier text.
 | [0009](0009-prompt-enhancement-pattern.md) | Prompt Enhancement Pattern v2 | Accepted | `frontmatter-v2` (block), `name-uniqueness` (block), `body-structure` (block), `placeholder-syntax` (block), `word-limit` (block) | — | 1, latest 2026-07-25 |
 | [0010](0010-spec-package-compilation-target.md) | Spec Package as Compilation Target | Accepted | `spec-fixture` (block) | — | 4, latest 2026-10-12 |
 | [0011](0011-plugin-self-containment.md) | Plugin Self-Containment via Bundled Assets | Accepted | `self-containment` (block) | — | 2, latest 2026-10-13 |
-| [0012](0012-adr-enforcement-architecture.md) | ADR Enforcement Architecture | Accepted | `adr-status` (block), `adr-index` (warn), `adr-amendment-link` (warn) | — | 4, latest 2026-10-12 |
+| [0012](0012-adr-enforcement-architecture.md) | ADR Enforcement Architecture | Accepted | `adr-status` (block), `adr-index` (block), `adr-amendment-link` (block) | — | 4, latest 2026-10-12 |
 | [0013](0013-ux-optimization-reverse-pass.md) | UX Optimization Reverse Pass (ux-optimization skill) | Accepted | `component-census` (block) | — | 1, latest 2026-10-12 |
 | [0014](0014-live-site-audit-and-objective.md) | Live-Site Audit and Core Objective in the Reverse Pass | Accepted | `objective-parity` (block) | — | 1, latest 2026-07-25 |
 | [0015](0015-runtime-audit-mode.md) | Runtime Audit Mode for Locally Runnable Products | Accepted | no dedicated check | — | — |
 | [0016](0016-gstack-derived-patterns.md) | gstack-Derived Patterns — Interrogation, Premise Challenge, Input Provenance | Accepted | no dedicated check | 0019 | 1, latest 2026-10-12 |
 | [0017](0017-gstack-derived-patterns-second-wave.md) | gstack-Derived Patterns, Second Wave — Quality Loops, Decision Classification, Scope Walk, Learnings | Accepted | no dedicated check | 0019 | 1, latest 2026-10-12 |
 | [0018](0018-ops-dashboard-audit-signal.md) | Report the Enforcement Suite's Finding Count to the Ops Dashboard | Accepted | no dedicated check | — | — |
-| [0019](0019-claude-md-contributor-guide.md) | CLAUDE.md Is the Contributor Guide; Runtime Canon Lives in the Plugin | Accepted | `claude-md-scope` (warn) | — | 1, latest 2026-10-12 |
+| [0019](0019-claude-md-contributor-guide.md) | CLAUDE.md Is the Contributor Guide; Runtime Canon Lives in the Plugin | Accepted | `claude-md-scope` (block) | — | 1, latest 2026-10-12 |
 
 ## Reading the columns
 

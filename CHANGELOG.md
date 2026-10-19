@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Enforcement suite: `adr-index`, `adr-amendment-link` and `claude-md-scope` graduate warn → block (issue #64); all 18 checks now block. Zero findings in every CI run since they were added on 2026-10-12
 - Enforcement suite: `word-limit` and `self-containment` graduate warn → block (issue #64); 15 of 18 checks now block. `self-containment` first stops flagging `prompts/…` and `scripts/…` paths that do not point into the plugin's own bundle, such as a script in a repository the plugin is auditing
 
 ## [0.5.4] - 2026-10-12
